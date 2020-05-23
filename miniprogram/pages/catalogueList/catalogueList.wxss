@@ -15,11 +15,16 @@
 .add {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 94%;
+  left: 3%;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
 }
 
 .catalogue-list {
-  margin-bottom: 46px;
-  height: 100px;
-  line-height: 100px;
+  margin-bottom: 60px;
+  line-height: 46px;
 }
