@@ -1,0 +1,31 @@
+<!--pages/courseAdd/courseAdd.wxml-->
+<van-button square type="primary" bind:click="modalinput" block>课程类目添加</van-button>
+<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+	<van-col class="col" span="17">
+	  <!-- 项目展示 -->
+		<van-card desc="{{item.projectDetail}}" title="{{item.projectName}}" thumb="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/che_piano.jpg?sign=09874cc485520cc6434bf31e2ec25e28&t=1590126475" />
+	</van-col>
+	<!-- 添加 -->
+	<van-col class="col" span="2">
+		<view class="edit">
+			<van-image width="20" height="20" src="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/add2.png?sign=628ec5a02762a8e81a91287a91b9d91d&t=1590133101" />
+		</view>
+	</van-col>
+	<!-- 编辑 -->
+	<van-col class="col" span="2">
+		<view class="edit">
+			<van-image width="20" height="20" src="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/edit2.png?sign=ef6e1aba71848b80bc8a0ec3a5cf6938&t=1590133258" bind:click="showEditCatalogue" data-id="{{item._id}}"/>
+		</view>
+	</van-col>
+	<!-- 详情 -->
+	<van-col class="col" span="2">
+		<view class="edit">
+			<van-image width="20" height="20" src="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/delete2.png?sign=1b5f6dc4dd932c7fe7aea760163a189f&t=1590133125" />
+		</view>
+	</van-col>
+</van-row>
+<modal id=" modal" hidden="{{hiddenmodalput}}" title="课程信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
+	<input type='projectName' placeholder="项目名称：" auto - focus bindinput="projectNameInput" />
+	<input type='projectDetail' placeholder="项目描述：" auto - focus bindinput="projectDetailInput" />
+	<input type='projectGroups' placeholder="项目适合人群：" auto - focus bindinput="projectGroupsInput" />
+</modal>

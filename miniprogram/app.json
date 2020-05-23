@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/courseQuery/courseQuery",
+    "pages/courseOrder/courseOrder",
+    "pages/courseAdd/courseAdd",
+    "pages/catalogueEdit/catalogueEdit"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "选课助手",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "tabBar": {  
+    "color": "000000",  
+    "selectedColor": "FF0000",  
+    "borderStyle":"white",  
+    "list": [{  
+      "selectedIconPath": "images/2.png",  
+      "iconPath": "images/1.png",  
+      "pagePath": "pages/index/index",  
+      "text": "首页"  
+    }, {  
+      "selectedIconPath": "images/4.png",  
+      "iconPath": "images/3.png",  
+      "pagePath": "pages/courseAdd/courseAdd",  
+      "text": "我的"  
+    }]  
+  }
+}

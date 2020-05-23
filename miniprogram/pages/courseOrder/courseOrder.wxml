@@ -1,0 +1,6 @@
+<!--miniprogram/pages/addCourse/addCourse.wxml-->
+<view class="guide">
+	<div class="nav">
+		<button class="next" size="mini" type="default" bindgetuserinfo="addCourse" open-type="getUserInfo">课程预约</button>
+	</div>
+</view>

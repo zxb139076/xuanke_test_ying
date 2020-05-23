@@ -1,0 +1,25 @@
+/* miniprogram/pages/courseQuery/courseQuery.wxss */
+.image {
+  width: 80rpx;
+  height: 80rpx;
+}
+.weui-grid__label{
+  border: 1rpx;
+}
+.page{
+  text-align: center;
+  line-height: 100rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: palegoldenrod;
+}
+.container{
+  background-color: palegoldenrod;
+}
+.guide{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

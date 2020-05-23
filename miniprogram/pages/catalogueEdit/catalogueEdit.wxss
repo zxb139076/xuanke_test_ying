@@ -1,0 +1,9 @@
+/* pages/catalogueEdit/catalogueEdit.wxss */
+van-field {
+  color: red;
+}
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,13 @@
+/* pages/courseAdd/courseAdd.wxss */
+.col {
+  background: "black";
+  background-color: aqua;
+}
+
+.edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  background-color: #FAFAFA;
+}

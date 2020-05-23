@@ -1,0 +1,16 @@
+<!--pages/catalogueEdit/catalogueEdit.wxml-->
+<view class="uploader">
+	<navigator open-type="navigate" class="uploader-text">
+		<view class="title">
+			<text>课程类目编辑</text>
+		</view>
+	</navigator>
+</view>
+<van-cell-group>
+	<van-field value="{{result.projectName}}" required clearable label="课程类目名称:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" />
+
+	<van-field value="{{result.projectDetail}}" required clearable label="课程类目描述:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" />
+
+	<van-field value="{{result.projectGroups}}" required clearable label="课程类目群属:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" />
+</van-cell-group>
+<van-button square type="primary" hairline bind:click="getCourseApply" block>提交</van-button>

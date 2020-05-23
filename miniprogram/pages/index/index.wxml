@@ -1,0 +1,18 @@
+<!--index.wxml-->
+<view class="container">
+
+	<!-- 我的预约课程 -->
+	<view class="uploader">
+		<navigator url="../courseQuery/courseQuery" open-type="navigate" class="uploader-text">
+			<text>我的预约课程</text>
+		</navigator>
+	</view>
+
+	<!-- 课程预约 -->
+	<view class="uploader">
+		<navigator url="../courseOrder/courseOrder" open-type="navigate" class="uploader-text">
+			<text>课程预约</text>
+		</navigator>
+	</view>
+	
+</view>

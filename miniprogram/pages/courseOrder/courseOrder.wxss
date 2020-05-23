@@ -1,0 +1,6 @@
+/* miniprogram/pages/addCourse/addCourse.wxss */
+.guide{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
