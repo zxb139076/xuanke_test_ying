@@ -76,6 +76,9 @@ Page({
 
   //调用云函数保存类目信息
   saveEditCatalogue: function () {
+    setTimeout(() => {
+      
+    }, 2000);
     if (this.data.projectName == '') {
       wx.showToast({
         title: '请填写项目名称',

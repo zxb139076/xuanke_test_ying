@@ -4,7 +4,8 @@
     "pages/myCourseReserveList/myCourseReserveList",
     "pages/courseReserve/courseReserve",
     "pages/catalogueList/catalogueList",
-    "pages/catalogueEdit/catalogueEdit"
+    "pages/catalogueEdit/catalogueEdit",
+    "pages/courseList/courseList"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -15,20 +16,23 @@
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2",
-  "tabBar": {  
-    "color": "000000",  
-    "selectedColor": "FF0000",  
-    "borderStyle":"white",  
-    "list": [{  
-      "selectedIconPath": "images/2.png",  
-      "iconPath": "images/1.png",  
-      "pagePath": "pages/homePage/homePage",  
-      "text": "首页"  
-    }, {  
-      "selectedIconPath": "images/4.png",  
-      "iconPath": "images/3.png",  
-      "pagePath": "pages/catalogueList/catalogueList",  
-      "text": "我的"  
-    }]  
+  "tabBar": {
+    "color": "000000",
+    "selectedColor": "FF0000",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "images/2.png",
+        "iconPath": "images/1.png",
+        "pagePath": "pages/homePage/homePage",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "images/4.png",
+        "iconPath": "images/3.png",
+        "pagePath": "pages/catalogueList/catalogueList",
+        "text": "我的"
+      }
+    ]
   }
 }

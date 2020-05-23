@@ -1,4 +1,4 @@
-/* pages/courseAdd/courseAdd.wxss */
+/* miniprogram/pages/courseList/courseList.wxss */
 .col {
   background: "black";
   background-color: aqua;
@@ -10,16 +10,4 @@
   justify-content: center;
   height: 90px;
   background-color: #FAFAFA;
-}
-
-.add {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-.catalogue-list {
-  margin-bottom: 46px;
-  height: 100px;
-  line-height: 100px;
 }

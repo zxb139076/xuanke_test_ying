@@ -13,4 +13,5 @@
 
 	<van-field value="{{projectGroups}}" required clearable label="课程类目群属:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" bind:blur="projectGroupsBlur" bind:clear="projectGroupsClear" />
 </van-cell-group>
-<van-button square type="primary" hairline bind:click="saveEditCatalogue" block>提交</van-button>
+<van-button class="add" square type="primary" hairline bind:click="saveEditCatalogue" block>提交</van-button>
+
