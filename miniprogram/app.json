@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/courseQuery/courseQuery",
-    "pages/courseOrder/courseOrder",
-    "pages/courseAdd/courseAdd",
+    "pages/homePage/homePage",
+    "pages/myCourseReserveList/myCourseReserveList",
+    "pages/courseReserve/courseReserve",
+    "pages/catalogueList/catalogueList",
     "pages/catalogueEdit/catalogueEdit"
   ],
   "window": {
@@ -22,12 +22,12 @@
     "list": [{  
       "selectedIconPath": "images/2.png",  
       "iconPath": "images/1.png",  
-      "pagePath": "pages/index/index",  
+      "pagePath": "pages/homePage/homePage",  
       "text": "首页"  
     }, {  
       "selectedIconPath": "images/4.png",  
       "iconPath": "images/3.png",  
-      "pagePath": "pages/courseAdd/courseAdd",  
+      "pagePath": "pages/catalogueList/catalogueList",  
       "text": "我的"  
     }]  
   }

@@ -54,21 +54,15 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "couseQuery",
-					"pathName": "pages/courseQuery/courseQuery",
+					"name": "myCourseReserveList",
+					"pathName": "pages/myCourseReserveList/myCourseReserveList",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "couseAdd",
-					"pathName": "pages/courseAdd/courseAdd",
+					"name": "catalogueEdit",
+					"pathName": "pages/catalogueEdit/catalogueEdit",
 					"query": "",
 					"scene": null
 				},
@@ -77,6 +71,12 @@
 					"name": "catalogueEdit",
 					"pathName": "pages/catalogueEdit/catalogueEdit",
 					"query": "id= d721728a5ec73973000a1d6e282b6a4c",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "catalogueList",
+					"pathName": "pages/catalogueList/catalogueList",
 					"scene": null
 				}
 			]

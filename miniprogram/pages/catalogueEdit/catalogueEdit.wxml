@@ -7,10 +7,10 @@
 	</navigator>
 </view>
 <van-cell-group>
-	<van-field value="{{result.projectName}}" required clearable label="课程类目名称:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" />
+	<van-field value="{{projectName}}" required clearable label="课程类目名称:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" bind:blur="projectNameBlur" bind:clear="projectNameClear" />
 
-	<van-field value="{{result.projectDetail}}" required clearable label="课程类目描述:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" />
+	<van-field value="{{projectDetail}}" required clearable label="课程类目描述:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" bind:blur="projectDetailBlur" bind:clear="projectDetailClear" />
 
-	<van-field value="{{result.projectGroups}}" required clearable label="课程类目群属:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" />
+	<van-field value="{{projectGroups}}" required clearable label="课程类目群属:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" bind:blur="projectGroupsBlur" bind:clear="projectGroupsClear" />
 </van-cell-group>
-<van-button square type="primary" hairline bind:click="getCourseApply" block>提交</van-button>
+<van-button square type="primary" hairline bind:click="saveEditCatalogue" block>提交</van-button>
