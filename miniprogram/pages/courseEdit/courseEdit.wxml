@@ -1,0 +1,16 @@
+<!--pages/courseEdit/courseEdit.wxml-->
+<view class="uploader">
+	<navigator open-type="navigate" class="uploader-text">
+		<view class="title">
+			<text>课程编辑</text>
+		</view>
+	</navigator>
+</view>
+<van-cell-group>
+
+	<van-field value="{{courseName}}" required clearable label="课程名称:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" bind:blur="courseNameBlur" bind:clear="courseNameClear" />
+
+	<van-field value="{{courseDetail}}" required clearable label="课程描述:" icon="question-o" placeholder="" bind:click-icon="onClickIcon" bind:blur="courseDetailBlur" bind:clear="courseDetailClear" />
+
+</van-cell-group>
+<van-button class="add" square type="primary" hairline bind:click="saveEditCourse" block>提交</van-button>

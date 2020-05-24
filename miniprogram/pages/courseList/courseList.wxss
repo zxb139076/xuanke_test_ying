@@ -11,3 +11,15 @@
   height: 90px;
   background-color: #FAFAFA;
 }
+
+.add {
+  position: fixed;
+  bottom: 0;
+  width: 94%;
+  left: 3%;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
+}

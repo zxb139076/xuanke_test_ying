@@ -1,23 +1,25 @@
 <!--miniprogram/pages/courseList/courseList.wxml-->
-<van-button square type="primary" bind:click="modalinput" block>课程添加</van-button>
-<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-	<van-col class="col" span="20">
-		<!-- 课程展示 -->
-		<van-card desc="{{item.courseDetail}}" title="{{item.courseName}}" thumb="{{headImage}}" />
-	</van-col>
-	<!-- 编辑 -->
-	<van-col class="col" span="2">
-		<view class="edit">
-			<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCatalogue" data-id="{{item._id}}" />
-		</view>
-	</van-col>
-	<!-- 删除 -->
-	<van-col class="col" span="2">
-		<view class="edit">
-			<van-image width="20" height="20" src="{{deleteImage}}" bind:click="deleteCatalogue" data-id="{{item._id}}" />
-		</view>
-	</van-col>
-</van-row>
+<view class="catalogue-list">
+	<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+		<van-col class="col" span="20">
+			<!-- 课程展示 -->
+			<van-card desc="{{item.courseDetail}}" title="{{item.courseName}}" thumb="{{headImage}}" />	
+		</van-col>
+		<!-- 编辑 -->
+		<van-col class="col" span="2">
+			<view class="edit">
+				<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCourse" data-id="{{item._id}}"/>
+			</view>
+		</van-col>
+		<!-- 删除 -->
+		<van-col class="col" span="2">
+			<view class="edit">
+				<van-image width="20" height="20" src="{{deleteImage}}" bind:click="deleteCourse" data-id="{{item._id}}" />
+			</view>
+		</van-col>
+	</van-row>
+</view>
+<van-button class="add" round type="primary" bind:click="modalinput" block>课程添加</van-button>
 <modal id=" modal" hidden="{{hiddenmodalput}}" title="课程信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
 	<input type='courseName' placeholder="课程名称：" auto - focus bindinput="courseNameInput" />
 	<input type='courseDetail' placeholder="课程描述：" auto - focus bindinput="courseDetailInput" />

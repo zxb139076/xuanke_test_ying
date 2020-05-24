@@ -5,7 +5,8 @@
     "pages/courseReserve/courseReserve",
     "pages/catalogueList/catalogueList",
     "pages/catalogueEdit/catalogueEdit",
-    "pages/courseList/courseList"
+    "pages/courseList/courseList",
+    "pages/courseEdit/courseEdit"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

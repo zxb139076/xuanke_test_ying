@@ -39,7 +39,6 @@ Page({
   },
   //确认 
   confirm: function () {
-    console.log("课程名称:" + this.data.coursetName)
     if (this.data.courseName == '') {
       wx.showToast({
         title: '请填写课程名称',
@@ -76,7 +75,6 @@ Page({
   },
 
   onLoad: function (options) {
-    // 获取传入的课程类目id值
     this.setData({
       catalogueId: options.id
     });
