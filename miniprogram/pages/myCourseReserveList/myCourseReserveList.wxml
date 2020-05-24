@@ -1,22 +1,5 @@
 <!--miniprogram/pages/courseQuery/courseQuery.wxml-->
 <van-button square type="primary" bind:click="getCourseApply" block>课程查询</van-button>
-<!-- <van-row wx:for="{{resultList}}">
-	<van-col span="8">
-		<view class="guide">
-			<text class="weui-grid__label">小汤姆森</text>
-		</view>
-	</van-col>
-	<van-col span="8">
-		<view>
-			<text class="weui-grid__label">已完成</text>
-		</view>
-	</van-col>
-	<van-col span="8">
-		<view class="guide">
-			<text class="weui-grid__label">星期一</text>
-		</view>
-	</van-col>
-</van-row> -->
 <block wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 	<van-card desc="星期一   已完成" title="小汤姆森" thumb="{{ item.headimgurl }}" />
 </block>

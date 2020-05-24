@@ -14,7 +14,7 @@ Page({
 
   getCourseApply:function(){
     wx.cloud.callFunction({
-      name:"courseQuery"
+      name:"courseReserve"
     }).then(res=>{
       this.setData({
         resultList : res.result.data

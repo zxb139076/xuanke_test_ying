@@ -1,19 +1,46 @@
-const formatTime = date => {
-  const year = new Date().getFullYear()
-  const month = new Date().getMonth() + 1
-  const day = new Date().getDate()
+//得到时间格式2018-10-02
+const formatDate = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
   const hour = new Date().getHours()
   const minute = new Date().getMinutes()
   const second = new Date().getSeconds()
- 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+
 }
- 
-const formatNumber = n => {
+
+function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
- 
+
+//todate默认参数是当前日期，可以传入对应时间 todate格式为2018-10-05
+function getDates(days, todate) {
+  var dateArry = [];
+  for (var i = 0; i < days; i++) {
+    var dateObj = dateLater(todate, i);
+    dateArry.push(dateObj)
+  }
+  return dateArry;
+}
+
+function dateLater(dates, later) {
+  var dateObj = {};
+  var show_day = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
+  var date = new Date(dates);
+  console.log(date);
+  date.setDate(date.getDate() + later);
+  var day = date.getDay();
+  var yearDate = date.getFullYear();
+  var month = ((date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : date.getMonth() + 1);
+  var dayFormate = (date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate());
+  dateObj.time = yearDate + '-' + month + '-' + dayFormate;
+  dateObj.week = show_day[day];
+  return dateObj;
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatDate: formatDate,
+  getDates: getDates
 }

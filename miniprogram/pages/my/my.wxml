@@ -1,0 +1,26 @@
+<!--pages/my/my.wxml-->
+<view class="container">
+
+	<!-- 用户 openid -->
+	<view class="userinfo">
+		<button open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></button>
+		<view class="userinfo-nickname-wrapper">
+			<button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
+		</view>
+	</view>
+
+	<!-- 课程管理 -->
+	<view class="uploader">
+		<navigator url="../catalogueList/catalogueList" open-type="navigate" class="uploader-text">
+			<text>课程管理</text>
+		</navigator>
+	</view>
+
+	<!-- 排课管理 -->
+	<view class="uploader">
+		<navigator url="../courseArrange/courseArrange" open-type="navigate" class="uploader-text">
+			<text>课程排课</text>
+		</navigator>
+	</view>
+
+</view>

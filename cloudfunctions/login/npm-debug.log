@@ -1,0 +1,63 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'wx-server-sdk@latest' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 warn package.json login@1.0.0 No description
+6 warn package.json login@1.0.0 No repository field.
+7 warn package.json login@1.0.0 No README data
+8 verbose readDependencies using package.json deps
+9 verbose cache add [ 'wx-server-sdk@latest', null ]
+10 verbose cache add name=undefined spec="wx-server-sdk@latest" args=["wx-server-sdk@latest",null]
+11 verbose parsed url { protocol: null,
+11 verbose parsed url   slashes: null,
+11 verbose parsed url   auth: null,
+11 verbose parsed url   host: null,
+11 verbose parsed url   port: null,
+11 verbose parsed url   hostname: null,
+11 verbose parsed url   hash: null,
+11 verbose parsed url   search: null,
+11 verbose parsed url   query: null,
+11 verbose parsed url   pathname: 'wx-server-sdk@latest',
+11 verbose parsed url   path: 'wx-server-sdk@latest',
+11 verbose parsed url   href: 'wx-server-sdk@latest' }
+12 verbose cache add name="wx-server-sdk" spec="latest" args=["wx-server-sdk","latest"]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: 'latest',
+13 verbose parsed url   path: 'latest',
+13 verbose parsed url   href: 'latest' }
+14 verbose addNamed [ 'wx-server-sdk', 'latest' ]
+15 verbose addNamed [ null, null ]
+16 silly lockFile 013c3fe7-wx-server-sdk-latest wx-server-sdk@latest
+17 verbose lock wx-server-sdk@latest C:\Program Files\nodejs\node_cache\013c3fe7-wx-server-sdk-latest.lock
+18 silly lockFile 013c3fe7-wx-server-sdk-latest wx-server-sdk@latest
+19 error Error: Attempt to unlock wx-server-sdk@latest, which hasn't been locked
+19 error     at unlock (C:\Program Files\nodejs\node_modules\npm\lib\cache.js:1304:11)
+19 error     at cb (C:\Program Files\nodejs\node_modules\npm\lib\cache.js:646:5)
+19 error     at C:\Program Files\nodejs\node_modules\npm\lib\cache.js:655:20
+19 error     at C:\Program Files\nodejs\node_modules\npm\lib\cache.js:1290:7
+19 error     at C:\Program Files\nodejs\node_modules\npm\node_modules\lockfile\lockfile.js:167:38
+19 error     at OpenReq.Req.done (C:\Program Files\nodejs\node_modules\npm\node_modules\graceful-fs\graceful-fs.js:144:5)
+19 error     at OpenReq.done (C:\Program Files\nodejs\node_modules\npm\node_modules\graceful-fs\graceful-fs.js:64:22)
+19 error     at Object.oncomplete (fs.js:107:15)
+20 error If you need help, you may report this *entire* log,
+20 error including the npm and node versions, at:
+20 error     <http://github.com/npm/npm/issues>
+21 error System Windows_NT 6.2.9200
+22 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "--save" "wx-server-sdk@latest"
+23 error cwd D:\wechar_project\xuanke_test_ying\cloudfunctions\login
+24 error node -v v0.10.26
+25 error npm -v 1.4.3
+26 verbose exit [ 1, true ]
