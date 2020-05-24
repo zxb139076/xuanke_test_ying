@@ -1,2 +1,13 @@
 <!--pages/courseArrange/courseArrange.wxml-->
-<text>pages/courseArrange/courseArrange.wxml</text>
+<view class="main">
+	<view style="width:15%;height:800px;">
+		<view style="height:30px;" class="left-content" wx:for="{{dataList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+			<text>{{item.week}}</text>
+		</view>
+	</view>
+	<view class="center" style="width:1%;height:800px;">
+	</view>
+	<view class="right-content" style="width:84%;height:600px;margin-left:10px;margin-top:5px">
+		<text>222</text>
+	</view>
+</view>

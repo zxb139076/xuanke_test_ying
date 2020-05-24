@@ -78,6 +78,13 @@
 					"id": -1,
 					"name": "catalogueList",
 					"pathName": "pages/catalogueList/catalogueList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "courseArrange",
+					"pathName": "pages/courseArrange/courseArrange",
 					"scene": null
 				}
 			]
