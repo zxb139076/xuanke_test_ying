@@ -13,20 +13,40 @@ Page({
     index: 0,
     time: '',
     week: '',
+    startTime: "00:00",
+    endTime: "24:00",
+    selectTime: "11:30",
+    resultList: null
   },
 
+  // 页面准备渲染
   onReady: function () {
     var time = formatDate(new Date());
     var date = getDates(7, time);
     this.setData({
       dataList: date,
     })
+    console.log(this.data.dataList[0].time);
     this.setData({
       week: this.data.dataList[0].week,
       time: this.data.dataList[0].time
     })
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'courseArrangeGetList',
+        currentData: this.data.time
+      }
+    }).then(res => {
+      this.setData({
+        resultList: res.result.data
+      });
+    }).catch(err => {
+      console.error(err)
+    })
   },
 
+  // 选择当前排课的日期
   dataSelect: function (e) {
     var index = e.currentTarget.dataset.index;
     this.setData({
@@ -34,70 +54,26 @@ Page({
       time: this.data.dataList[index].time,
       index: index
     })
-  },
-  
-  // 显示项目添加面板
-  modalinput: function () {
-    this.setData({
-      hiddenmodalput: !this.data.hiddenmodalput
-    })
-  },
-
-  //取消按钮 
-  cancel: function () {
-    this.setData({
-      hiddenmodalput: true
-    });
-  },
-
-  //取消按钮 
-  cancel: function () {
-    this.setData({
-      hiddenmodalput: true
-    });
-  },
-  //确认 
-  confirm: function () {
-    if (this.data.projectName == '') {
-      wx.showToast({
-        title: '请填写项目名称',
-      });
-      return false;
-    }
-    if (this.data.projectDetail == '') {
-      wx.showToast({
-        title: '请填写项目描述',
-      });
-      return false;
-    }
-    if (this.data.projectGroups == '') {
-      wx.showToast({
-        title: '请填写适合人群',
-      });
-      return false;
-    }
     wx.cloud.callFunction({
-      name: "catalogue",
+      name: "courseArrange",
       data: {
-        requestType: 'catalogueAdd',
-        projectName: this.data.projectName,
-        projectDetail: this.data.projectDetail,
-        projectGroups: this.data.projectGroups
+        requestType: 'courseArrangeGetList',
+        currentData: this.data.time
       }
     }).then(res => {
       this.setData({
-        hiddenmodalput: true,
-        projectName: '',
-        projectDetail: '',
-        projectGroups: '',
-      });
-      this.cataLogueList();
-      wx.showToast({
-        title: '新增课程成功',
+        resultList: res.result.data
       });
     }).catch(err => {
       console.error(err)
-    });
+    })
   },
+
+  // 显示编辑课程排课页面
+  showCourseArrangeEdit: function (event) {
+    wx.navigateTo({
+      url: '../courseArrangeEdit/courseArrangeEdit?time=' + event.currentTarget.dataset.time + "&week=" + event.currentTarget.dataset.week,
+    })
+  }
 
 })

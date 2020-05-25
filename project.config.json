@@ -92,6 +92,13 @@
 					"id": -1,
 					"name": "courseArrange",
 					"pathName": "pages/courseArrange/courseArrange",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "courseArrangeEdit",
+					"pathName": "pages/courseArrangeEdit/courseArrangeEdit",
 					"scene": null
 				}
 			]
