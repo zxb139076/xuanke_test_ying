@@ -15,11 +15,11 @@
 .add {
   position: fixed;
   bottom: 0;
-  width: 94%;
-  left: 3%;
+  width: 100%;
   height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: large;
+  background-color: rgb(203, 188, 188);
 }

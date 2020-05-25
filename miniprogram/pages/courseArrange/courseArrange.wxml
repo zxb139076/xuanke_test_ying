@@ -8,17 +8,13 @@
 	</view>
 	<view class="center" style="width:1%;height:800px;">
 	</view>
-	<view class="right-content" style="width:84%;height:800px;margin-left:10px;margin-top:5px">
+	<view class="right-content" style="width:84%;height:800px;margin-left:10px;margin-top:3px">
 		<view style="flex-grow:1;display: flex;">
 			<view style="flex-grow:1;background-color: rgb(203, 188, 188);">当前排课日期：{{time}}</view>
 		</view>
 		<van-row style="height:30px;" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx" >
-			<van-col>
-					<view>{{item.courseName}}</view>
-					<view>{{item.currentData}}</view>
-					<view>{{item.currentWeek}}</view>
-					<view>{{item.startTime}}</view>
-					<view>{{item.endTime}}</view>
+			<van-col span="24">
+					<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}" />
 			</van-col>
 		</van-row>
 	</view>

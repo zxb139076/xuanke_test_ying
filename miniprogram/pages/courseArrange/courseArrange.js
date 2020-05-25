@@ -5,37 +5,31 @@ import {
 import {
   getDates
 } from '../util/util.js';
+
 Page({
   data: {
-    hiddenmodalput: true,
-    id: '1',
     dataList: [],
     index: 0,
-    time: '',
-    week: '',
-    startTime: "00:00",
-    endTime: "24:00",
-    selectTime: "11:30",
-    resultList: null
+    currentData: '',  
+    currentWeek: '',
+    resultList: null,
+    headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/che_piano.jpg?sign=09874cc485520cc6434bf31e2ec25e28&t=1590126475"
   },
 
   // 页面准备渲染
   onReady: function () {
     var time = formatDate(new Date());
-    var date = getDates(7, time);
+    var dateSet = getDates(7, time);
     this.setData({
-      dataList: date,
-    })
-    console.log(this.data.dataList[0].time);
-    this.setData({
-      week: this.data.dataList[0].week,
-      time: this.data.dataList[0].time
+      dataList: dateSet,
+      currentWeek: dateSet[0].week,
+      currentData: dateSet[0].time
     })
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: 'courseArrangeGetList',
-        currentData: this.data.time
+        currentData: this.data.currentData
       }
     }).then(res => {
       this.setData({
@@ -46,19 +40,20 @@ Page({
     })
   },
 
-  // 选择当前排课的日期
+  // 选择当前排课的日期(星期几)
   dataSelect: function (e) {
     var index = e.currentTarget.dataset.index;
     this.setData({
-      week: this.data.dataList[index].week,
-      time: this.data.dataList[index].time,
+      currentWeek: this.data.dataList[index].week,
+      currentData: this.data.dataList[index].time,
       index: index
     })
+    console.log(this.data.currentData);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: 'courseArrangeGetList',
-        currentData: this.data.time
+        currentData: this.data.currentData
       }
     }).then(res => {
       this.setData({

@@ -25,7 +25,9 @@
 		</van-col>
 	</van-row>
 </view>
-<van-button class="add" round type="primary" bind:click="modalinput" block>课程类目添加</van-button>
+<view class="add" bindtap="modalinput" >
+	<button>增加课程类目</button>
+</view>
 <modal id=" modal" hidden="{{hiddenmodalput}}" title="课程类目信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
 	<input type='projectName' placeholder="项目名称：" auto - focus bindinput="projectNameInput" />
 	<input type='projectDetail' placeholder="项目描述：" auto - focus bindinput="projectDetailInput" />
