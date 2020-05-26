@@ -10,7 +10,7 @@ Page({
   data: {
     dataList: [],
     index: 0,
-    currentData: '',  
+    currentData: '',
     currentWeek: '',
     resultList: null,
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/che_piano.jpg?sign=09874cc485520cc6434bf31e2ec25e28&t=1590126475"
@@ -18,12 +18,29 @@ Page({
 
   // 页面准备渲染
   onReady: function () {
+    var currentData = null;
+    var currentWeek = null;
     var time = formatDate(new Date());
-    var dateSet = getDates(7, time);
+    var dataSet = getDates(7, time);
+    var index = -1;
+    if (this.data.currentData == '') {
+      currentData = dataSet[0].time;
+      currentWeek = dataSet[0].week;
+    } else {
+      currentData = this.data.currentData;
+      currentWeek = this.data.currentWeek;
+    }
+    for (var i = 0; i < dataSet.length; i++) {
+      if (currentData == dataSet[i].time) {
+        index = i;
+        break
+      }
+    }
     this.setData({
-      dataList: dateSet,
-      currentWeek: dateSet[0].week,
-      currentData: dateSet[0].time
+      dataList: dataSet,
+      currentWeek: currentWeek,
+      currentData: currentData,
+      index: index
     })
     wx.cloud.callFunction({
       name: "courseArrange",
@@ -38,6 +55,22 @@ Page({
     }).catch(err => {
       console.error(err)
     })
+  },
+
+  onLoad: function (options) {
+    if (options.currentData != undefined) {
+      this.setData({
+        currentData: options.currentData,
+        currentWeek: options.currentWeek,
+        index: options.index
+      })
+    } else {
+      this.setData({
+        currentData: '',
+        currentWeek: '',
+        index: -1
+      })
+    }
   },
 
   // 选择当前排课的日期(星期几)
@@ -48,7 +81,6 @@ Page({
       currentData: this.data.dataList[index].time,
       index: index
     })
-    console.log(this.data.currentData);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
@@ -64,10 +96,17 @@ Page({
     })
   },
 
-  // 显示编辑课程排课页面
-  showCourseArrangeEdit: function (event) {
+  // 显示添加课程排课页面
+  showCourseArrangeAdd: function (event) {
     wx.navigateTo({
-      url: '../courseArrangeEdit/courseArrangeEdit?time=' + event.currentTarget.dataset.time + "&week=" + event.currentTarget.dataset.week,
+      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek,
+    })
+  },
+
+  // 显示编辑课程排课页面
+  showEditCourseArrange: function (event) {
+    wx.navigateTo({
+      url: '../courseArrangeEdit/courseArrangeEdit?id=' + event.currentTarget.dataset.id,
     })
   }
 

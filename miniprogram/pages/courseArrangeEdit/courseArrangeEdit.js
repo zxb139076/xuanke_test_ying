@@ -1,7 +1,6 @@
 Page({
   data: {
-    index: 0,
-    date: "2016-09-01",
+    id: '',
     startTime: "19:00",
     endTime: "21:00",
     currentData: "",
@@ -9,7 +8,7 @@ Page({
     coursename: ""
   },
 
-  bindCourseChange: function(e) {
+  bindCourseChange: function (e) {
     this.setData({
       courseName: e.detail.value
     })
@@ -46,25 +45,52 @@ Page({
       });
       return false;
     }
-    wx.cloud.callFunction({
-      name: "courseArrange",
-      data: {
-        requestType: 'courseArrangeAdd',
-        courseName: this.data.courseName,
-        currentData: this.data.currentData,
-        startTime: this.data.startTime,
-        endTime: this.data.endTime,
-        currentWeek: this.data.currentWeek
-      }
-    }).then(res => {
-      wx.navigateBack({
-        complete: (res) => {
-          console.log("保存成功");
-        },
-      })
-    }).catch(err => {
-      console.error(err)
-    });
+    if (this.data.id == "") {
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: 'courseArrangeAdd',
+          courseName: this.data.courseName,
+          currentData: this.data.currentData,
+          currentWeek: this.data.currentWeek,
+          startTime: this.data.startTime,
+          endTime: this.data.endTime
+        }
+      }).then(res => {
+        wx.navigateTo({
+          url: '../courseArrange/courseArrange?currentData=' + this.data.currentData,
+          complete: (res) => {
+            wx.showToast({
+              title: '保存成功',
+            });
+          },
+        })
+      }).catch(err => {
+        console.error(err)
+      });
+    } else {
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: 'editCourseArrangeById',
+          id: this.data.id,
+          courseName: this.data.courseName,
+          startTime: this.data.startTime,
+          endTime: this.data.endTime
+        }
+      }).then(res => {
+        wx.navigateTo({
+          url: '../courseArrange/courseArrange?currentData=' + this.data.currentData,
+          complete: (res) => {
+            wx.showToast({
+              title: '保存成功',
+            });
+          },
+        })
+      }).catch(err => {
+        console.error(err)
+      });
+    }
   },
 
   onReady: function () {
@@ -72,11 +98,30 @@ Page({
   },
 
   onLoad: function (options) {
-    console.log(options.time);
-    console.log(options.week);
-    this.setData({
-      currentData: options.time,
-      currentWeek: options.week
-    })
+    if (options.id && options.id != "") {
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: 'getCourseArrangeById',
+          id: options.id
+        }
+      }).then(res => {
+        this.setData({
+          startTime: res.result.data[0].startTime,
+          endTime: res.result.data[0].endTime,
+          courseName: res.result.data[0].courseName,
+          currentData: res.result.data[0].currentData,
+          currentWeek: res.result.data[0].currentWeek,
+          id: res.result.data[0]._id
+        });
+      }).catch(err => {
+        console.error(err)
+      })
+    } else {
+      this.setData({
+        currentData: options.currentData,
+        currentWeek: options.currentWeek
+      })
+    }
   }
 })

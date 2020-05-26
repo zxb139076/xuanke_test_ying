@@ -11,9 +11,9 @@ exports.main = async (event, context) => {
         data: {
           courseName: event.courseName,
           currentData: event.currentData,
+          currentWeek: event.currentWeek,
           startTime: event.startTime,
           endTime: event.endTime,
-          currentWeek: event.currentWeek
         }
       });
     } else if (event.requestType == 'courseArrangeGetList') { // 获取课程排课列表
@@ -30,10 +30,8 @@ exports.main = async (event, context) => {
       }).update({
         data: {
           courseName: event.courseName,
-          currentData: event.currentData,
           startTime: event.startTime,
-          endTime: event.endTime,
-          currentWeek: event.currentWeek
+          endTime: event.endTime
         },
       })
     }

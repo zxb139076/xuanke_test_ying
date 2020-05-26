@@ -1,7 +1,7 @@
 <!--pages/courseArrangeEdit/courseArrangeEdit.wxml-->
 <view class="section">
 	<view class="section__title">课程名称：</view>
-	<input type="text" placeholder="请输入课程名称" bindinput="bindCourseChange"></input>
+	<input type="text" value="{{courseName}}" placeholder="请输入课程名称" bindinput="bindCourseChange"></input>
 </view>
 <view class="section">
 	<view class="section__title">课程开始时间：</view>
