@@ -31,6 +31,8 @@ exports.main = async (event, context) => {
           courseDetail: event.courseDetail
         },
       })
+    } else if (event.requestType == 'courseGetAllList') {
+      return await db.collection("course").get();
     }
   } catch (e) {
     console.error(e)

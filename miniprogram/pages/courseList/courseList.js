@@ -108,6 +108,7 @@ Page({
       console.error(err)
     })
   },
+  
   showEditCourse: function (event) {
     wx.navigateTo({
       url: '../courseEdit/courseEdit?id=' + event.currentTarget.dataset.id,

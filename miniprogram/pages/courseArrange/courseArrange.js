@@ -13,7 +13,7 @@ Page({
     currentData: '',
     currentWeek: '',
     resultList: null,
-    headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/che_piano.jpg?sign=09874cc485520cc6434bf31e2ec25e28&t=1590126475"
+    headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
   },
 
   // 页面准备渲染

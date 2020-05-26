@@ -1,16 +1,19 @@
 Page({
   data: {
+    array: null,
+    index: 0,
     id: '',
     startTime: "19:00",
     endTime: "21:00",
     currentData: "",
     currentWeek: "",
-    coursename: ""
+    courseName: ""
   },
 
-  bindCourseChange: function (e) {
+  bindCourseNameChange: function (e) {
     this.setData({
-      courseName: e.detail.value
+      index: e.detail.value,
+      courseName: this.data.array[e.detail.value]
     })
   },
 
@@ -93,10 +96,6 @@ Page({
     }
   },
 
-  onReady: function () {
-
-  },
-
   onLoad: function (options) {
     if (options.id && options.id != "") {
       wx.cloud.callFunction({
@@ -123,5 +122,21 @@ Page({
         currentWeek: options.currentWeek
       })
     }
+    wx.cloud.callFunction({
+      name: "course",
+      data: {
+        requestType: 'courseGetAllList',
+      }
+    }).then(res => {
+      var array = [];
+      for (var i = 0; i < res.result.data.length; i++) {
+        array[i] = res.result.data[i].courseName;
+      }
+      this.setData({
+        array: array
+      });
+    }).catch(err => {
+      console.error(err)
+    })
   }
 })
