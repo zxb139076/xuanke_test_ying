@@ -3,7 +3,7 @@
 	<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 		<van-col span="18">
 			<!-- 项目展示 -->
-			<van-card desc="{{item.projectDetail}}" title="{{item.projectName}}" thumb="{{headImage}}" />
+			<van-card desc="{{item.catalogueDetail}}" title="{{item.catalogueName}}" thumb="{{headImage}}" />
 		</van-col>
 		<!-- 添加 -->
 		<van-col span="2">
@@ -29,7 +29,7 @@
 	<button>增加课程类目</button>
 </view>
 <modal id=" modal" hidden="{{hiddenmodalput}}" title="课程类目信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
-	<input type='projectName' placeholder="项目名称：" auto - focus bindinput="projectNameInput" />
-	<input type='projectDetail' placeholder="项目描述：" auto - focus bindinput="projectDetailInput" />
-	<input type='projectGroups' placeholder="项目适合人群：" auto - focus bindinput="projectGroupsInput" />
+	<input type='catalogueName' placeholder="项目名称：" auto - focus bindinput="catalogueNameInput" />
+	<input type='catalogueDetail' placeholder="项目描述：" auto - focus bindinput="catalogueDetailInput" />
+	<input type='catalogueGroups' placeholder="项目适合人群：" auto - focus bindinput="catalogueGroupsInput" />
 </modal>

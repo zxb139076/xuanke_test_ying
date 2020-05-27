@@ -10,24 +10,35 @@
   font-weight: 900;
 }
 
-van-field {
-  color: red;
+.section {
+  margin: 5px 16px 16px 16px;
 }
 
-.title {
+.hr {
+  margin: 5px 16px 16px 16px;
+  height: 1px;
+  background-color: rgb(160, 165, 168);
+}
+
+.section__title {
+  font-size: 14px
+}
+
+.EditContent {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
 }
 
 .add {
   position: fixed;
+  left: 5%;
   bottom: 0;
-  width: 100%;
+  width: 90%;
   height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: large;
-  background-color: rgb(203, 188, 188);
+  background-color: rgb(177, 211, 236);
 }

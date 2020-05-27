@@ -1,19 +1,12 @@
 // pages/catalogueEdit/catalogueEdit.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     id: '',
-    projectName: '',
-    projectDetail: '',
-    projectGroups: '',
+    catalogueName: '',
+    catalogueDetail: '',
+    catalogueGroups: '',
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  
   onLoad: function (options) { //此处接收传递过来的参数wx.navigateTo跳转时传递的参数
     this.setData({
       id: options.id
@@ -27,9 +20,9 @@ Page({
       }
     }).then(res => {
       this.setData({
-        projectName: res.result.data[0].projectName,
-        projectDetail: res.result.data[0].projectDetail,
-        projectGroups: res.result.data[0].projectGroups
+        catalogueName: res.result.data[0].catalogueName,
+        catalogueDetail: res.result.data[0].catalogueDetail,
+        catalogueGroups: res.result.data[0].catalogueGroups
       });
     }).catch(err => {
       console.error(err)
@@ -37,61 +30,39 @@ Page({
   },
 
   //获取课程类目名称
-  projectNameBlur: function (e) {
+  catalogueNameBlur: function (e) {
     this.setData({
-      projectName: e.detail.value
+      catalogueName: e.detail.value
     })
   },
   //获取课程类目描述
-  projectDetailBlur: function (e) {
+  catalogueDetailBlur: function (e) {
     this.setData({
-      projectDetail: e.detail.value
+      catalogueDetail: e.detail.value
     })
   },
   //获取课程类目适合人群
-  projectGroupsBlur: function (e) {
+  catalogueGroupsBlur: function (e) {
     this.setData({
-      projectGroups: e.detail.value
-    })
-  },
-
-  //清除课程类目名称
-  projectNameClear: function (e) {
-    this.setData({
-      projectName: ''
-    })
-  },
-  //清除课程类目描述
-  projectDetailClear: function (e) {
-    this.setData({
-      projectDetail: ''
-    })
-  },
-  //清除课程类目适合人群
-  projectGroupsClear: function (e) {
-    this.setData({
-      projectGroups: ''
+      catalogueGroups: e.detail.value
     })
   },
 
   //调用云函数保存类目信息
   saveEditCatalogue: function () {
-    setTimeout(() => {
-      
-    }, 2000);
-    if (this.data.projectName == '') {
+    if (this.data.catalogueName == '') {
       wx.showToast({
-        title: '请填写项目名称',
+        title: '请填写类目名称',
       });
       return false;
     }
-    if (this.data.projectDetail == '') {
+    if (this.data.catalogueDetail == '') {
       wx.showToast({
-        title: '请填写项目描述',
+        title: '请填写类目描述',
       });
       return false;
     }
-    if (this.data.projectGroups == '') {
+    if (this.data.catalogueGroups == '') {
       wx.showToast({
         title: '请填写适合人群',
       });
@@ -102,69 +73,22 @@ Page({
       data: {
         requestType: 'editCatalogueById',
         id: this.data.id,
-        projectName: this.data.projectName,
-        projectDetail: this.data.projectDetail,
-        projectGroups: this.data.projectGroups
+        catalogueName: this.data.catalogueName,
+        catalogueDetail: this.data.catalogueDetail,
+        catalogueGroups: this.data.catalogueGroups
       }
     }).then(res => {
-      wx.navigateBack({
+      wx.navigateTo({
+        url: '../catalogueList/catalogueList',
         complete: (res) => {
           wx.showToast({
             title: '保存成功',
           });
-        },
+        }
       })
     }).catch(err => {
       console.error(err)
     });
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
+
 })
