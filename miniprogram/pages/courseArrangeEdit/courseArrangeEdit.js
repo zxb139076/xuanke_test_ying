@@ -12,7 +12,6 @@ Page({
 
   bindCourseNameChange: function (e) {
     this.setData({
-      index: e.detail.value,
       courseName: this.data.array[e.detail.value]
     })
   },
@@ -132,6 +131,12 @@ Page({
       for (var i = 0; i < res.result.data.length; i++) {
         array[i] = res.result.data[i].courseName;
       }
+      if (this.data.courseName != "") {
+        array[array.length] = this.data.courseName;
+      }
+      this.setData({
+        index: array.length - 1
+      })
       this.setData({
         array: array
       });

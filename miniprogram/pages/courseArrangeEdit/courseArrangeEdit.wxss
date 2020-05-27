@@ -1,19 +1,45 @@
 /* pages/courseArrangeEdit/courseArrangeEdit.wxss */
-.add {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: large;
-  background-color: rgb(203, 188, 188);
+.section {
+  margin: 5px 16px 16px 16px;
 }
 
 .top {
   width: 100%;
   height: 20px;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  font-size: large;
+  margin: 5px 16px 16px 16px;
+  font-weight: 900;
+}
+
+.hr {
+  margin: 5px 16px 16px 16px;
+  height: 1px;
+  background-color: rgb(205, 212, 216);
+}
+
+.section__title {
+  font-size:14px
+}
+
+.select_text {
+  color: rgb(50, 155, 235);
+  width: 20%;
+  height: 30px;
+  display: flex;
+  float: right;
+  align-items: center;
+  justify-content: center;
+}
+
+.add {
+  position: fixed;
+  bottom: 0;
+  width: 90%;
+  left: 5%;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
