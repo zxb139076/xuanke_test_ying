@@ -1,18 +1,18 @@
 <!--miniprogram/pages/courseList/courseList.wxml-->
 <view class="catalogue-list">
 	<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-		<van-col class="col" span="20">
+		<van-col span="20">
 			<!-- 课程展示 -->
-			<van-card desc="{{item.courseDetail}}" title="{{item.courseName}}" thumb="{{headImage}}" />	
+			<van-card desc="{{item.courseDetail}}" title="{{item.courseName}}" thumb="{{headImage}}" />
 		</van-col>
 		<!-- 编辑 -->
-		<van-col class="col" span="2">
+		<van-col span="2">
 			<view class="edit">
-				<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCourse" data-id="{{item._id}}"/>
+				<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCourse" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 		<!-- 删除 -->
-		<van-col class="col" span="2">
+		<van-col span="2">
 			<view class="edit">
 				<van-image width="20" height="20" src="{{deleteImage}}" bind:click="deleteCourse" data-id="{{item._id}}" />
 			</view>
@@ -20,9 +20,9 @@
 	</van-row>
 </view>
 <view class="add" bindtap="modalinput">
-	<button>提交</button>
+	<button>添加课程</button>
 </view>
-<modal id=" modal" hidden="{{hiddenmodalput}}" title="课程信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
+<modal id="modal" hidden="{{hiddenmodalput}}" title="课程信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
 	<input type='courseName' placeholder="课程名称：" auto - focus bindinput="courseNameInput" />
 	<input type='courseDetail' placeholder="课程描述：" auto - focus bindinput="courseDetailInput" />
 </modal>

@@ -7,11 +7,10 @@ Page({
     catalogueGroups: '',
   },
   
-  onLoad: function (options) { //此处接收传递过来的参数wx.navigateTo跳转时传递的参数
+  onLoad: function (options) { 
     this.setData({
       id: options.id
     });
-    // 查询数据库记录
     wx.cloud.callFunction({
       name: "catalogue",
       data: {
@@ -48,7 +47,6 @@ Page({
     })
   },
 
-  //调用云函数保存类目信息
   saveEditCatalogue: function () {
     if (this.data.catalogueName == '') {
       wx.showToast({

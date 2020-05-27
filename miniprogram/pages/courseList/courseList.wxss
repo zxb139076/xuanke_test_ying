@@ -1,9 +1,4 @@
 /* miniprogram/pages/courseList/courseList.wxss */
-.col {
-  background: "black";
-  background-color: aqua;
-}
-
 .edit {
   display: flex;
   align-items: center;
@@ -12,14 +7,20 @@
   background-color: #FAFAFA;
 }
 
+.catalogue-list {
+  margin-bottom: 60px;
+  line-height: 46px;
+}
+
 .add {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 5%;
+  width: 90%;
   height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: large;
-  background-color: rgb(203, 188, 188);
+  background-color: rgb(177, 211, 236);
 }
