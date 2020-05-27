@@ -1,31 +1,31 @@
 <!--pages/courseAdd/courseAdd.wxml-->
 <view class="catalogue-list">
 	<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-		<van-col class="col" span="18">
+		<van-col span="18">
 			<!-- 项目展示 -->
 			<van-card desc="{{item.projectDetail}}" title="{{item.projectName}}" thumb="{{headImage}}" />
 		</van-col>
 		<!-- 添加 -->
-		<van-col class="col" span="2">
+		<van-col span="2">
 			<view class="edit">
 				<van-image width="20" height="20" src="{{addImage}}" bind:click="showAddCatalogue" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 		<!-- 编辑 -->
-		<van-col class="col" span="2">
+		<van-col span="2">
 			<view class="edit">
 				<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCatalogue" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 		<!-- 删除 -->
-		<van-col class="col" span="2">
+		<van-col span="2">
 			<view class="edit">
 				<van-image width="20" height="20" src="{{deleteImage}}" bind:click="deleteCatalogue" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 	</van-row>
 </view>
-<view class="add" bindtap="modalinput" >
+<view class="add" bindtap="modalinput">
 	<button>增加课程类目</button>
 </view>
 <modal id=" modal" hidden="{{hiddenmodalput}}" title="课程类目信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">

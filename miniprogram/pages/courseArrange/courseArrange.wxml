@@ -6,23 +6,23 @@
 	<view style="width:15%;height:800px;">
 		<view style="height:30px;" class="left-content" wx:for="{{dataList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx" bindtap="dataSelect" data-index="{{itemIdx}}">
 			<view wx:if="{{index != itemIdx}}">{{item.week}}</view>
-			<view wx:elif="{{index == itemIdx}}" style="background-color: rgb(203, 188, 188);">{{item.week}}</view>
+			<view wx:elif="{{index == itemIdx}}" style="background-color: rgb(177, 211, 236);">{{item.week}}</view>
 		</view>
 	</view>
-	<view class="center" style="width:1%;height:800px;">
+	<view class="center" style="width:1%;height:1000px;">
 	</view>
 	<view class="right-content" style="width:84%;height:800px;margin-left:10px;margin-top:3px">
 		<view style="flex-grow:1;display: flex;">
-			<view style="flex-grow:1;">当前排课日期：{{currentData}}</view>
+			<view style="flex-grow:1;background-color:rgb(177, 211, 236);">当前排课日期：{{currentData}}</view>
 		</view>
 		<van-row style="height:30px;" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 			<van-col span="24">
 				<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}">
 					<view slot="footer" style="display: flex;float:right;">
-						<button size="mini" style="background-color: rgb(203, 188, 188);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
+						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
 							编辑
 						</button>
-						<button size="mini" style="background-color: rgb(203, 188, 188);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
+						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
 							删除
 						</button>
 					</view>

@@ -1,10 +1,6 @@
 <!--pages/catalogueEdit/catalogueEdit.wxml-->
-<view class="uploader">
-	<navigator open-type="navigate" class="uploader-text">
-		<view class="title">
-			<text>课程类目编辑</text>
-		</view>
-	</navigator>
+<view class="top">
+		课程类目编辑
 </view>
 <van-cell-group>
 	<van-field value="{{projectName}}" clearable label="课程类目名称:" placeholder="" bind:click-icon="onClickIcon" bind:blur="projectNameBlur" bind:clear="projectNameClear" />

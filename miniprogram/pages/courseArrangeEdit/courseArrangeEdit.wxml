@@ -1,6 +1,6 @@
 <!--pages/courseArrangeEdit/courseArrangeEdit.wxml-->
 <view class="top">
-	<b>排课信息编辑</b>
+		排课信息编辑
 </view>
 <view class="section">
 	<view class="section__title">课程名称</view>
