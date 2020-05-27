@@ -1,6 +1,29 @@
-/* miniprogram/pages/addCourse/addCourse.wxss */
-.guide{
+.top {
+  width: 100%;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: large;
+  background-color: rgb(177, 211, 236);
+}
+
+.main {
+  width: 100%;
+  display: flex;  
+  flex-direction: row;
+}
+
+.center {
+  background-color: rgb(177, 211, 236);
+}
+
+.left-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right-content {
+  float: left;
 }
