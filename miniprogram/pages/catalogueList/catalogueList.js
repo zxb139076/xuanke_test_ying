@@ -93,9 +93,7 @@ Page({
             console.error(err)
         });
     },
-    /**
-      * 生命周期函数--监听页面加载
-    */
+    
     onLoad: function (options) {
         wx.cloud.callFunction({
             name: "catalogue",
@@ -131,6 +129,7 @@ Page({
             url: '../catalogueEdit/catalogueEdit?id=' + event.currentTarget.dataset.id,
         })
     },
+
     showAddCatalogue: function (event) {
         wx.navigateTo({
             url: '../courseList/courseList?id=' + event.currentTarget.dataset.id,

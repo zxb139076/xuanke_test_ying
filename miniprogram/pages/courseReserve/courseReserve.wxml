@@ -19,7 +19,7 @@
 			<van-col span="24">
 				<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}">
 					<view slot="footer" style="display: flex;float:right;">
-						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
+						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}">
 							预约
 						</button>
 					</view>

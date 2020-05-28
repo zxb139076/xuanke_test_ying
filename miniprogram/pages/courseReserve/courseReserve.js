@@ -16,6 +16,44 @@ Page({
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
   },
 
+  // 确认预约课程
+  confirmReserve: function (event) {
+    wx.getUserInfo({
+      complete: (res) => {
+        this.setData({
+          nickName: res.userInfo.nickName,
+          headimgurl: res.userInfo.avatarUrl
+        })
+        const time = formatDate(new Date());
+        const db = wx.cloud.database()
+        db.collection('courseReserve').add({
+          data: {
+            applyId: event.currentTarget.dataset.id,
+            nickName: res.userInfo.nickName,
+            headimgurl: res.userInfo.avatarUrl,
+            updateTime: time,
+          },
+          success: res => {
+            this.setData({
+              counterId: res._id
+            })
+            wx.showToast({
+              title: '预约课程成功',
+            })
+            console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+          },
+          fail: err => {
+            wx.showToast({
+              icon: 'none',
+              title: '预约课程失败'
+            })
+            console.error('[数据库] [新增记录] 失败：', err)
+          }
+        })
+      },
+    })
+  },
+
   // 页面准备渲染
   onReady: function () {
     var currentData = null;
