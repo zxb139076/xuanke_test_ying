@@ -1,5 +1,5 @@
 <!--miniprogram/pages/courseQuery/courseQuery.wxml-->
 <!-- <van-button square type="primary" bind:click="getCourseApply" block>课程查询</van-button> -->
 <block wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-	<van-card desc="{{item.updateTime}}" title="{{item.courseName}}" thumb="{{item.headimgurl}}" />
+	<van-card desc="{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}" thumb="{{item.headimgurl}}" />
 </block>
