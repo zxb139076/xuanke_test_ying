@@ -22,8 +22,8 @@
 						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
 							编辑
 						</button>
-						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
-							删除
+						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showCourseArrangeDetail" data-id="{{item._id}}">
+							详情
 						</button>
 					</view>
 				</van-card>

@@ -108,6 +108,12 @@ Page({
     wx.navigateTo({
       url: '../courseArrangeEdit/courseArrangeEdit?id=' + event.currentTarget.dataset.id,
     })
+  },
+
+  showCourseArrangeDetail: function (event) {
+    wx.navigateTo({
+      url: '../courseArrangeDetail/courseArrangeDetail?id=' + event.currentTarget.dataset.id,
+    })
   }
 
 })

@@ -1,0 +1,35 @@
+/* pages/courseArrangeDetail/courseArrangeDetail.wxss */
+.list {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: white;
+}
+
+.title {
+  display: flex;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.hr {
+  margin: 5px 16px 5px 16px;
+  height: 1px;
+  background-color: rgb(160, 165, 168);
+}
+
+.bcc {
+  display: flex;
+  align-items: right;
+  justify-content: right;
+  padding-left: 30%;
+}
+
+.button {
+  border-width: 1px;
+  border-radius: 30px;
+  border-color: black;
+}

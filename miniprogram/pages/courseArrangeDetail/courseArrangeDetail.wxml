@@ -1,0 +1,19 @@
+<!--pages/courseArrangeDetail/courseArrangeDetail.wxml-->
+<view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+	<view class="title">
+		<view>
+			<text>hello</text>
+			<text>world</text>
+		</view>
+		<view class="bcc">啧啧啧</view>
+	</view>
+	<view class="hr"></view>
+	<view class="content">
+		<van-card desc="{{item.updateTime}}" title="{{item.nickName}}" thumb="{{item.headimgurl}}" />
+	</view>
+	<view style="display:flex;float:right;">
+		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+			确认完成
+		</button>
+	</view>
+</view>

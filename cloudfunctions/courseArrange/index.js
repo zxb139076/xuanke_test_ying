@@ -34,6 +34,15 @@ exports.main = async (event, context) => {
           endTime: event.endTime
         },
       })
+    } else if (event.requestType == 'showCourseArrangeDetail') { // 
+      return await db.collection("courseArrange").aggregate().lookup({
+        from: 'courseReserve',
+        localField: '_id',
+        foreignField: 'applyId',
+        as: 'courseReserveList'
+      }).match({
+        _id: event.id
+      }).end();
     }
   } catch (e) {
     console.error(e)

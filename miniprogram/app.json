@@ -9,6 +9,7 @@
     "pages/courseEdit/courseEdit",
     "pages/courseArrange/courseArrange",
     "pages/courseArrangeEdit/courseArrangeEdit",
+    "pages/courseArrangeDetail/courseArrangeDetail",
     "pages/my/my"
   ],
   "window": {
