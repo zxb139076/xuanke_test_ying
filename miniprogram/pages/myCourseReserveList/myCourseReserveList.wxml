@@ -8,12 +8,12 @@
 		<view class="bcc">未完成</view>
 	</view>
 	<view class="hr"></view>
-	<view class="content" style="background:green;">
-		<van-card desc="{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}" thumb="{{headImgUrl}}" />
+	<view class="content">
+		<van-card desc="{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
 	</view>
-	<view slot="footer" style="display: flex;float:right;">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
-			取消预定
+	<view style="display:flex;float:right;">
+		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+			取消预定课程
 		</button>
 	</view>
 </view>

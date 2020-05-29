@@ -18,7 +18,8 @@ Page({
     wx.cloud.callFunction({
       name: "courseReserve",
       data: {
-        openid: 'oJEfM4iya6jPgen2M9oV65-WQ8bY'
+        requestType: "showMyCourseReserveList",
+        openid: this.data.openid
       }
     }).then(res => {
       this.setData({
@@ -28,5 +29,24 @@ Page({
       console.error(err)
     })
   },
+
+  cancelCourseReserve: function (event) {
+    wx.cloud.callFunction({
+      name: "courseReserve",
+      data: {
+        requestType: "deleteCourseReserveById",
+        id: event.currentTarget.dataset.id
+      }
+    }).then(res => {
+      wx.redirectTo({
+        url: '../myCourseReserveList/myCourseReserveList',
+      })
+      wx.showToast({
+        title: '删除成功',
+      });
+    }).catch(err => {
+      console.error(err)
+    })
+  }
 
 })

@@ -29,8 +29,7 @@
 }
 
 .button {
-  border: 1px;
-  border-color: black;
+  border-width: 1px;
   border-radius: 30px;
   border-color: black;
 }
