@@ -4,9 +4,9 @@ const app = getApp()
 
 Page({
   data: {
-    counterId: '',
     openid: '',
-    resultList: null
+    resultList: null,
+    headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
   },
 
   onLoad: function (options) {
@@ -21,7 +21,6 @@ Page({
         openid: 'oJEfM4iya6jPgen2M9oV65-WQ8bY'
       }
     }).then(res => {
-      console.log("rrrrr" + res.result.list);
       this.setData({
         resultList: res.result.list
       });

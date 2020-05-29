@@ -1,25 +1,36 @@
 /* miniprogram/pages/courseQuery/courseQuery.wxss */
-.image {
-  width: 80rpx;
-  height: 80rpx;
+.list {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: white;
 }
-.weui-grid__label{
-  border: 1rpx;
-}
-.page{
-  text-align: center;
-  line-height: 100rpx;
-  height: 100rpx;
+
+.title {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: palegoldenrod;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  font-size: 14px;
 }
-.container{
-  background-color: palegoldenrod;
+
+.hr {
+  margin: 5px 16px 5px 16px;
+  height: 1px;
+  background-color: rgb(160, 165, 168);
 }
-.guide{
+
+.bcc {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: right;
+  justify-content: right;
+  padding-left: 30%;
+}
+
+.button {
+  border: 1px;
+  border-color: black;
+  border-radius: 30px;
+  border-color: black;
 }

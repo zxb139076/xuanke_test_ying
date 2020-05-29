@@ -1,5 +1,19 @@
 <!--miniprogram/pages/courseQuery/courseQuery.wxml-->
-<!-- <van-button square type="primary" bind:click="getCourseApply" block>课程查询</van-button> -->
-<block wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-	<van-card desc="{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}" thumb="{{item.headimgurl}}" />
-</block>
+<view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+	<view class="title">
+		<view>
+			<text>{{item.arrangeInfo[0].currentWeek}}</text>
+			<text>({{item.arrangeInfo[0].currentData}})</text>
+		</view>
+		<view class="bcc">未完成</view>
+	</view>
+	<view class="hr"></view>
+	<view class="content" style="background:green;">
+		<van-card desc="{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}" thumb="{{headImgUrl}}" />
+	</view>
+	<view slot="footer" style="display: flex;float:right;">
+		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
+			取消预定
+		</button>
+	</view>
+</view>
