@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").where({
         currentData: event.currentData
       }).get();
-    } else if (event.requestType == 'courseArrangeGetListB') {
+    } else if (event.requestType == 'courseArrangeGetListByOrder') {
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         let: {
@@ -30,7 +30,9 @@ exports.main = async (event, context) => {
         pipeline: $.pipeline()
           .match(_.expr($.and([
             $.eq(['$applyId', '$$arrange_id']),
-          ])))
+          ]))).match({
+            _openid: event.openid
+          })
           .project({
             _id: 0,
             _openid: 1,

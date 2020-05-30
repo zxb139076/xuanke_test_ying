@@ -18,11 +18,14 @@
 		<!-- 循环 -->
 		<van-row style="height:30px;" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 			<van-col span="24">
-			  <!--van-card-->
+				<!--van-card-->
 				<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}">
 					<view slot="footer" style="display: flex;float:right;">
-						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}">
+						<button wx:if="{{item.arrangeList.length < 1}}" size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}">
 							预约
+						</button>
+						<button wx:elif="{{item.arrangeList.length > 0}}" disabled size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}">
+							已预约
 						</button>
 					</view>
 				</van-card>

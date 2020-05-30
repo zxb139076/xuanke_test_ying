@@ -56,7 +56,10 @@ Page({
                 wx.showToast({
                   title: '预约课程成功',
                 })
-                console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+                console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id);
+                wx.redirectTo({
+                  url: '../courseReserve/courseReserve?currentData=' + this.data.currentData          
+                })
               },
               fail: err => {
                 wx.showToast({
@@ -103,7 +106,7 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: 'courseArrangeGetListB',
+        requestType: 'courseArrangeGetListByOrder',
         currentData: this.data.currentData,
         openid: app.globalData.openid
       }
@@ -141,12 +144,13 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: 'courseArrangeGetList',
-        currentData: this.data.currentData
+        requestType: 'courseArrangeGetListByOrder',
+        currentData: this.data.currentData,
+        openid: app.globalData.openid
       }
     }).then(res => {
       this.setData({
-        resultList: res.result.data
+        resultList: res.result.list
       });
     }).catch(err => {
       console.error(err)
