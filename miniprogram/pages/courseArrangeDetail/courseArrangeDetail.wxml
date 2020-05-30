@@ -1,38 +1,43 @@
 <!--pages/courseArrangeDetail/courseArrangeDetail.wxml-->
-<view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-	<view class="title">
-		<view>
-			<text>hello</text>
-			<text>world</text>
-		</view>
-		<view class="bcc">啧啧啧</view>
-	</view>
-	<view class="hr"></view>
-	<view class="content">
-		<van-card desc="{{item.updateTime}}" title="{{item.nickName}}" thumb="{{item.headimgurl}}" />
-	</view>
-	<view style="display:flex;float:right;">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
-			确认完成
-		</button>
-	</view>
-</view>
-
-<!-- 预约课程的用户信息 -->
-<view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+<!--课程信息-->
+<view class="list">
 	<van-row>
 		<van-col span="8">
 			<view class="image-v">
-				<van-image width="60px" height="60px" src="{{item.headimgurl}}" />
+				<van-image width="80px" height="90px" src="{{headImgUrl}}" />
 			</view>
 		</van-col>
 		<van-col span="16">
-			<view class="edit" style="height:30px;width:100%">
-				{{item.nickName}}
+			<view class="edit" style="height:40px;width:100%">
+				课程名称:{{courseInfo.courseName}}
 			</view>
 			<view class="edit" style="height:30px;width:100%">
-				{{item.updateTime}}
+				课程时间:{{courseInfo.currentData}}
 			</view>
 		</van-col>
 	</van-row>
+</view>
+<view class="hr"></view>
+<!-- 预约课程的用户信息 -->
+<view wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+	<view class="list">
+		<van-row>
+			<van-col span="6">
+				<view class="image-v">
+					<van-image width="60px" height="60px" src="{{item.headimgurl}}" />
+				</view>
+			</van-col>
+			<van-col span="11">
+				<view class="edit" style="height:60px;width:100%">
+					{{item.nickName}}
+				</view>
+			</van-col>
+			<van-col span="7">
+				<view class="button-v" style="height:60px;width:100%">
+					<button size="mini" style="font-size: 14px">确认完成</button>
+				</view>
+			</van-col>
+		</van-row>
+	</view>
+	<view class="hr"></view>
 </view>

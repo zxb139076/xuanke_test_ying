@@ -5,6 +5,7 @@ const app = getApp()
 Page({
   data: {
     openid: '',
+    courseInfo: '',
     resultList: null,
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
   },
@@ -23,7 +24,8 @@ Page({
       }
     }).then(res => {
       this.setData({
-        resultList: res.result.list[0].courseReserveList
+        resultList: res.result.list[0].courseReserveList,
+        courseInfo: res.result.list[0]
       });
     }).catch(err => {
       console.error(err)

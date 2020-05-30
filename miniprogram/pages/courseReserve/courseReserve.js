@@ -5,7 +5,7 @@ import {
 import {
   getDates
 } from '../util/util.js';
-
+const app = getApp();
 Page({
   data: {
     dataList: [],
@@ -18,40 +18,80 @@ Page({
 
   // 确认预约课程
   confirmReserve: function (event) {
-    wx.getUserInfo({
-      complete: (res) => {
-        this.setData({
-          nickName: res.userInfo.nickName,
-          headimgurl: res.userInfo.avatarUrl
+    this.onGetOpenid();
+    wx.cloud.callFunction({
+      name: "courseReserve",
+      data: {
+        requestType: "checkCourseReserve",
+        applyId: event.currentTarget.dataset.id,
+        currentData: this.data.currentData,
+        openid: app.globalData.openid
+      }
+    }).then(res => {
+      var isReserve = res.result.data.length
+      if (isReserve > 0) {
+        wx.showToast({
+          title: '你已预约过',
         })
-        const time = formatDate(new Date());
-        const db = wx.cloud.database()
-        db.collection('courseReserve').add({
-          data: {
-            applyId: event.currentTarget.dataset.id,
-            nickName: res.userInfo.nickName,
-            headimgurl: res.userInfo.avatarUrl,
-            updateTime: time,
-          },
-          success: res => {
+        return false;
+      } else {
+        wx.getUserInfo({
+          complete: (res) => {
             this.setData({
-              counterId: res._id
+              nickName: res.userInfo.nickName,
+              headimgurl: res.userInfo.avatarUrl
             })
-            wx.showToast({
-              title: '预约课程成功',
+            const time = formatDate(new Date());
+            const db = wx.cloud.database()
+            db.collection('courseReserve').add({
+              data: {
+                applyId: event.currentTarget.dataset.id,
+                nickName: res.userInfo.nickName,
+                headimgurl: res.userInfo.avatarUrl,
+                updateTime: time,
+                isFinished: 0,
+                currentData: this.data.currentData
+              },
+              success: res => {
+                this.setData({
+                  counterId: res._id
+                })
+                wx.showToast({
+                  title: '预约课程成功',
+                })
+                console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+              },
+              fail: err => {
+                wx.showToast({
+                  icon: 'none',
+                  title: '预约课程失败'
+                })
+                console.error('[数据库] [新增记录] 失败：', err)
+              }
             })
-            console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
           },
-          fail: err => {
-            wx.showToast({
-              icon: 'none',
-              title: '预约课程失败'
-            })
-            console.error('[数据库] [新增记录] 失败：', err)
-          }
         })
-      },
-    })
+      }
+    }).catch(err => {
+      console.error(err)
+    });
+  },
+
+  // 检查是否预约过该课程
+  checkCourseReserve: function (applyId) {
+    wx.cloud.callFunction({
+      name: "courseReserve",
+      data: {
+        requestType: "checkCourseReserve",
+        applyId: applyId,
+        currentData: this.data.currentData,
+        openid: app.globalData.openid
+      }
+    }).then(res => {
+      return res.result.data.length;
+    }).catch(err => {
+      console.error(err)
+    });
   },
 
   // 页面准备渲染
@@ -131,6 +171,24 @@ Page({
       });
     }).catch(err => {
       console.error(err)
+    })
+  },
+
+  onGetOpenid: function () {
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        console.log('[云函数] [login] user openid: ', res.result.openid)
+        app.globalData.openid = res.result.openid
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err)
+        wx.navigateTo({
+          url: '../deployFunctions/deployFunctions',
+        })
+      }
     })
   },
 

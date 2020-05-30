@@ -18,11 +18,17 @@ exports.main = async (event, context) => {
       }).end();
     } else if (event.requestType == 'deleteCourseReserveById') { //取消我预定的课程
       return await db.collection("courseReserve").doc(event.id).remove({
-        success: function(res) {
+        success: function (res) {
           console.log(res.data)
         }
       });
-    } 
+    } else if (event.requestType == 'checkCourseReserve') { // 检查我是否已经预约该课程
+      return await db.collection("courseReserve").where({
+        applyId: event.applyId,
+        currentData: event.currentData,
+        _openid: event.openid
+      }).get();
+    }
   } catch (e) {
     console.error(e)
   }
