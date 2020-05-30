@@ -103,12 +103,13 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: 'courseArrangeGetList',
-        currentData: this.data.currentData
+        requestType: 'courseArrangeGetListB',
+        currentData: this.data.currentData,
+        openid: app.globalData.openid
       }
     }).then(res => {
       this.setData({
-        resultList: res.result.data
+        resultList: res.result.list
       });
     }).catch(err => {
       console.error(err)

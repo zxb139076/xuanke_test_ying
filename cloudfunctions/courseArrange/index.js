@@ -2,6 +2,7 @@ const cloud = require('wx-server-sdk');
 cloud.init();
 const db = cloud.database();
 const _ = db.command;
+const $ = db.command.aggregate;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -20,6 +21,30 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").where({
         currentData: event.currentData
       }).get();
+    } else if (event.requestType == 'courseArrangeGetListB') {
+      return await db.collection("courseArrange").aggregate().lookup({
+        from: 'courseReserve',
+        let: {
+          arrange_id: '$_id',
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$applyId', '$$arrange_id']),
+          ])))
+          .project({
+            _id: 0,
+            _openid: 1,
+            applyId: 1,
+            headimgurl: 1,
+            isFinished: 1,
+            nickName: 1,
+            updateTime: 1
+          })
+          .done(),
+        as: 'arrangeList'
+      }).match({
+        currentData: event.currentData
+      }).end();
     } else if (event.requestType == 'getCourseArrangeById') { // 查询课程排课信息
       return await db.collection("courseArrange").where({
         _id: event.id
