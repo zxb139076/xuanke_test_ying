@@ -17,3 +17,22 @@
 		</button>
 	</view>
 </view>
+
+<!-- 预约课程的用户信息 -->
+<view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+	<van-row>
+		<van-col span="8">
+			<view class="image-v">
+				<van-image width="60px" height="60px" src="{{item.headimgurl}}" />
+			</view>
+		</van-col>
+		<van-col span="16">
+			<view class="edit" style="height:30px;width:100%">
+				{{item.nickName}}
+			</view>
+			<view class="edit" style="height:30px;width:100%">
+				{{item.updateTime}}
+			</view>
+		</van-col>
+	</van-row>
+</view>
