@@ -23,7 +23,6 @@ Page({
       data: {
         requestType: "checkCourseReserve",
         applyId: event.currentTarget.dataset.id,
-        currentData: this.data.currentData,
         openid: app.globalData.openid
       }
     }).then(res => {
@@ -48,8 +47,7 @@ Page({
                 nickName: res.userInfo.nickName,
                 headimgurl: res.userInfo.avatarUrl,
                 updateTime: time,
-                isFinished: 0,
-                currentData: this.data.currentData
+                isFinished: 0
               },
               success: res => {
                 this.setData({

@@ -25,7 +25,6 @@ exports.main = async (event, context) => {
     } else if (event.requestType == 'checkCourseReserve') { // 检查我是否已经预约该课程
       return await db.collection("courseReserve").where({
         applyId: event.applyId,
-        currentData: event.currentData,
         _openid: event.openid
       }).get();
     }
