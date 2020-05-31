@@ -21,7 +21,7 @@
 				<!--van-card-->
 				<van-card desc="{{item.startTime}}至{{item.endTime}}\n当前已预约人数:{{countList[itemIdx].arrangeList.length}}" title="{{item.courseName}}" thumb="{{headImage}}">
 					<view slot="footer" style="display: flex;float:right;">
-						<button wx:if="{{item.arrangeList.length < 1}}" size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}">
+						<button wx:if="{{item.arrangeList.length < 1}}" size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}" data-length="{{countList[itemIdx].arrangeList.length}}">
 							预约
 						</button>
 						<button wx:elif="{{item.arrangeList.length > 0}}" disabled size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}">

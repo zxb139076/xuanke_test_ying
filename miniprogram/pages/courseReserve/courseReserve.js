@@ -34,44 +34,54 @@ Page({
         })
         return false;
       } else {
-        wx.getUserInfo({
-          complete: (res) => {
-            this.setData({
-              nickName: res.userInfo.nickName,
-              headimgurl: res.userInfo.avatarUrl
-            })
-            const time = formatDate(new Date());
-            const db = wx.cloud.database()
-            db.collection('courseReserve').add({
-              data: {
-                applyId: event.currentTarget.dataset.id,
+        var lentgh = event.currentTarget.dataset.length;
+        console.log("当前预约人数:" + lentgh);
+        if (lentgh >= 1) {
+          wx.showToast({
+            title: '当前预约已满',
+          })
+          return false;
+        } else {
+          wx.getUserInfo({
+            complete: (res) => {
+              this.setData({
                 nickName: res.userInfo.nickName,
-                headimgurl: res.userInfo.avatarUrl,
-                updateTime: time,
-                isFinished: 0
-              },
-              success: res => {
-                this.setData({
-                  counterId: res._id
-                })
-                wx.showToast({
-                  title: '预约课程成功',
-                })
-                console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id);
-                wx.redirectTo({
-                  url: '../courseReserve/courseReserve?currentData=' + this.data.currentData
-                })
-              },
-              fail: err => {
-                wx.showToast({
-                  icon: 'none',
-                  title: '预约课程失败'
-                })
-                console.error('[数据库] [新增记录] 失败：', err)
-              }
-            })
-          },
-        })
+                headimgurl: res.userInfo.avatarUrl
+              })
+              const time = formatDate(new Date());
+              const db = wx.cloud.database()
+              db.collection('courseReserve').add({
+                data: {
+                  applyId: event.currentTarget.dataset.id,
+                  nickName: res.userInfo.nickName,
+                  headimgurl: res.userInfo.avatarUrl,
+                  updateTime: time,
+                  isFinished: 0
+                },
+                success: res => {
+                  this.setData({
+                    counterId: res._id
+                  })
+                  wx.showToast({
+                    title: '预约课程成功',
+                  })
+                  console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id);
+                  wx.redirectTo({
+                    url: '../courseReserve/courseReserve?currentData=' + this.data.currentData
+                  })
+                },
+                fail: err => {
+                  wx.showToast({
+                    icon: 'none',
+                    title: '预约课程失败'
+                  })
+                  console.error('[数据库] [新增记录] 失败：', err)
+                }
+              })
+            },
+          })
+        }
+
       }
     }).catch(err => {
       console.error(err)
@@ -181,20 +191,6 @@ Page({
       })
     }).catch(err => {
       console.error(err)
-    })
-  },
-
-  // 显示添加课程排课页面
-  showCourseArrangeAdd: function (event) {
-    wx.navigateTo({
-      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek,
-    })
-  },
-
-  // 显示编辑课程排课页面
-  showEditCourseArrange: function (event) {
-    wx.navigateTo({
-      url: '../courseArrangeEdit/courseArrangeEdit?id=' + event.currentTarget.dataset.id,
     })
   }
 
