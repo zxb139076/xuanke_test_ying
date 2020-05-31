@@ -13,6 +13,7 @@ Page({
     currentData: '',
     currentWeek: '',
     resultList: null,
+    countList: null,
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
   },
 
@@ -58,7 +59,7 @@ Page({
                 })
                 console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id);
                 wx.redirectTo({
-                  url: '../courseReserve/courseReserve?currentData=' + this.data.currentData          
+                  url: '../courseReserve/courseReserve?currentData=' + this.data.currentData
                 })
               },
               fail: err => {
@@ -114,6 +115,19 @@ Page({
       this.setData({
         resultList: res.result.list
       });
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: 'getCountOfCourseArrange',
+          currentData: this.data.currentData,
+        }
+      }).then(res => {
+        this.setData({
+          countList: res.result.list
+        });
+      }).catch(err => {
+        console.error(err)
+      })
     }).catch(err => {
       console.error(err)
     })
@@ -152,6 +166,19 @@ Page({
       this.setData({
         resultList: res.result.list
       });
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: 'getCountOfCourseArrange',
+          currentData: this.data.currentData,
+        }
+      }).then(res => {
+        this.setData({
+          countList: res.result.list
+        });
+      }).catch(err => {
+        console.error(err)
+      })
     }).catch(err => {
       console.error(err)
     })

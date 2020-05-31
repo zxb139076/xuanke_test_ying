@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").where({
         currentData: event.currentData
       }).get();
-    } else if (event.requestType == 'courseArrangeGetListByOrder') {
+    } else if (event.requestType == 'courseArrangeGetListByOrder') { //获取课程排课列表，并检查是否已经预约过
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         let: {
@@ -33,6 +33,30 @@ exports.main = async (event, context) => {
           ]))).match({
             _openid: event.openid
           })
+          .project({
+            _id: 0,
+            _openid: 1,
+            applyId: 1,
+            headimgurl: 1,
+            isFinished: 1,
+            nickName: 1,
+            updateTime: 1
+          })
+          .done(),
+        as: 'arrangeList'
+      }).match({
+        currentData: event.currentData
+      }).end();
+    } else if (event.requestType == 'getCountOfCourseArrange') {
+      return await db.collection("courseArrange").aggregate().lookup({
+        from: 'courseReserve',
+        let: {
+          arrange_id: '$_id',
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$applyId', '$$arrange_id']),
+          ])))
           .project({
             _id: 0,
             _openid: 1,
