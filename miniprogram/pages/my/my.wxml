@@ -1,12 +1,30 @@
-<!--pages/my/my.wxml-->
 <view class="container">
 
-	<!-- 用户 openid -->
 	<view class="userinfo">
 		<button bindtap="userlogin" class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></button>
 		<view class="userinfo-nickname-wrapper">
-			<button class="userinfo-nickname" bindtap="onGetOpenid">点我登陆</button>
+			<text>点我登陆</text>
 		</view>
+	</view>
+
+	<view class="title">
+		<text>常用工具</text>
+	</view>
+
+	<view class="content" style="display:flex">
+			<view style="flex-grow:1;height:80rpx;font-size:14px;margin:10rpx;">我的预定</view>
+			<view style="flex-grow:1;height:80rpx;font-size:14px;margin:10rpx;">关于选课</view>
+			<view style="flex-grow:1;height:80rpx;font-size:14px;margin:10rpx;">我的客服</view>
+			<view style="flex-grow:1;height:80rpx;font-size:14px;margin:10rpx;">课程预览</view>
+	</view>
+
+	<view class="title">
+		<text>管理工具</text>
+	</view>
+
+	<view class="content" style="display:flex;float:left;">
+			<view style="height:80rpx;font-size:14px;margin:10rpx;">课程管理</view>
+			<view style="height:80rpx;font-size:14px;margin:10rpx;">课程排课</view>
 	</view>
 
 	<!-- 课程管理 -->
