@@ -1,29 +1,25 @@
-// pages/login/login.js
+
 Page({
 
   data: {
-
+    logged: false
   },
 
-  onLoad: function (options) {
-    // wx.getSystemInfo({
-    //   complete: (res) => {
-    //     console.log(res.model)
-    //     console.log(res.pixelRatio)
-    //     console.log(res.windowWidth)
-    //     console.log(res.windowHeight)
-    //     console.log(res.screenWidth)
-    //     console.log(res.screenHeight)
-    //     console.log(res.language)
-    //     console.log(res.version)
-    //     console.log(res.platform)
-    //     console.log(res.environment)
-    //   },
-    // })
+  backToMyPages: function (e) {
+    wx.navigateBack({
+      complete: (res) => {
+
+      },
+    })
   },
 
-  onReady: function () {
-
+  onGetUserInfo: function (e) {
+    if (!this.data.logged && e.detail.userInfo) {
+      wx.setStorageSync('login', '1');
+      wx.switchTab({
+        url: '../my/my'
+      })
+    }
   },
 
 })

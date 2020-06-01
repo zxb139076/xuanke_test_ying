@@ -17,6 +17,11 @@
   height: 600rpx;
 }
 
+.img {
+  width: 750rpx;
+  height: 400rpx;
+}
+
 .login {
   position: fixed;
   background-color: rgb(172, 241, 241);

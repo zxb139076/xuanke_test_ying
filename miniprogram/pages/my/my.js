@@ -10,58 +10,78 @@ Page({
     requestResult: ''
   },
 
-  onLoad: function() {
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
+  onLoad: function () {
+    var value = wx.getStorageSync('login');
+    if (value && value == '1') {
+      console.log("当前登陆状态:" + value);
+      // 获取用户信息
+      wx.getSetting({
+        success: res => {
+          // 判断是否获得了用户授权
+          if (res.authSetting['scope.userInfo']) {
+            wx.getUserInfo({
+              success: res => {
+                this.setData({
+                  avatarUrl: res.userInfo.avatarUrl,
+                  userInfo: res.userInfo,
+                  logged: true
+                })
+              }
+            })
+          }
+        }
       })
-      return
     }
+  },
 
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
-            }
+  onShow: function() {
+    var value = wx.getStorageSync('login');
+    if (value && value == '1') {
+      console.log("当前登陆状态:" + value);
+      // 获取用户信息
+      wx.getSetting({
+        success: res => {
+          // 判断是否获得了用户授权
+          if (res.authSetting['scope.userInfo']) {
+            wx.getUserInfo({
+              success: res => {
+                this.setData({
+                  avatarUrl: res.userInfo.avatarUrl,
+                  userInfo: res.userInfo,
+                  logged: true
+                })
+              }
+            })
+          }
+        }
+      })
+    }
+  },
+
+  userlogin: function () {
+    // 还未获取到用户授权，返回到登陆界面
+    if (!this.data.logged) {
+      wx.navigateTo({
+        url: '../login/login',
+      })
+    } else {
+      // 提示是否退出登陆
+      wx.showModal({
+        cancelColor: 'true',
+        title: '提示',
+        content: '是否退出登陆',
+        success: function (res) {
+          // 用户取消，不作任何操作
+          if (!res.confirm) {
+            return;
+          }
+          wx.setStorageSync('login', '0');
+          wx.navigateTo({
+            url: '../login/login'
           })
         }
-      }
-    })
-  },
-
-  onGetUserInfo: function(e) {
-    if (!this.data.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
       })
     }
-  },
-
-  onGetOpenid: function() {
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
-      },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
-        })
-      }
-    })
-  },
+  }
 
 })
