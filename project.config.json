@@ -99,6 +99,14 @@
 					"id": -1,
 					"name": "courseArrangeEdit",
 					"pathName": "pages/courseArrangeEdit/courseArrangeEdit",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "login",
+					"pathName": "pages/login/login",
+					"query": "",
 					"scene": null
 				}
 			]

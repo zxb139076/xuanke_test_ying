@@ -10,7 +10,8 @@
     "pages/courseArrange/courseArrange",
     "pages/courseArrangeEdit/courseArrangeEdit",
     "pages/courseArrangeDetail/courseArrangeDetail",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/login/login"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

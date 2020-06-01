@@ -7,8 +7,8 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "wx-server-sdk": "^2.0.4"
-  }
+  },
+  "description": ""
 }

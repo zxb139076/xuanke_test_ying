@@ -1,0 +1,13 @@
+<!--pages/login/login.wxml-->
+<view class="main">
+	<view class="title">
+	</view>
+	<view class="foot">
+		<view class="cancel">
+			<button plain style="width:100%;">返回</button>
+		</view>
+		<view class="login">
+			<button plain style="width:100%;">登陆</button>
+		</view>
+	</view>
+</view>
