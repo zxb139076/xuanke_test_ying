@@ -1,19 +1,19 @@
 /* pages/login/login.wxss */
 .main {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  width: 750rpx;
   height: 1000rpx;
 }
 
 .title {
-  width: 100%;
+  width: 750rpx;
   height: 400rpx;
   background-color: rgb(172, 241, 241);
 }
 
 .foot {
-  width: 100%;
+  width: 750rpx;
   height: 600rpx;
 }
 

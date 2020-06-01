@@ -1,4 +1,3 @@
-
 Page({
 
   data: {
@@ -6,11 +5,7 @@ Page({
   },
 
   backToMyPages: function (e) {
-    wx.navigateBack({
-      complete: (res) => {
-
-      },
-    })
+    wx.navigateBack();
   },
 
   onGetUserInfo: function (e) {
