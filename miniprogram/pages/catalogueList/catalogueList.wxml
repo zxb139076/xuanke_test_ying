@@ -29,7 +29,7 @@
 	<button>增加课程类目</button>
 </view>
 <modal id=" modal" hidden="{{hiddenmodalput}}" title="课程类目信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
-	<input type='catalogueName' placeholder="项目名称：" auto - focus bindinput="catalogueNameInput" />
-	<input type='catalogueDetail' placeholder="项目描述：" auto - focus bindinput="catalogueDetailInput" />
-	<input type='catalogueGroups' placeholder="项目适合人群：" auto - focus bindinput="catalogueGroupsInput" />
+	<input type='catalogueName' placeholder="课程类目名称：" auto - focus bindinput="catalogueNameInput" />
+	<input type='catalogueDetail' placeholder="课程类目描述：" auto - focus bindinput="catalogueDetailInput" />
+	<input type='catalogueGroups' placeholder="适合人群：" auto - focus bindinput="catalogueGroupsInput" />
 </modal>

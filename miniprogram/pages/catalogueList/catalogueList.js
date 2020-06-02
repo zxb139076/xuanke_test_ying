@@ -54,7 +54,7 @@ Page({
     confirm: function () {
         if (this.data.catalogueName == '') {
             wx.showToast({
-                title: '请填写项目名称',
+                title: '请填写课程类目名称',
             });
             return false;
         }

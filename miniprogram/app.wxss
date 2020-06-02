@@ -154,3 +154,16 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+
+.add {
+  position: fixed;
+  left: 5%;
+  bottom: 0;
+  width: 90%;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
+  background-color: rgb(177, 211, 236);
+}
