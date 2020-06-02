@@ -1,4 +1,3 @@
-<!--pages/catalogueEdit/catalogueEdit.wxml-->
 <view class="top">
 	课程类目编辑
 </view>
@@ -17,7 +16,7 @@
 </view>
 <view class="hr"></view>
 <view class="section">
-	<view class="section__title">课程群属描述</view>
+	<view class="section__title">课程适合人群</view>
 	<view style="width:100%;height:20px;" class="EditContent">
 		<input type="text" value="{{catalogueGroups}}" bindblur="catalogueGroupsBlur"></input>
 	</view>

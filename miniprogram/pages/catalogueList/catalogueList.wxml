@@ -1,4 +1,3 @@
-<!--pages/courseAdd/courseAdd.wxml-->
 <view class="catalogue-list">
 	<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 		<van-col span="18">
@@ -8,7 +7,7 @@
 		<!-- 添加 -->
 		<van-col span="2">
 			<view class="edit">
-				<van-image width="20" height="20" src="{{addImage}}" bind:click="showAddCatalogue" data-id="{{item._id}}" />
+				<van-image width="20" height="20" src="{{addImage}}" bind:click="showAddCourse" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 		<!-- 编辑 -->
@@ -25,11 +24,6 @@
 		</van-col>
 	</van-row>
 </view>
-<view class="add" bindtap="modalinput">
+<view class="add" bindtap="showEditCatalogue" data-id="0">
 	<button>增加课程类目</button>
 </view>
-<modal id=" modal" hidden="{{hiddenmodalput}}" title="课程类目信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
-	<input type='catalogueName' placeholder="课程类目名称：" auto - focus bindinput="catalogueNameInput" />
-	<input type='catalogueDetail' placeholder="课程类目描述：" auto - focus bindinput="catalogueDetailInput" />
-	<input type='catalogueGroups' placeholder="适合人群：" auto - focus bindinput="catalogueGroupsInput" />
-</modal>

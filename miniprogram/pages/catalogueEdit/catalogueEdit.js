@@ -1,31 +1,32 @@
-// pages/catalogueEdit/catalogueEdit.js
 Page({
   data: {
-    id: '',
+    id: 0,
     catalogueName: '',
     catalogueDetail: '',
     catalogueGroups: '',
   },
-  
-  onLoad: function (options) { 
-    this.setData({
-      id: options.id
-    });
-    wx.cloud.callFunction({
-      name: "catalogue",
-      data: {
-        requestType: 'getCatalogueById',
-        id: options.id
-      }
-    }).then(res => {
+
+  onLoad: function (options) {
+    if (options.id != "0") {
       this.setData({
-        catalogueName: res.result.data[0].catalogueName,
-        catalogueDetail: res.result.data[0].catalogueDetail,
-        catalogueGroups: res.result.data[0].catalogueGroups
+        id: options.id
       });
-    }).catch(err => {
-      console.error(err)
-    })
+      wx.cloud.callFunction({
+        name: "catalogue",
+        data: {
+          requestType: 'getCatalogueById',
+          id: options.id
+        }
+      }).then(res => {
+        this.setData({
+          catalogueName: res.result.data[0].catalogueName,
+          catalogueDetail: res.result.data[0].catalogueDetail,
+          catalogueGroups: res.result.data[0].catalogueGroups
+        });
+      }).catch(err => {
+        console.error(err)
+      })
+    }
   },
 
   //获取课程类目名称
@@ -69,14 +70,14 @@ Page({
     wx.cloud.callFunction({
       name: "catalogue",
       data: {
-        requestType: 'editCatalogueById',
+        requestType: 'saveCatalogue',
         id: this.data.id,
         catalogueName: this.data.catalogueName,
         catalogueDetail: this.data.catalogueDetail,
         catalogueGroups: this.data.catalogueGroups
       }
     }).then(res => {
-      wx.navigateTo({
+      wx.reLaunch({
         url: '../catalogueList/catalogueList',
         complete: (res) => {
           wx.showToast({
