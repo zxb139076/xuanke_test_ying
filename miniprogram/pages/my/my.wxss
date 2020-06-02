@@ -59,7 +59,7 @@
   display: flex;
 }
 
-.content view {
+.content .center {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -68,7 +68,14 @@
   margin: 10rpx;
 }
 
-.content view view {
+.content .center .doc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 175rpx;
+}
+
+.content .center .img {
   display: flex;
   align-items: center;
   justify-content: center;
