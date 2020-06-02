@@ -3,6 +3,7 @@ const app = getApp()
 Page({
   data: {
     avatarUrl: './user-unlogin.png',
+    nickName: '',
     userInfo: {},
     logged: false,
     myReserve: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/myReserve.png?sign=34828c33d8235586b62ac8e666eeead3&t=1591061409",
@@ -24,6 +25,7 @@ Page({
               success: res => {
                 this.setData({
                   avatarUrl: res.userInfo.avatarUrl,
+                  nickName: res.userInfo.nickName,
                   userInfo: res.userInfo,
                   logged: true
                 })

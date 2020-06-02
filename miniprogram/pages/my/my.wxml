@@ -3,7 +3,8 @@
 	<view class="userinfo">
 		<button bindtap="userlogin" class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></button>
 		<view class="userinfo-nickname-wrapper">
-			<text>点我登陆</text>
+			<text wx:if="logged">{{nickName}}</text>
+			<text wx:else>点我登陆</text>
 		</view>
 	</view>
 
@@ -11,36 +12,36 @@
 		<text>常用工具</text>
 	</view>
 
-	<view class="content" style="display:flex">
-		<view style="display:flex;flex-grow:1;flex-direction:column;height:80rpx;font-size:14px;margin:10rpx;" class="content_1" bindtap="showCourseReserve">
-			<view style="display: flex;align-items: center;justify-content: center;">
+	<view class="content" style="display:flex;">
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;" class="content_1" bindtap="showCourseReserve">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				<van-image width="20" height="20" src="{{myReserve}}" bind:click="" />
 			</view>
-			<view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				我的预定
 			</view>
 		</view>
-		<view style="display:flex;flex-grow:1;flex-direction:column;height:80rpx;font-size:14px;margin:10rpx;" class="content_2" bindtap="showCourseInfo">
-			<view style="display: flex;align-items: center;justify-content: center;">
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;" class="content_2" bindtap="showCourseInfo">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				<van-image width="20" height="20" src="{{info}}" bind:click="" />
 			</view>
-			<view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				关于选课
 			</view>
 		</view>
-		<view style="display:flex;flex-grow:1;flex-direction:column;height:80rpx;font-size:14px;margin:10rpx;" class="content_3" bindtap="showClientServices">
-			<view style="display: flex;align-items: center;justify-content: center;">
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;" class="content_3" bindtap="showClientServices">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				<van-image width="20" height="20" src="{{clientServices}}" bind:click="" />
 			</view>
-			<view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				我的客服
 			</view>
 		</view>
-		<view style="display:flex;flex-grow:1;flex-direction:column;height:80rpx;font-size:14px;margin:10rpx;" class="content_4" bindtap="showCoursePreview">
-			<view style="display: flex;align-items: center;justify-content: center;">
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;" class="content_4" bindtap="showCoursePreview">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				<van-image width="20" height="20" src="{{course}}" bind:click="" />
 			</view>
-			<view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				课程预览
 			</view>
 		</view>
@@ -51,36 +52,30 @@
 	</view>
 
 	<view class="content" style="display:flex;float:left;">
-		<view style="display:flex;flex-grow:1;flex-direction:column;height:80rpx;font-size:14px;margin:10rpx;" class="content_4" bindtap="showCatalogueManager">
-			<view style="display: flex;align-items: center;justify-content: center;">
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;float:left;" class="content_4" bindtap="showCatalogueManager">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				<van-image width="20" height="20" src="{{courseManager}}" />
 			</view>
-			<view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				课程管理
 			</view>
 		</view>
-		<view style="display:flex;flex-grow:1;flex-direction:column;height:80rpx;font-size:14px;margin:10rpx;" class="content_4" bindtap="showCourseArrange">
-			<view style="display: flex;align-items: center;justify-content: center;">
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;" class="content_4" bindtap="showCourseArrange">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				<van-image width="20" height="20" src="{{courseArrange}}" bind:click="" />
 			</view>
-			<view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx">
 				课程排课
 			</view>
 		</view>
-	</view>
-
-	<!-- 课程管理 -->
-	<view class="uploader">
-		<navigator url="../catalogueList/catalogueList" open-type="navigate" class="uploader-text">
-			<text>课程管理</text>
-		</navigator>
-	</view>
-
-	<!-- 排课管理 -->
-	<view class="uploader">
-		<navigator url="../courseArrange/courseArrange" open-type="navigate" class="uploader-text">
-			<text>课程排课</text>
-		</navigator>
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;" class="content_4" bindtap="showCourseArrange">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx"></view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx"></view>
+		</view>
+		<view style="display:flex;flex-grow:1;flex-direction:column;height:100rpx;font-size:14px;margin:10rpx;" class="content_4" bindtap="showCourseArrange">
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx"></view>
+			<view style="display: flex;align-items: center;justify-content: center;width: 175rpx"></view>
+		</view>
 	</view>
 
 </view>
