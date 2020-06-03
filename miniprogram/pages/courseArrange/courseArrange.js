@@ -1,3 +1,4 @@
+// pages/courseArrange/courseArrange.js
 import {
   formatDate
 } from '../util/util.js';
@@ -8,10 +9,10 @@ import {
 Page({
   data: {
     dataList: [],
-    resultList: null,
     index: 0,
     currentData: '',
     currentWeek: '',
+    resultList: null,
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
   },
 
@@ -19,8 +20,8 @@ Page({
   onReady: function () {
     var currentData = null;
     var currentWeek = null;
-    var time = formatDate(new Date()); // 得到当前时间节点
-    var dataSet = getDates(7, time);  // 得到当前时间节点往后推7天
+    var time = formatDate(new Date());
+    var dataSet = getDates(7, time);
     var index = -1;
     if (this.data.currentData == '') {
       currentData = dataSet[0].time;
@@ -109,7 +110,6 @@ Page({
     })
   },
 
-  // 显示课程排课详细信息
   showCourseArrangeDetail: function (event) {
     wx.navigateTo({
       url: '../courseArrangeDetail/courseArrangeDetail?id=' + event.currentTarget.dataset.id,
