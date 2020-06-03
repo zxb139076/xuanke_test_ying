@@ -11,10 +11,6 @@
   flex-direction: row;
 }
 
-.center {
-  background-color: rgb(177, 211, 236);
-}
-
 .right-content {
   float: left;
 }
