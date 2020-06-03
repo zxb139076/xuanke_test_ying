@@ -92,7 +92,7 @@ Page({
   // 显示添加课程排课页面
   showCourseArrangeAdd: function (event) {
     wx.navigateTo({
-      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek,
+      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek + "&id=0",
     })
   },
 

@@ -2,7 +2,7 @@ Page({
   data: {
     array: null,
     index: 0,
-    id: '',
+    id: '0',
     startTime: "19:00",
     endTime: "21:00",
     currentData: "",
@@ -47,56 +47,33 @@ Page({
       });
       return false;
     }
-    if (this.data.id == "") {
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'courseArrangeAdd',
-          courseName: this.data.courseName,
-          currentData: this.data.currentData,
-          currentWeek: this.data.currentWeek,
-          startTime: this.data.startTime,
-          endTime: this.data.endTime
-        }
-      }).then(res => {
-        wx.navigateTo({
-          url: '../courseArrange/courseArrange?currentData=' + this.data.currentData,
-          complete: (res) => {
-            wx.showToast({
-              title: '保存成功',
-            });
-          },
-        })
-      }).catch(err => {
-        console.error(err)
-      });
-    } else {
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'editCourseArrangeById',
-          id: this.data.id,
-          courseName: this.data.courseName,
-          startTime: this.data.startTime,
-          endTime: this.data.endTime
-        }
-      }).then(res => {
-        wx.navigateTo({
-          url: '../courseArrange/courseArrange?currentData=' + this.data.currentData,
-          complete: (res) => {
-            wx.showToast({
-              title: '保存成功',
-            });
-          },
-        })
-      }).catch(err => {
-        console.error(err)
-      });
-    }
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'saveCourseArrange',
+        id: this.data.id,
+        courseName: this.data.courseName,
+        currentData: this.data.currentData,
+        currentWeek: this.data.currentWeek,
+        startTime: this.data.startTime,
+        endTime: this.data.endTime
+      }
+    }).then(res => {
+      wx.navigateTo({
+        url: '../courseArrange/courseArrange?currentData=' + this.data.currentData,
+        complete: (res) => {
+          wx.showToast({
+            title: '保存成功',
+          });
+        },
+      })
+    }).catch(err => {
+      console.error(err)
+    });
   },
 
   onLoad: function (options) {
-    if (options.id && options.id != "") {
+    if (options.id != "0") {
       wx.cloud.callFunction({
         name: "courseArrange",
         data: {

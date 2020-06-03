@@ -7,17 +7,7 @@ const $ = db.command.aggregate;
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    if (event.requestType == 'courseArrangeAdd') { // 添加课程排课信息
-      return await db.collection('courseArrange').add({
-        data: {
-          courseName: event.courseName,
-          currentData: event.currentData,
-          currentWeek: event.currentWeek,
-          startTime: event.startTime,
-          endTime: event.endTime,
-        }
-      });
-    } else if (event.requestType == 'courseArrangeGetList') { // 获取课程排课列表
+    if (event.requestType == 'courseArrangeGetList') { // 获取课程排课列表
       return await db.collection("courseArrange").where({
         currentData: event.currentData
       }).get();
@@ -75,17 +65,7 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").where({
         _id: event.id
       }).get();
-    } else if (event.requestType == 'editCourseArrangeById') { // 保存课程排课信息
-      return await db.collection("courseArrange").where({
-        _id: event.id
-      }).update({
-        data: {
-          courseName: event.courseName,
-          startTime: event.startTime,
-          endTime: event.endTime
-        },
-      })
-    } else if (event.requestType == 'showCourseArrangeDetail') { // 
+    } else if (event.requestType == 'showCourseArrangeDetail') { // 显示课程排课详细信息
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         localField: '_id',
@@ -94,6 +74,28 @@ exports.main = async (event, context) => {
       }).match({
         _id: event.id
       }).end();
+    } else if (event.requestType == 'saveCourseArrange') {  // 保存课程排课信息
+      if (event.id != "0") {
+        return await db.collection("courseArrange").where({
+          _id: event.id
+        }).update({
+          data: {
+            courseName: event.courseName,
+            startTime: event.startTime,
+            endTime: event.endTime
+          },
+        })
+      } else {
+        return await db.collection('courseArrange').add({
+          data: {
+            courseName: event.courseName,
+            currentData: event.currentData,
+            currentWeek: event.currentWeek,
+            startTime: event.startTime,
+            endTime: event.endTime,
+          }
+        });
+      }
     }
   } catch (e) {
     console.error(e)

@@ -14,7 +14,7 @@ exports.main = async (event, context) => {
       }).get();
     } else if (event.requestType == 'saveCatalogue') { // 保存课程类目信息
       if (event.id != "0") {
-        return await db.collection("catalogue").where({
+        return await db.collection("catalogue").where({ // 保存课程类目信息 
           _id: event.id
         }).update({
           data: {
