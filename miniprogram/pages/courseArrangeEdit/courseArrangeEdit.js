@@ -1,7 +1,6 @@
 Page({
   data: {
     array: null,
-    index: 0,
     id: '0',
     startTime: "19:00",
     endTime: "21:00",
@@ -50,23 +49,41 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: 'saveCourseArrange',
         id: this.data.id,
-        courseName: this.data.courseName,
+        requestType: 'checkCourseArrangeByTime',
         currentData: this.data.currentData,
-        currentWeek: this.data.currentWeek,
         startTime: this.data.startTime,
         endTime: this.data.endTime
       }
     }).then(res => {
-      wx.navigateTo({
-        url: '../courseArrange/courseArrange?currentData=' + this.data.currentData,
-        complete: (res) => {
-          wx.showToast({
-            title: '保存成功',
-          });
-        },
-      })
+      if (res.result == null || res.result.list.length < 1) {
+        wx.cloud.callFunction({
+          name: "courseArrange",
+          data: {
+            requestType: 'saveCourseArrange',
+            id: this.data.id,
+            courseName: this.data.courseName,
+            currentData: this.data.currentData,
+            currentWeek: this.data.currentWeek,
+            startTime: this.data.startTime,
+            endTime: this.data.endTime
+          }
+        }).then(res => {
+          wx.navigateBack({
+            complete: (res) => {
+              wx.showToast({
+                title: '保存成功',
+              });
+            },
+          })
+        }).catch(err => {
+          console.error(err)
+        });
+      } else {
+        wx.showToast({
+          title: '该时段已有课程',
+        })
+      }
     }).catch(err => {
       console.error(err)
     });
@@ -108,12 +125,6 @@ Page({
       for (var i = 0; i < res.result.data.length; i++) {
         array[i] = res.result.data[i].courseName;
       }
-      if (this.data.courseName != "") {
-        array[array.length] = this.data.courseName;
-      }
-      this.setData({
-        index: array.length - 1
-      })
       this.setData({
         array: array
       });

@@ -11,56 +11,6 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").where({
         currentData: event.currentData
       }).get();
-    } else if (event.requestType == 'courseArrangeGetListByOrder') { //获取课程排课列表，并检查是否已经预约过
-      return await db.collection("courseArrange").aggregate().lookup({
-        from: 'courseReserve',
-        let: {
-          arrange_id: '$_id',
-        },
-        pipeline: $.pipeline()
-          .match(_.expr($.and([
-            $.eq(['$applyId', '$$arrange_id']),
-          ]))).match({
-            _openid: event.openid
-          })
-          .project({
-            _id: 0,
-            _openid: 1,
-            applyId: 1,
-            headimgurl: 1,
-            isFinished: 1,
-            nickName: 1,
-            updateTime: 1
-          })
-          .done(),
-        as: 'arrangeList'
-      }).match({
-        currentData: event.currentData
-      }).end();
-    } else if (event.requestType == 'getCountOfCourseArrange') {
-      return await db.collection("courseArrange").aggregate().lookup({
-        from: 'courseReserve',
-        let: {
-          arrange_id: '$_id',
-        },
-        pipeline: $.pipeline()
-          .match(_.expr($.and([
-            $.eq(['$applyId', '$$arrange_id']),
-          ])))
-          .project({
-            _id: 0,
-            _openid: 1,
-            applyId: 1,
-            headimgurl: 1,
-            isFinished: 1,
-            nickName: 1,
-            updateTime: 1
-          })
-          .done(),
-        as: 'arrangeList'
-      }).match({
-        currentData: event.currentData
-      }).end();
     } else if (event.requestType == 'getCourseArrangeById') { // 查询课程排课信息
       return await db.collection("courseArrange").where({
         _id: event.id
@@ -95,6 +45,95 @@ exports.main = async (event, context) => {
             endTime: event.endTime,
           }
         });
+      }
+    } else if (event.requestType == 'courseArrangeGetListByOrder') { //检查我当前有没有预约过该课程
+      return await db.collection("courseArrange").aggregate().lookup({
+        from: 'courseReserve',
+        let: {
+          arrange_id: '$_id',
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$applyId', '$$arrange_id']),
+          ]))).match({
+            _openid: event.openid
+          })
+          .project({
+            _id: 0,
+            _openid: 1,
+            applyId: 1,
+            headimgurl: 1,
+            isFinished: 1,
+            nickName: 1,
+            updateTime: 1
+          })
+          .done(),
+        as: 'arrangeList'
+      }).match({
+        currentData: event.currentData
+      }).end();
+    } else if (event.requestType == 'getCountOfCourseArrange') { // 获取当前选课的人数
+      return await db.collection("courseArrange").aggregate().lookup({
+        from: 'courseReserve',
+        let: {
+          arrange_id: '$_id',
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$applyId', '$$arrange_id']),
+          ])))
+          .project({
+            _id: 0,
+            _openid: 1,
+            applyId: 1,
+            headimgurl: 1,
+            isFinished: 1,
+            nickName: 1,
+            updateTime: 1
+          })
+          .done(),
+        as: 'arrangeList'
+      }).match({
+        currentData: event.currentData
+      }).end();
+    } else if (event.requestType == 'checkCourseArrangeByTime') { // 检查该日期该事件段是否有课程
+      if (event.id == "0") {
+        return await db.collection("courseArrange").aggregate().match({
+          currentData: event.currentData
+        }).match(_.expr(
+          $.or([
+            $.and([
+              $.gte(['$startTime', event.startTime]),
+              $.lte(['$startTime', event.endTime]),
+            ]),
+            $.or([
+              $.and([
+                $.lte(['$startTime', event.startTime]),
+                $.lte(['$endTime', event.startTime]),
+              ]),
+              $.and([
+                $.gte(['$startTime', event.endTIme]),
+                $.lte(['$endTime', event.endTime]),
+              ])
+            ])
+          ])
+          // $.and([
+          //   $.gte(['$startTime', event.startTime]),
+          //   $.lte(['$startTime', event.endTime]),
+          // ]),
+          // $.or([
+          // $.and([
+          //   $.lte(['$startTime', event.startTime]),
+          //   $.gte(['$endTime', event.startTime]),
+          // ]),
+          // $.or,
+          // $.and([
+          //   $.lte(['$endTime', event.endTime]),
+          //   $.gte(['$endTime', event.endTime]),
+          // ])])
+        )).end();
+      } else {
+        return;
       }
     }
   } catch (e) {

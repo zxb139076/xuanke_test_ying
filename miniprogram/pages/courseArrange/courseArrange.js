@@ -80,6 +80,31 @@ Page({
     })
   },
 
+  onShow: function () {
+    this.setData({
+      isLoad: false
+    });
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'courseArrangeGetList',
+        currentData: this.data.currentData
+      }
+    }).then(res => {
+      this.setData({
+        resultList: res.result.data,
+        isLoad: true
+      });
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+
   // 选择当前排课的日期(星期几)
   dataSelect: function (e) {
     var index = e.currentTarget.dataset.index;
@@ -99,7 +124,7 @@ Page({
   // 显示编辑课程排课页面
   showEditCourseArrange: function (event) {
     wx.navigateTo({
-      url: '../courseArrangeEdit/courseArrangeEdit?id=' + event.currentTarget.dataset.id,
+      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek + "&id=" + event.currentTarget.dataset.id,
     })
   },
 
