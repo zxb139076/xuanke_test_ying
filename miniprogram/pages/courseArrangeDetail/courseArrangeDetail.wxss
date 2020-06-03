@@ -34,12 +34,6 @@
   font-size: 14px;
 }
 
-.image-v {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .button-v {
   display: flex;
   align-items: center;

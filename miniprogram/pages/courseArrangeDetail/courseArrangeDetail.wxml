@@ -2,7 +2,7 @@
 <view class="list">
 	<van-row>
 		<van-col span="8">
-			<view class="image-v">
+			<view class="view_flex">
 				<van-image width="80px" height="90px" src="{{headImgUrl}}" />
 			</view>
 		</van-col>
@@ -22,7 +22,7 @@
 	<view class="list">
 		<van-row>
 			<van-col span="6">
-				<view class="image-v">
+				<view class="view_flex">
 					<van-image width="60px" height="60px" src="{{item.headimgurl}}" />
 				</view>
 			</van-col>
