@@ -2,15 +2,15 @@
 <view class="top">
 	排课信息编辑
 </view>
-<view class="section">
-	<view class="section__title">课程名称</view>
+<view class="section view_content">
+	<view>课程名称</view>
 	<view style="display:flex;height:30px;">
 		<view style="width:80%;height:30px;">
 			<view class="picker">
 				{{courseName || array[index]}}
 			</view>
 		</view>
-		<view class="select_text">
+		<view class="select_text view_flex">
 			<picker style="height:30px;" bindchange="bindCourseNameChange" value="{{index}}" range="{{array}}">
 				<text>选择</text>
 			</picker>
@@ -18,15 +18,15 @@
 	</view>
 </view>
 <view class="hr"></view>
-<view class="section">
-	<view class="section__title">课程开始时间</view>
+<view class="section view_content">
+	<view>课程开始时间</view>
 	<view style="display:flex;height:30px;">
 		<view style="width:80%;height:30px;">
 			<view class="picker">
 				{{startTime}}
 			</view>
 		</view>
-		<view class="select_text">
+		<view class="select_text view_flex">
 			<picker mode="time" value="{{startTime}}" start="09:00" end="21:00" bindchange="bindStartTimeChange">
 				<text>选择</text>
 			</picker>
@@ -34,15 +34,15 @@
 	</view>
 </view>
 <view class="hr"></view>
-<view class="section">
-	<view class="section__title">课程结束时间</view>
+<view class="section view_content">
+	<view>课程结束时间</view>
 	<view style="display:flex;height:30px;">
 		<view style="width:80%;height:30px;">
 			<view class="picker">
 				{{endTime}}
 			</view>
 		</view>
-		<view class="select_text">
+		<view class="select_text view_flex">
 			<picker mode="time" value="{{endTime}}" start="09:00" end="21:00" bindchange="bindEndTimeChange">
 				<text>选择</text>
 			</picker>
