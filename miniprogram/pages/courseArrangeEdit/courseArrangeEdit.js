@@ -46,6 +46,12 @@ Page({
       });
       return false;
     }
+    if ((this.data.startTime) > (this.data.endTime)) {
+      wx.showToast({
+        title: '开始大于结束',
+      })
+      return;
+    }
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {

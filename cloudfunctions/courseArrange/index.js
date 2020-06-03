@@ -117,20 +117,6 @@ exports.main = async (event, context) => {
               ])
             ])
           ])
-          // $.and([
-          //   $.gte(['$startTime', event.startTime]),
-          //   $.lte(['$startTime', event.endTime]),
-          // ]),
-          // $.or([
-          // $.and([
-          //   $.lte(['$startTime', event.startTime]),
-          //   $.gte(['$endTime', event.startTime]),
-          // ]),
-          // $.or,
-          // $.and([
-          //   $.lte(['$endTime', event.endTime]),
-          //   $.gte(['$endTime', event.endTime]),
-          // ])])
         )).end();
       } else {
         return;
