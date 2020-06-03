@@ -109,11 +109,11 @@ exports.main = async (event, context) => {
             $.or([
               $.and([
                 $.lte(['$startTime', event.startTime]),
-                $.lte(['$endTime', event.startTime]),
+                $.gte(['$endTime', event.startTime]),
               ]),
               $.and([
-                $.gte(['$startTime', event.endTIme]),
-                $.lte(['$endTime', event.endTime]),
+                $.lte(['$startTime', event.endTIme]),
+                $.gte(['$endTime', event.endTime]),
               ])
             ])
           ])
