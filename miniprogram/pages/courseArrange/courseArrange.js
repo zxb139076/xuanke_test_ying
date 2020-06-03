@@ -107,10 +107,34 @@ Page({
 
   // 选择当前排课的日期(星期几)
   dataSelect: function (e) {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    })
     var index = e.currentTarget.dataset.index;
     var currentData = this.data.dataList[index].time;
-    wx.redirectTo({
-      url: '../courseArrange/courseArrange?currentData=' + currentData,
+    var currentWeek = this.data.dataList[index].week;
+    this.setData({
+      currentData: currentData,
+      currentWeek: currentWeek,
+      index: index,
+      isLoad: false
+    })
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'courseArrangeGetList',
+        currentData: this.data.currentData,
+        isLoad: true
+      }
+    }).then(res => {
+      this.setData({
+        resultList: res.result.data,
+        isLoad: true
+      });
+    }).catch(err => {
+      console.error(err)
     })
   },
 

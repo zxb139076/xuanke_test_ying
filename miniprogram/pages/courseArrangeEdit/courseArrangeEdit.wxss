@@ -5,7 +5,6 @@
   align-items: left;
   justify-content: left;
   font-size: large;
-  margin: 5px 16px 16px 16px;
   font-weight: 900;
 }
 

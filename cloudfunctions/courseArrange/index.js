@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
       }).match({
         _id: event.id
       }).end();
-    } else if (event.requestType == 'saveCourseArrange') {  // 保存课程排课信息
+    } else if (event.requestType == 'saveCourseArrange') { // 保存课程排课信息
       if (event.id != "0") {
         return await db.collection("courseArrange").where({
           _id: event.id
@@ -119,7 +119,28 @@ exports.main = async (event, context) => {
           ])
         )).end();
       } else {
-        return;
+        return await db.collection("courseArrange").aggregate().match({
+          currentData: event.currentData
+        }).match(_.expr(
+          $.neq(['$_id', event.id])
+        )).match(_.expr(
+          $.or([
+            $.and([
+              $.gte(['$startTime', event.startTime]),
+              $.lte(['$startTime', event.endTime]),
+            ]),
+            $.or([
+              $.and([
+                $.lte(['$startTime', event.startTime]),
+                $.gte(['$endTime', event.startTime]),
+              ]),
+              $.and([
+                $.lte(['$startTime', event.endTIme]),
+                $.gte(['$endTime', event.endTime]),
+              ])
+            ])
+          ])
+        )).end();
       }
     }
   } catch (e) {

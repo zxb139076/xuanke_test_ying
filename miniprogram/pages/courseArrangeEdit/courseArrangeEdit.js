@@ -1,5 +1,6 @@
 Page({
   data: {
+    isLoad: false,
     array: null,
     id: '0',
     startTime: "19:00",
@@ -47,8 +48,9 @@ Page({
       return false;
     }
     if ((this.data.startTime) > (this.data.endTime)) {
-      wx.showToast({
-        title: '开始大于结束',
+      wx.showModal({
+        title: '开始时间大于结束时间',
+        showCancel: false,
       })
       return;
     }
@@ -62,7 +64,7 @@ Page({
         endTime: this.data.endTime
       }
     }).then(res => {
-      if (res.result == null || res.result.list.length < 1) {
+      if (res.result.list.length < 1) {
         wx.cloud.callFunction({
           name: "courseArrange",
           data: {
@@ -132,10 +134,12 @@ Page({
         array[i] = res.result.data[i].courseName;
       }
       this.setData({
-        array: array
+        array: array,
+        isLoad: true
       });
     }).catch(err => {
       console.error(err)
     })
   }
+
 })
