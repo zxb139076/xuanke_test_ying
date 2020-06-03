@@ -1,7 +1,7 @@
 var app = getApp()
 Page({
     data: {
-        hiddenmodalput: true,
+        isLoad: false,
         catalogueName: '',
         catalogueDetail: '',
         catalogueGroups: '',
@@ -12,6 +12,14 @@ Page({
         headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115",
     },
 
+    onReady: function () {
+        wx.showLoading({
+            title: '加载中',
+            icon: 'loading',
+            duration: 1000
+        })
+    },
+
     onLoad: function (options) {
         wx.cloud.callFunction({
             name: "catalogue",
@@ -20,7 +28,8 @@ Page({
             }
         }).then(res => {
             this.setData({
-                resultList: res.result.data
+                resultList: res.result.data,
+                isLoad: true
             });
         }).catch(err => {
             console.error(err)
@@ -35,7 +44,8 @@ Page({
             }
         }).then(res => {
             this.setData({
-                resultList: res.result.data
+                resultList: res.result.data,
+                isLoad: true
             });
         }).catch(err => {
             console.error(err)

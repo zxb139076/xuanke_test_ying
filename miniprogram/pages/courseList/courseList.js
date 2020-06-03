@@ -2,7 +2,7 @@
 var app = getApp()
 Page({
   data: {
-    hiddenmodalput: true,
+    isLoad: false,
     catalogueId: '',
     courseName: '',
     courseDetail: '',
@@ -11,6 +11,14 @@ Page({
     editImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/edit2.png?sign=ef6e1aba71848b80bc8a0ec3a5cf6938&t=1590133258",
     deleteImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/delete2.png?sign=1b5f6dc4dd932c7fe7aea760163a189f&t=1590133125",
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115",
+  },
+
+  onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    })
   },
 
   onLoad: function (options) {
@@ -25,7 +33,8 @@ Page({
       }
     }).then(res => {
       this.setData({
-        resultList: res.result.data
+        resultList: res.result.data,
+        isLoad: true
       });
     }).catch(err => {
       console.error(err)
@@ -41,7 +50,8 @@ Page({
       }
     }).then(res => {
       this.setData({
-        resultList: res.result.data
+        resultList: res.result.data,
+        isLoad: true
       });
     }).catch(err => {
       console.error(err)
