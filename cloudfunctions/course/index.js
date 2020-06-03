@@ -6,15 +6,9 @@ const _ = db.command;
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    if (event.requestType == 'courseAdd') { // 添加课程项目信息
-      return await db.collection('course').add({
-        data: {
-          catalogueId: event.catalogueId,
-          courseName: event.courseName,
-          courseDetail: event.courseDetail
-        }
-      });
-    } else if (event.requestType == 'courseGetList') { // 获取课程项目列表
+    if (event.requestType == 'courseGetAllList') { // 获取全部课程列表
+      return await db.collection("course").get();
+    } else if (event.requestType == 'courseGetList') { // 获取课程列表
       return await db.collection("course").where({
         catalogueId: event.catalogueId
       }).get();
@@ -22,17 +16,25 @@ exports.main = async (event, context) => {
       return await db.collection("course").where({
         _id: event.id
       }).get();
-    } else if (event.requestType == 'editCourseById') { // 保存课程项目信息
-      return await db.collection("course").where({
-        _id: event.id
-      }).update({
-        data: {
-          courseName: event.courseName,
-          courseDetail: event.courseDetail
-        },
-      })
-    } else if (event.requestType == 'courseGetAllList') {
-      return await db.collection("course").get();
+    } else if (event.requestType == 'saveCourse') { // 保存课程信息
+      if (event.id != "0") {
+        return await db.collection("course").where({
+          _id: event.id
+        }).update({
+          data: {
+            courseName: event.courseName,
+            courseDetail: event.courseDetail
+          },
+        })
+      } else {
+        return await db.collection('course').add({
+          data: {
+            catalogueId: event.catalogueId,
+            courseName: event.courseName,
+            courseDetail: event.courseDetail
+          }
+        });
+      }
     }
   } catch (e) {
     console.error(e)

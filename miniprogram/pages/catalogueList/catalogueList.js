@@ -11,7 +11,7 @@ Page({
         deleteImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/delete2.png?sign=1b5f6dc4dd932c7fe7aea760163a189f&t=1590133125",
         headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115",
     },
-    
+
     onLoad: function (options) {
         wx.cloud.callFunction({
             name: "catalogue",
@@ -26,7 +26,22 @@ Page({
             console.error(err)
         })
     },
-   
+
+    onShow: function () {
+        wx.cloud.callFunction({
+            name: "catalogue",
+            data: {
+                requestType: 'catalogueGetList'
+            }
+        }).then(res => {
+            this.setData({
+                resultList: res.result.data
+            });
+        }).catch(err => {
+            console.error(err)
+        })
+    },
+
     showEditCatalogue: function (event) {
         wx.navigateTo({
             url: '../catalogueEdit/catalogueEdit?id=' + event.currentTarget.dataset.id,

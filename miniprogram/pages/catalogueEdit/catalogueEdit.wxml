@@ -1,24 +1,24 @@
-<view class="top">
+<view class="top view_content">
 	课程类目编辑
 </view>
-<view class="section">
-	<view class="section__title">课程类目名称</view>
-	<view style="width:100%;height:20px;" class="EditContent">
-		<input type="text" value="{{catalogueName}}" bindblur="catalogueNameBlur"></input>
+<view>
+	<view class="view_content">课程类目名称</view>
+	<view style="width:100%;height:20px;" class="EditContent view_content">
+		<input type="text" value="{{catalogueName}}" placeholder="请输入课程类目名称：" bindblur="catalogueNameBlur"></input>
 	</view>
 </view>
 <view class="hr"></view>
-<view class="section">
-	<view class="section__title">课程类目描述</view>
-	<view style="width:100%;height:20px;" class="EditContent">
-		<input type="text" value="{{catalogueDetail}}" bindblur="catalogueDetailBlur"></input>
+<view>
+	<view class="view_content">课程类目描述</view>
+	<view style="width:100%;height:20px;" class="EditContent view_content">
+		<input type="text" value="{{catalogueDetail}}" placeholder="请输入课程类目描述：" bindblur="catalogueDetailBlur"></input>
 	</view>
 </view>
 <view class="hr"></view>
-<view class="section">
-	<view class="section__title">课程适合人群</view>
-	<view style="width:100%;height:20px;" class="EditContent">
-		<input type="text" value="{{catalogueGroups}}" bindblur="catalogueGroupsBlur"></input>
+<view>
+	<view class="view_content">课程适合人群</view>
+	<view style="width:100%;height:20px;" class="EditContent view_content">
+		<input type="text" value="{{catalogueGroups}}" placeholder="请输入课程适合人群：" bindblur="catalogueGroupsBlur"></input>
 	</view>
 </view>
 <view class="hr"></view>

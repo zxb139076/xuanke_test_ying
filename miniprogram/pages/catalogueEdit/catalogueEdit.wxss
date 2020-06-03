@@ -6,22 +6,7 @@
   align-items: left;
   justify-content: left;
   font-size: large;
-  margin: 5px 16px 16px 16px;
   font-weight: 900;
-}
-
-.section {
-  margin: 5px 16px 16px 16px;
-}
-
-.hr {
-  margin: 5px 16px 16px 16px;
-  height: 1px;
-  background-color: rgb(160, 165, 168);
-}
-
-.section__title {
-  font-size: 14px
 }
 
 .EditContent {

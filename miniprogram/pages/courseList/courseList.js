@@ -13,72 +13,6 @@ Page({
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115",
   },
 
-  //获取项目名称
-  courseNameInput: function (e) {
-    this.setData({
-      courseName: e.detail.value
-    })
-    console
-  },
-
-  //获取项目描述
-  courseDetailInput: function (e) {
-    this.setData({
-      courseDetail: e.detail.value
-    })
-  },
-
-  // 显示项目添加面板
-  modalinput: function () {
-    this.setData({
-      hiddenmodalput: !this.data.hiddenmodalput
-    })
-  },
-
-  //取消按钮 
-  cancel: function () {
-    this.setData({
-      hiddenmodalput: true
-    });
-  },
-
-  //确认 
-  confirm: function () {
-    if (this.data.courseName == '') {
-      wx.showToast({
-        title: '请填写课程名称',
-      });
-      return false;
-    }
-    if (this.data.courseDetail == '') {
-      wx.showToast({
-        title: '请填写课程描述',
-      });
-      return false;
-    }
-    wx.cloud.callFunction({
-      name: "course",
-      data: {
-        requestType: 'courseAdd',
-        catalogueId: this.data.catalogueId,
-        courseName: this.data.courseName,
-        courseDetail: this.data.courseDetail
-      }
-    }).then(res => {
-      this.setData({
-        hiddenmodalput: true,
-        courseName: '',
-        courseDetail: '',
-      });
-      this.courseList();
-      wx.showToast({
-        title: '新增课程成功',
-      });
-    }).catch(err => {
-      console.error(err)
-    });
-  },
-
   onLoad: function (options) {
     this.setData({
       catalogueId: options.id
@@ -98,7 +32,7 @@ Page({
     })
   },
 
-  courseList: function () {
+  onShow: function () {
     wx.cloud.callFunction({
       name: "course",
       data: {
@@ -116,7 +50,7 @@ Page({
 
   showEditCourse: function (event) {
     wx.navigateTo({
-      url: '../courseEdit/courseEdit?id=' + event.currentTarget.dataset.id,
+      url: '../courseEdit/courseEdit?id=' + event.currentTarget.dataset.id + "&catalogueId=" + this.data.catalogueId,
     })
   }
 })

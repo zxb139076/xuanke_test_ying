@@ -1,6 +1,6 @@
 Page({
   data: {
-    id: 0,
+    id: '0',
     catalogueName: '',
     catalogueDetail: '',
     catalogueGroups: '',
@@ -35,12 +35,14 @@ Page({
       catalogueName: e.detail.value
     })
   },
+
   //获取课程类目描述
   catalogueDetailBlur: function (e) {
     this.setData({
       catalogueDetail: e.detail.value
     })
   },
+
   //获取课程类目适合人群
   catalogueGroupsBlur: function (e) {
     this.setData({
@@ -77,8 +79,7 @@ Page({
         catalogueGroups: this.data.catalogueGroups
       }
     }).then(res => {
-      wx.reLaunch({
-        url: '../catalogueList/catalogueList',
+      wx.navigateBack({
         complete: (res) => {
           wx.showToast({
             title: '保存成功',
@@ -89,5 +90,4 @@ Page({
       console.error(err)
     });
   }
-
 })

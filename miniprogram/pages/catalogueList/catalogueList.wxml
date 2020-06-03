@@ -1,24 +1,24 @@
 <view class="catalogue-list">
 	<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-		<van-col span="18">
+		<van-col span="18" class="edit">
 			<!-- 项目展示 -->
 			<van-card desc="{{item.catalogueDetail}}" title="{{item.catalogueName}}" thumb="{{headImage}}" />
 		</van-col>
 		<!-- 添加 -->
 		<van-col span="2">
-			<view class="edit">
+			<view class="edit view_flex">
 				<van-image width="20" height="20" src="{{addImage}}" bind:click="showAddCourse" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 		<!-- 编辑 -->
 		<van-col span="2">
-			<view class="edit">
+			<view class="edit view_flex">
 				<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCatalogue" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 		<!-- 删除 -->
 		<van-col span="2">
-			<view class="edit">
+			<view class="edit view_flex">
 				<van-image width="20" height="20" src="{{deleteImage}}" bind:click="deleteCatalogue" data-id="{{item._id}}" />
 			</view>
 		</van-col>

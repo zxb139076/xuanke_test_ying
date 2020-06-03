@@ -167,3 +167,24 @@ page {
   font-size: large;
   background-color: rgb(177, 211, 236);
 }
+
+.hr {
+  margin: 5px 16px 16px 16px;
+  height: 1px;
+  background-color: rgb(160, 165, 168);
+}
+
+.view_content {
+  margin: 5px 16px 16px 16px;
+}
+
+.view_flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+view {
+  font-size: 14px;
+}
+

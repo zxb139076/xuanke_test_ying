@@ -1,4 +1,3 @@
-<!--miniprogram/pages/courseList/courseList.wxml-->
 <view class="catalogue-list">
 	<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 		<van-col span="20">
@@ -7,22 +6,18 @@
 		</van-col>
 		<!-- 编辑 -->
 		<van-col span="2">
-			<view class="edit">
+			<view class="edit view_flex">
 				<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCourse" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 		<!-- 删除 -->
 		<van-col span="2">
-			<view class="edit">
+			<view class="edit view_flex">
 				<van-image width="20" height="20" src="{{deleteImage}}" bind:click="deleteCourse" data-id="{{item._id}}" />
 			</view>
 		</van-col>
 	</van-row>
 </view>
-<view class="add" bindtap="modalinput">
+<view class="add" bindtap="showEditCourse" data-id="0">
 	<button>添加课程</button>
 </view>
-<modal id="modal" hidden="{{hiddenmodalput}}" title="课程信息" confirm - text="提交" cancel - text="取消" bindcancel="cancel" bindconfirm="confirm">
-	<input type='courseName' placeholder="课程名称：" auto - focus bindinput="courseNameInput" />
-	<input type='courseDetail' placeholder="课程描述：" auto - focus bindinput="courseDetailInput" />
-</modal>
