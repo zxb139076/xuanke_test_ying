@@ -1,4 +1,3 @@
-<!--pages/courseArrangeDetail/courseArrangeDetail.wxml-->
 <!--课程信息-->
 <view class="list">
 	<van-row>

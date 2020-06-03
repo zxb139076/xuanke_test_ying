@@ -1,4 +1,3 @@
-/* pages/courseArrangeDetail/courseArrangeDetail.wxss */
 .list {
   width: 90%;
   margin-left: 5%;
@@ -13,12 +12,6 @@
   margin-left: 10%;
   margin-bottom: 5px;
   font-size: 14px;
-}
-
-.hr {
-  margin: 5px 16px 5px 16px;
-  height: 1px;
-  background-color: rgb(160, 165, 168);
 }
 
 .bcc {

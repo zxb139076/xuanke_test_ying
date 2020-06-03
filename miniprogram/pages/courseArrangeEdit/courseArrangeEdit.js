@@ -48,9 +48,9 @@ Page({
       return false;
     }
     if ((this.data.startTime) > (this.data.endTime)) {
-      wx.showModal({
+      wx.showToast({
         title: '开始时间大于结束时间',
-        showCancel: false,
+        icon: 'none'
       })
       return;
     }
