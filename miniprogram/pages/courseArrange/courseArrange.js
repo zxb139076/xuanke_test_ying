@@ -1,4 +1,3 @@
-// pages/courseArrange/courseArrange.js
 import {
   formatDate
 } from '../util/util.js';
@@ -8,16 +7,38 @@ import {
 
 Page({
   data: {
+    isLoad: false,
     dataList: [],
+    resultList: null,
     index: 0,
     currentData: '',
     currentWeek: '',
-    resultList: null,
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
   },
 
-  // 页面准备渲染
   onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    })
+  },
+
+  onLoad: function (options) {
+    // 获取当前的时间，如果没有则不赋值
+    if (options.currentData != undefined) {
+      this.setData({
+        currentData: options.currentData,
+        currentWeek: options.currentWeek,
+        index: options.index
+      })
+    } else {
+      this.setData({
+        currentData: '',
+        currentWeek: '',
+        index: -1
+      })
+    }
     var currentData = null;
     var currentWeek = null;
     var time = formatDate(new Date());
@@ -37,62 +58,34 @@ Page({
       }
     }
     this.setData({
-      dataList: dataSet,
-      currentWeek: currentWeek,
       currentData: currentData,
-      index: index
+      currentWeek: currentWeek
     })
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: 'courseArrangeGetList',
-        currentData: this.data.currentData
+        currentData: this.data.currentData,
+        isLoad: true
       }
     }).then(res => {
       this.setData({
-        resultList: res.result.data
+        dataList: dataSet,
+        resultList: res.result.data,
+        index: index,
+        isLoad: true
       });
     }).catch(err => {
       console.error(err)
     })
-  },
-
-  onLoad: function (options) {
-    if (options.currentData != undefined) {
-      this.setData({
-        currentData: options.currentData,
-        currentWeek: options.currentWeek,
-        index: options.index
-      })
-    } else {
-      this.setData({
-        currentData: '',
-        currentWeek: '',
-        index: -1
-      })
-    }
   },
 
   // 选择当前排课的日期(星期几)
   dataSelect: function (e) {
     var index = e.currentTarget.dataset.index;
-    this.setData({
-      currentWeek: this.data.dataList[index].week,
-      currentData: this.data.dataList[index].time,
-      index: index
-    })
-    wx.cloud.callFunction({
-      name: "courseArrange",
-      data: {
-        requestType: 'courseArrangeGetList',
-        currentData: this.data.currentData
-      }
-    }).then(res => {
-      this.setData({
-        resultList: res.result.data
-      });
-    }).catch(err => {
-      console.error(err)
+    var currentData = this.data.dataList[index].time;
+    wx.redirectTo({
+      url: '../courseArrange/courseArrange?currentData=' + currentData,
     })
   },
 
@@ -110,6 +103,7 @@ Page({
     })
   },
 
+  // 显示课程排课详细信息
   showCourseArrangeDetail: function (event) {
     wx.navigateTo({
       url: '../courseArrangeDetail/courseArrangeDetail?id=' + event.currentTarget.dataset.id,

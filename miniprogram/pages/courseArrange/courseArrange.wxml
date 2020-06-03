@@ -8,6 +8,7 @@
 			<view wx:if="{{index != itemIdx}}">{{item.week}}</view>
 			<view wx:elif="{{index == itemIdx}}" style="background-color: rgb(177, 211, 236);">{{item.week}}</view>
 		</view>
+		<!-- 循环日期列表结束 -->
 	</view>
 	<view style="width:1%;height:1000px;background-color:rgb(177, 211, 236);">
 	</view>
@@ -15,20 +16,29 @@
 		<view style="flex-grow:1;display:flex;">
 			<view style="flex-grow:1;background-color:rgb(177, 211, 236);">当前排课日期：{{currentData}}</view>
 		</view>
-		<van-row style="height:30px;" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-			<van-col span="24">
-				<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}">
-					<view slot="footer" style="display:flex;float:right;">
-						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
-							编辑
-						</button>
-						<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showCourseArrangeDetail" data-id="{{item._id}}">
-							详情
-						</button>
-					</view>
-				</van-card>
-			</van-col>
-		</van-row>
+		<!-- 循环排课信息-->
+		<block wx:if="{{resultList.length>0}}">
+			<van-row style="height:30px;" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+				<van-col span="24">
+					<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}">
+						<view slot="footer" style="display:flex;float:right;">
+							<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
+								编辑
+							</button>
+							<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showCourseArrangeDetail" data-id="{{item._id}}">
+								详情
+							</button>
+						</view>
+					</van-card>
+				</van-col>
+			</van-row>
+		</block>
+		<block wx:elif="{{(resultList.length<1) && (isLoad)}}">
+			<view class="view_flex" style="width:100%;height:300px;">
+				当前时间还没有课程排课内容！
+			</view>
+		</block>
+		<!-- 循环排课信息结束 -->
 	</view>
 </view>
 <view class="add" bindtap="showCourseArrangeAdd" data-currentData="{{currentData}}" data-currentWeek="{{currentWeek}}">
