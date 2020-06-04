@@ -43,6 +43,7 @@ exports.main = async (event, context) => {
             currentWeek: event.currentWeek,
             startTime: event.startTime,
             endTime: event.endTime,
+            isFinished: false
           }
         });
       }

@@ -74,7 +74,7 @@ Page({
             currentData: this.data.currentData,
             currentWeek: this.data.currentWeek,
             startTime: this.data.startTime,
-            endTime: this.data.endTime
+            endTime: this.data.endTime,
           }
         }).then(res => {
           wx.navigateBack({

@@ -25,9 +25,9 @@
 			<view style="flex-grow:1;display:flex;justify-content:left;align-items:center;width:40%;">
 				<text>{{item.nickName}}</text>
 			</view>
-			<view style="flex-grow:1;display:flex;justify-content:left;align-items:center;width:30%;">
-				<text wx:if="{{item.isFinished == 0}}" style="font-weight:900;">未完成</text>
-				<text wx:elif="{{item.isFinished == 1}}" style="font-weight:900;">已完成</text>
+			<view style="flex-grow:1;display:flex;justify-content:right;align-items:center;width:30%;">
+				<view wx:if="{{item.isFinished == 0}}"><text style="font-weight:900;">未完成</text></view>
+				<view wx:elif="{{item.isFinished == 1}}"><text style="font-weight:900;">已完成</text></view>
 			</view>
 		</view>
 		<view class="hr"></view>
