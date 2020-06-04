@@ -7,7 +7,13 @@ const formatDate = date => {
   const minute = date.getMinutes()
   const second = date.getSeconds()
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
 
+// 得到时间格式09:00
+const formatTime = date => {
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  return [hour, minute].map(formatNumber).join(':')
 }
 
 function formatNumber(n) {
@@ -42,5 +48,6 @@ function dateLater(dates, later) {
 
 module.exports = {
   formatDate: formatDate,
-  getDates: getDates
+  getDates: getDates,
+  formatTime: formatTime
 }

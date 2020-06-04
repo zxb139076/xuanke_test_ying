@@ -43,7 +43,7 @@ exports.main = async (event, context) => {
             currentWeek: event.currentWeek,
             startTime: event.startTime,
             endTime: event.endTime,
-            isFinished: false
+            isFinished: 0
           }
         });
       }
@@ -143,7 +143,7 @@ exports.main = async (event, context) => {
           ])
         )).end();
       }
-    } else if (event.requestType == 'updateCourseArrangeFinished') { // 更新课程为完成状态
+    } else if (event.requestType == 'updateCourseArrangeFinished') { // 更新预定为完成状态
       return await db.collection("courseReserve").where({
         applyId: event.id
       }).update({
@@ -151,6 +151,20 @@ exports.main = async (event, context) => {
           isFinished: 1
         },
       });
+    } else if (event.requestType == 'updateCourseArrange') { // 更新课程为完成状态
+      return await db.collection("courseArrange").where({
+        _id: event.id
+      }).update({
+        data: {
+          isFinished: 1
+        },
+      });
+    } else if (event.requestType == 'checkCourseArrangeUpdateFinished') { // 检查课程更新完成状态
+      return await db.collection("courseArrange").aggregate().match({
+        _id: event.id
+      }).match(_.expr(
+        $.gte(['$endTime', event.currentTime])
+      )).end();
     }
   } catch (e) {
     console.error(e)
