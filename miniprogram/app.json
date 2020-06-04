@@ -10,6 +10,7 @@
     "pages/courseArrange/courseArrange",
     "pages/courseArrangeEdit/courseArrangeEdit",
     "pages/courseArrangeDetail/courseArrangeDetail",
+    "pages/courseArrangeConfirmFinished/courseArrangeConfirmFinished",
     "pages/my/my",
     "pages/login/login"
   ],

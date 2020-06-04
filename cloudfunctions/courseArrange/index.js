@@ -142,6 +142,14 @@ exports.main = async (event, context) => {
           ])
         )).end();
       }
+    } else if (event.requestType == 'updateCourseArrangeFinished') { // 更新课程为完成状态
+      return await db.collection("courseReserve").where({
+        applyId: event.id
+      }).update({
+        data: {
+          isFinished: 1
+        },
+      });
     }
   } catch (e) {
     console.error(e)
