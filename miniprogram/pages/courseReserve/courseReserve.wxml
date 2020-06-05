@@ -1,15 +1,14 @@
-<view class="top">
+<view class="top view_flex">
 	课程预约
 </view>
 <view class="main">
 	<view style="width:15%;height:800px;">
-		<view style="height:30px;" class="left-content" wx:for="{{dataList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx" bindtap="dataSelect" data-index="{{itemIdx}}">
+		<view style="height:30px;" class="view_flex" wx:for="{{dataList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx" bindtap="dataSelect" data-index="{{itemIdx}}">
 			<view wx:if="{{index != itemIdx}}">{{item.week}}</view>
 			<view wx:elif="{{index == itemIdx}}" style="background-color: rgb(177, 211, 236);">{{item.week}}</view>
 		</view>
 	</view>
-	<view class="center" style="width:1%;height:1000px;">
-	</view>
+	<view style="width:1%;height:1000px;background-color: rgb(177, 211, 236);"></view>
 	<view class="right-content" style="width:84%;height:800px;margin-left:10px;margin-top:3px">
 		<view style="flex-grow:1;display: flex;">
 			<view style="flex-grow:1;background-color:rgb(177, 211, 236);">当前预约日期：{{currentData}}</view>

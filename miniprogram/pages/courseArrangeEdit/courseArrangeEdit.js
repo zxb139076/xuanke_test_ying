@@ -10,19 +10,19 @@ Page({
     courseName: ""
   },
 
-  bindCourseNameChange: function (e) {
+  CourseNameChange: function (e) {
     this.setData({
       courseName: this.data.array[e.detail.value]
     })
   },
 
-  bindStartTimeChange: function (e) {
+  StartTimeChange: function (e) {
     this.setData({
       startTime: e.detail.value
     })
   },
 
-  bindEndTimeChange: function (e) {
+  EndTimeChange: function (e) {
     this.setData({
       endTime: e.detail.value
     })

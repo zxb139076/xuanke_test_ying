@@ -1,4 +1,3 @@
-// pages/courseArrange/courseArrange.js
 import {
   formatDate
 } from '../util/util.js';
@@ -35,7 +34,6 @@ Page({
         return false;
       } else {
         var lentgh = event.currentTarget.dataset.length;
-        console.log("当前预约人数:" + lentgh);
         if (lentgh >= 1) {
           wx.showToast({
             title: '当前预约已满',
@@ -116,6 +114,7 @@ Page({
     })
     wx.cloud.callFunction({
       name: "courseArrange",
+       //检查我当前有没有预约过该课程
       data: {
         requestType: 'courseArrangeGetListByOrder',
         currentData: this.data.currentData,
@@ -125,6 +124,7 @@ Page({
       this.setData({
         resultList: res.result.list
       });
+      // 获取当前预约的人数
       wx.cloud.callFunction({
         name: "courseArrange",
         data: {

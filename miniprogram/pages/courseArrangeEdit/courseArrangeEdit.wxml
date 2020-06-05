@@ -9,7 +9,7 @@
 				<view class="picker"> {{courseName}} </view>
 			</view>
 			<view class="select_text view_flex">
-				<picker style="height:30px;" bindchange="bindCourseNameChange" value="{{index}}" range="{{array}}">
+				<picker style="height:30px;" bindchange="CourseNameChange" value="{{index}}" range="{{array}}">
 					<text>选择</text>
 				</picker>
 			</view>
@@ -25,7 +25,7 @@
 				</view>
 			</view>
 			<view class="select_text view_flex">
-				<picker mode="time" value="{{startTime}}" start="00:00" end="23:59" bindchange="bindStartTimeChange">
+				<picker mode="time" value="{{startTime}}" start="00:00" end="23:59" bindchange="StartTimeChange">
 					<text>选择</text>
 				</picker>
 			</view>
@@ -41,7 +41,7 @@
 				</view>
 			</view>
 			<view class="select_text view_flex">
-				<picker mode="time" value="{{endTime}}" start="00:00" end="23:59" bindchange="bindEndTimeChange">
+				<picker mode="time" value="{{endTime}}" start="00:00" end="23:59" bindchange="EndTimeChange">
 					<text>选择</text>
 				</picker>
 			</view>

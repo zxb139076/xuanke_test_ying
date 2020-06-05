@@ -61,6 +61,7 @@ Page({
       currentData: currentData,
       currentWeek: currentWeek
     })
+    // 获取课程排课列表
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
