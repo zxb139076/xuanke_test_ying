@@ -165,6 +165,12 @@ exports.main = async (event, context) => {
       }).match(_.expr(
         $.gte(['$endTime', event.currentTime])
       )).end();
+    } else if (event.requestType == 'checkCourseReserveCancel') {// 检查当前课程是否可以取消预约
+      return await db.collection("courseArrange").aggregate().match({
+        _id: event.id
+      }).match(_.expr(
+        $.lte(['$endTime', event.currentTime]) // 判断结束是否小于当前时间，若是则课程不能取消预约
+      )).end();
     }
   } catch (e) {
     console.error(e)

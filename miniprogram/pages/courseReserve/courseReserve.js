@@ -229,6 +229,7 @@ Page({
     wx.navigateTo({
       url: '../courseReserveFinished/courseReserveFinished?id=' + event.currentTarget.dataset.id
     })
-  }
+  },
+
 
 })

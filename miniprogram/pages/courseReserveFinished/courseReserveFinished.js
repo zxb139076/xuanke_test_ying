@@ -1,8 +1,13 @@
+import {
+  formatTime
+} from '../util/util.js';
+
 Page({
   data: {
     id: "0",
     isLoad: false,
     courseInfo: '',
+    courseIsFinished: 0,
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
   },
 
@@ -15,18 +20,36 @@ Page({
   },
 
   onLoad: function (options) {
+    // 检查当前是否可以取消预约该课程
+    var currentTime = formatTime(new Date());
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: "getCourseArrangeById",
-        id: options.id
+        requestType: "checkCourseReserveCancel",
+        id: options.id,
+        currentTime: currentTime
       }
     }).then(res => {
-      this.setData({
-        courseInfo: res.result.data[0],
-        id: options.id,
-        isLoad: true
-      });
+      if (res.result.list.length > 0) {
+        this.setData({
+          courseIsFinished: 1
+        });
+      }
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: "getCourseArrangeById",
+          id: options.id
+        }
+      }).then(res => {
+        this.setData({
+          courseInfo: res.result.data[0],
+          id: options.id,
+          isLoad: true
+        });
+      }).catch(err => {
+        console.error(err)
+      })
     }).catch(err => {
       console.error(err)
     })
@@ -39,8 +62,10 @@ Page({
   },
 
   returnToList: function () {
-    wx.redirectTo({
-      url: '../courseReserve/courseReserve?currentData=' + this.data.courseInfo.currentData,
+    wx.navigateBack({
+      complete: (res) => {
+        console.log("返回课程预定界面成功")
+      },
     })
   }
 })
