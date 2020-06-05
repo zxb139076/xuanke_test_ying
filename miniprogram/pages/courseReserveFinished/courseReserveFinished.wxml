@@ -19,7 +19,7 @@
 					<text style="font-weight:900;">课程已完成</text>
 				</view>
 				<view wx:if="{{courseIsFinished < 1}}" style="flex-grow:1;display:flex;justify-content:left;align-items:center;">
-					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);float:left;" bindtap="returnToHome">
+					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);float:left;" bindtap="cancelCourseReserve">
 						取消预定
 					</button>
 				</view>

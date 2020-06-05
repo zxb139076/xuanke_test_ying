@@ -30,6 +30,7 @@ Page({
     })
   },
 
+  // 取消当前课程的预定
   cancelCourseReserve: function (event) {
     wx.cloud.callFunction({
       name: "courseReserve",
@@ -42,7 +43,8 @@ Page({
         url: '../myCourseReserveList/myCourseReserveList',
       })
       wx.showToast({
-        title: '删除成功',
+        title: '取消预定成功',
+        icon: 'none'
       });
     }).catch(err => {
       console.error(err)
