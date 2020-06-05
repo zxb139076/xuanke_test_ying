@@ -38,6 +38,7 @@ Page({
         })
         return false;
       } else {
+        // 检查当前预约人数是否已满
         var lentgh = event.currentTarget.dataset.length;
         if (lentgh >= 1) {
           wx.showToast({
@@ -71,6 +72,7 @@ Page({
                     title: '预约课程成功',
                     icon: 'none'
                   })
+                  // 完成课程预约并跳转页面
                   console.log('[数据库] [预约课程] 成功，记录 _id: ', res._id);
                   wx.navigateTo({
                     url: '../courseReserveFinished/courseReserveFinished?id=' + this.data.applyId
@@ -94,7 +96,6 @@ Page({
     });
   },
 
-  // 页面准备渲染
   onReady: function () {
     wx.showLoading({
       title: '加载中',
@@ -219,6 +220,14 @@ Page({
       })
     }).catch(err => {
       console.error(err)
+    })
+  },
+
+  // 跳转到预定详情页
+  showCourseReserveFinished: function(event) {
+    console.log(event);
+    wx.navigateTo({
+      url: '../courseReserveFinished/courseReserveFinished?id=' + event.currentTarget.dataset.id
     })
   }
 

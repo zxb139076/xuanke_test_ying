@@ -26,6 +26,9 @@
 							<button wx:elif="{{item.arrangeList.length > 0}}" disabled size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="confirmReserve" data-id="{{item._id}}">
 								已预约
 							</button>
+							<button  size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showCourseReserveFinished" data-id="{{item._id}}">
+								查看详情
+							</button>
 						</view>
 					</van-card>
 					<!--van-card 结束-->

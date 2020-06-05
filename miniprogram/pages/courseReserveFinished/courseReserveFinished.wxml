@@ -6,7 +6,11 @@
 		<view style="flex-grow:1;display:flex;flex-direction:column;">
 			<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;"><text>课程名称:{{courseInfo.courseName}}</text></view>
 			<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;">
-				<text>课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）</text></view>
+				<text>课程日期{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）</text>
+			</view>
+      <view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;">
+				<text>课程时间:{{courseInfo.startTime}}至{{courseInfo.endTime}}</text>
+			</view>
 			<view style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
 				<text style="font-weight:900;">取消预定</text>
 			</view>
