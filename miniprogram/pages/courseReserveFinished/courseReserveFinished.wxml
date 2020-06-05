@@ -12,13 +12,13 @@
 				<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;">
 					<text>课程时间:{{courseInfo.startTime}}至{{courseInfo.endTime}}</text>
 				</view>
-				<view wx:if="{{courseIsFinished > 0 && courseInfo.isFinished < 1}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
+				<view wx:if="{{courseIsFinished == '1' && courseInfo.isFinished < 1}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
 					<text style="font-weight:900;">课程待完成</text>
 				</view>
-				<view wx:if="{{courseIsFinished > 0 && courseInfo.isFinished > 0}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
+				<view wx:if="{{courseIsFinished == '1' && courseInfo.isFinished > 0}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
 					<text style="font-weight:900;">课程已完成</text>
 				</view>
-				<view wx:if="{{courseIsFinished < 1}}" style="flex-grow:1;display:flex;justify-content:left;align-items:center;">
+				<view wx:if="{{courseIsFinished == '0'}}" style="flex-grow:1;display:flex;justify-content:left;align-items:center;">
 					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);float:left;" bindtap="cancelCourseReserve">
 						取消预定
 					</button>

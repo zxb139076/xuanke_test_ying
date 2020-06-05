@@ -16,6 +16,13 @@ const formatTime = date => {
   return [hour, minute].map(formatNumber).join(':')
 }
 
+const formatCurrentDate = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return [year, month, day].map(formatNumber).join('-')
+}
+
 function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -49,5 +56,6 @@ function dateLater(dates, later) {
 module.exports = {
   formatDate: formatDate,
   getDates: getDates,
-  formatTime: formatTime
+  formatTime: formatTime,
+  formatCurrentDate:formatCurrentDate
 }
