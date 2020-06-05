@@ -55,12 +55,14 @@ Page({
     })
   },
 
+  // 返回首页
   returnToHome: function () {
     wx.switchTab({
       url: '../homePage/homePage',
     });
   },
 
+  // 返回预定课程界面
   returnToList: function () {
     wx.navigateBack({
       complete: (res) => {

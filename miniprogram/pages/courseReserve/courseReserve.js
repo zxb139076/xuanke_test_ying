@@ -225,7 +225,6 @@ Page({
 
   // 跳转到预定详情页
   showCourseReserveFinished: function(event) {
-    console.log(event);
     wx.navigateTo({
       url: '../courseReserveFinished/courseReserveFinished?id=' + event.currentTarget.dataset.id
     })
