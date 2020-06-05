@@ -1,6 +1,9 @@
 import {
   formatTime
 } from '../util/util.js';
+import {
+  formatCurrentDate
+} from '../util/util.js';
 
 Page({
   data: {
@@ -60,15 +63,17 @@ Page({
 
   confirmCourseArrange: function () {
     var currentTime = formatTime(new Date());
+    var currentData = formatCurrentDate(new Date());
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: "checkCourseArrangeUpdateFinished",
         currentTime: currentTime,
+        currentData: currentData,
         id: this.data.courseInfo._id
       }
     }).then(res => {
-      if (res.result.list.length < 1) {
+      if (res.result.list.length > 0) {
         // 更新课程为完成状态
         wx.cloud.callFunction({
           name: "courseArrange",

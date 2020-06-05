@@ -163,7 +163,13 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").aggregate().match({
         _id: event.id
       }).match(_.expr(
-        $.gte(['$endTime', event.currentTime])
+        $.or([
+          $.lt(['$currentData', event.currentData]),
+          $.and([
+            $.eq(['$currentData', event.currentData]),
+            $.lt(['$endTime', event.currentTime])
+          ])
+        ])
       )).end();
     } else if (event.requestType == 'checkCourseReserveCancel') {// 检查当前课程是否可以取消预约
       return await db.collection("courseArrange").aggregate().match({

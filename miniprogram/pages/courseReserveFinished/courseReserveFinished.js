@@ -51,7 +51,6 @@ Page({
           courseIsFinished: "1"
         });
       }
-      console.log("courseIsFinished:" + this.data.courseIsFinished);
       // 取得当前课程信息
       wx.cloud.callFunction({
         name: "courseArrange",
