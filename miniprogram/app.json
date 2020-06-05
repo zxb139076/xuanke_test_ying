@@ -11,6 +11,7 @@
     "pages/courseArrangeEdit/courseArrangeEdit",
     "pages/courseArrangeDetail/courseArrangeDetail",
     "pages/courseArrangeConfirmFinished/courseArrangeConfirmFinished",
+    "pages/courseReserveFinished/courseReserveFinished",
     "pages/my/my",
     "pages/login/login"
   ],

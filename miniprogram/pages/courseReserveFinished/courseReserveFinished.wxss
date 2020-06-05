@@ -1,0 +1,4 @@
+.list {
+  width: 700rpx;
+  margin: 16px;
+}

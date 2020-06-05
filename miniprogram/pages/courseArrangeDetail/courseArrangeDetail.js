@@ -69,6 +69,7 @@ Page({
       }
     }).then(res => {
       if (res.result.list.length < 1) {
+        // 更新课程为完成状态
         wx.cloud.callFunction({
           name: "courseArrange",
           data: {
@@ -76,6 +77,7 @@ Page({
             id: this.data.courseInfo._id
           }
         }).then(res => {
+          // 更新预定课程的人员为完成状态
           wx.cloud.callFunction({
             name: "courseArrange",
             data: {
