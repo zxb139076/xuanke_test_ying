@@ -175,6 +175,50 @@ Page({
     })
   },
 
+  onShow: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
+    // 获取我当前有没有预约过该课程
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'courseArrangeGetListByOrder',
+        currentData: this.data.currentData,
+        openid: app.globalData.openid
+      }
+    }).then(res => {
+      this.setData({
+        resultList: res.result.list
+      });
+      // 获取当前选课的人数
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: 'getCountOfCourseArrange',
+          currentData: this.data.currentData,
+        }
+      }).then(res => {
+        this.setData({
+          countList: res.result.list,
+          isLoad: true
+        });
+      }).catch(err => {
+        console.error(err)
+      })
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+
+  onHide: function () {
+    this.setData({
+      isLoad: false
+    });
+  },
+
   // 选择当前排课的日期(星期几)
   dataSelect: function (e) {
     wx.showLoading({
@@ -224,11 +268,10 @@ Page({
   },
 
   // 跳转到预定详情页
-  showCourseReserveFinished: function(event) {
+  showCourseReserveFinished: function (event) {
     wx.navigateTo({
       url: '../courseReserveFinished/courseReserveFinished?id=' + event.currentTarget.dataset.id
     })
   },
-
 
 })

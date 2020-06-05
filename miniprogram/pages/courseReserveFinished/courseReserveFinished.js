@@ -17,6 +17,15 @@ Page({
       title: '加载中',
       icon: 'loading',
       duration: 1000
+    });
+    wx.setNavigationBarTitle({
+      title: '课程预定详情页面',
+    })
+  },
+
+  onHide: function () {
+    this.setData({
+      isLoad: false
     })
   },
 
@@ -57,7 +66,6 @@ Page({
             openid: app.globalData.openid
           }
         }).then(res => {
-          console.log(res.result.data);
           this.setData({
             myReserveInfo: res.result.data[0],
             isLoad: true
@@ -73,30 +81,95 @@ Page({
     })
   },
 
-  onHide: function() {
-    this.setData({
-      isLoad: false;
+  onShow: function () {
+    // 检查当前是否可以取消预约该课程
+    var currentTime = formatTime(new Date());
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: "checkCourseReserveCancel",
+        id: this.data.id,
+        currentTime: currentTime
+      }
+    }).then(res => {
+      if (res.result.list.length > 0) {
+        this.setData({
+          courseIsFinished: 1
+        });
+      }
+      // 取得当前课程信息
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: "getCourseArrangeById",
+          id: this.data.id
+        }
+      }).then(res => {
+        this.setData({
+          courseInfo: res.result.data[0],
+          id: this.data.id,
+        });
+        // 获取我当前的预定信息
+        wx.cloud.callFunction({
+          name: "courseReserve",
+          data: {
+            requestType: "getMyCourseReserveById",
+            applyId: this.data.id,
+            openid: app.globalData.openid
+          }
+        }).then(res => {
+          this.setData({
+            myReserveInfo: res.result.data[0],
+            isLoad: true
+          });
+        }).catch(err => {
+          console.error(err)
+        })
+      }).catch(err => {
+        console.error(err)
+      })
+    }).catch(err => {
+      console.error(err)
     })
   },
 
   // 取消当前课程的预定
   cancelCourseReserve: function (event) {
-    console.log("当前要取消的预定信息ID:" + this.data.myReserveInfo._id);
+    // 检查当前是否可以取消预约该课程
+    var currentTime = formatTime(new Date());
     wx.cloud.callFunction({
-      name: "courseReserve",
+      name: "courseArrange",
       data: {
-        requestType: "deleteCourseReserveById",
-        id: this.data.myReserveInfo._id,
+        requestType: "checkCourseReserveCancel",
+        id: this.data.id,
+        currentTime: currentTime
       }
     }).then(res => {
-      wx.navigateBack({
-        complete: (res) => {
-          wx.showToast({
-            title: '取消预定成功',
-            icon: 'none'
-          });
-        },
-      })
+      if (res.result.list.length < 1) {
+        wx.cloud.callFunction({
+          name: "courseReserve",
+          data: {
+            requestType: "deleteCourseReserveById",
+            id: this.data.myReserveInfo._id,
+          }
+        }).then(res => {
+          wx.navigateBack({
+            complete: (res) => {
+              wx.showToast({
+                title: '取消预定成功',
+                icon: 'none'
+              });
+            },
+          })
+        }).catch(err => {
+          console.error(err)
+        })
+      } else {
+        wx.showToast({
+          title: '当前课程已经开始，不能取消',
+          icon: 'none'
+        })
+      }
     }).catch(err => {
       console.error(err)
     })

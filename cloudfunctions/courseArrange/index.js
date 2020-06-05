@@ -169,7 +169,7 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").aggregate().match({
         _id: event.id
       }).match(_.expr(
-        $.lte(['$endTime', event.currentTime]) // 判断结束是否小于当前时间，若是则课程不能取消预约
+        $.lte(['$startTime', event.currentTime]) // 判断结束是否小于当前时间，若是则课程不能取消预约
       )).end();
     }
   } catch (e) {
