@@ -122,12 +122,12 @@ Page({
       index: index,
       isLoad: false
     })
+    // 获取课程排课列表
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: 'courseArrangeGetList',
         currentData: this.data.currentData,
-        isLoad: true
       }
     }).then(res => {
       this.setData({

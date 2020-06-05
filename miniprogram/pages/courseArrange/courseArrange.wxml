@@ -16,10 +16,11 @@
 		<view style="flex-grow:1;display:flex;">
 			<view style="flex-grow:1;background-color:rgb(177, 211, 236);">当前排课日期：{{currentData}}</view>
 		</view>
-		<!-- 循环排课信息-->
+		<!-- 循环课程列表-->
 		<block wx:if="{{resultList.length>0}}">
 			<van-row style="height:30px;" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 				<van-col span="24">
+					<!--van-card-->
 					<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}">
 						<!--编辑信息-->
 						<view slot="footer" style="display:flex;float:right;">
@@ -31,12 +32,13 @@
 							</button>
 						</view>
 					</van-card>
+					<!--van-card 结束-->
 				</van-col>
 			</van-row>
 		</block>
 		<block wx:elif="{{(resultList.length<1) && (isLoad)}}">
 			<view class="view_flex" style="width:100%;height:300px;">
-				当前时间还没有课程排课内容！
+				当前时间还没有课程内容！
 			</view>
 		</block>
 		<!-- 循环排课信息结束 -->

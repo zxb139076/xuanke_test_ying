@@ -143,7 +143,7 @@ exports.main = async (event, context) => {
           ])
         )).end();
       }
-    } else if (event.requestType == 'updateCourseArrangeFinished') { // 更新预定为完成状态
+    } else if (event.requestType == 'updateCourseArrangeFinished') { // 更新预定人的课程为完成状态
       return await db.collection("courseReserve").where({
         applyId: event.id
       }).update({
@@ -159,7 +159,7 @@ exports.main = async (event, context) => {
           isFinished: 1
         },
       });
-    } else if (event.requestType == 'checkCourseArrangeUpdateFinished') { // 检查课程更新完成状态
+    } else if (event.requestType == 'checkCourseArrangeUpdateFinished') { // 检查课程是否可以更新为完成状态
       return await db.collection("courseArrange").aggregate().match({
         _id: event.id
       }).match(_.expr(

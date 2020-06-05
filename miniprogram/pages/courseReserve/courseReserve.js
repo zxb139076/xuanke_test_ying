@@ -7,6 +7,7 @@ import {
 const app = getApp();
 Page({
   data: {
+    isLoad: false,
     dataList: [],
     index: 0,
     currentData: '',
@@ -63,7 +64,7 @@ Page({
                   wx.showToast({
                     title: '预约课程成功',
                   })
-                  console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id);
+                  console.log('[数据库] [预约课程] 成功，记录 _id: ', res._id);
                   wx.redirectTo({
                     url: '../courseReserve/courseReserve?currentData=' + this.data.currentData
                   })
@@ -73,7 +74,7 @@ Page({
                     icon: 'none',
                     title: '预约课程失败'
                   })
-                  console.error('[数据库] [新增记录] 失败：', err)
+                  console.error('[数据库] [预约课程] 失败：', err)
                 }
               })
             },
@@ -88,6 +89,28 @@ Page({
 
   // 页面准备渲染
   onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    })
+  },
+
+  onLoad: function (options) {
+    // 获取当前的时间，如果没有则不赋值
+    if (options.currentData != undefined) {
+      this.setData({
+        currentData: options.currentData,
+        currentWeek: options.currentWeek,
+        index: options.index
+      })
+    } else {
+      this.setData({
+        currentData: '',
+        currentWeek: '',
+        index: -1
+      })
+    }
     var currentData = null;
     var currentWeek = null;
     var time = formatDate(new Date());
@@ -107,14 +130,12 @@ Page({
       }
     }
     this.setData({
-      dataList: dataSet,
       currentWeek: currentWeek,
       currentData: currentData,
-      index: index
     })
     wx.cloud.callFunction({
       name: "courseArrange",
-       //检查我当前有没有预约过该课程
+      //检查我当前有没有预约过该课程
       data: {
         requestType: 'courseArrangeGetListByOrder',
         currentData: this.data.currentData,
@@ -133,7 +154,10 @@ Page({
         }
       }).then(res => {
         this.setData({
-          countList: res.result.list
+          countList: res.result.list,
+          dataList: dataSet,
+          index: index,
+          isLoad: true
         });
       }).catch(err => {
         console.error(err)
@@ -143,28 +167,23 @@ Page({
     })
   },
 
-  onLoad: function (options) {
-    if (options.currentData != undefined) {
-      this.setData({
-        currentData: options.currentData,
-        currentWeek: options.currentWeek,
-        index: options.index
-      })
-    } else {
-      this.setData({
-        index: -1
-      })
-    }
-  },
-
   // 选择当前排课的日期(星期几)
   dataSelect: function (e) {
-    var index = e.currentTarget.dataset.index;
-    this.setData({
-      currentWeek: this.data.dataList[index].week,
-      currentData: this.data.dataList[index].time,
-      index: index
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
     })
+    var index = e.currentTarget.dataset.index;
+    var currentData = this.data.dataList[index].time;
+    var currentWeek = this.data.dataList[index].week;
+    this.setData({
+      currentWeek: currentWeek,
+      currentData: currentData,
+      index: index,
+      isLoad: false
+    })
+    // 获取我当前有没有预约过该课程
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
@@ -176,6 +195,7 @@ Page({
       this.setData({
         resultList: res.result.list
       });
+      // 获取当前选课的人数
       wx.cloud.callFunction({
         name: "courseArrange",
         data: {
@@ -184,7 +204,8 @@ Page({
         }
       }).then(res => {
         this.setData({
-          countList: res.result.list
+          countList: res.result.list,
+          isLoad: true
         });
       }).catch(err => {
         console.error(err)
