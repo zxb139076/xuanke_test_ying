@@ -4,6 +4,13 @@ import {
 import {
   getDates
 } from '../util/util.js';
+import {
+  formatTime
+} from '../util/util.js';
+import {
+  formatCurrentDate
+} from '../util/util.js';
+
 const app = getApp();
 Page({
   data: {
@@ -22,11 +29,26 @@ Page({
     this.setData({
       applyId: event.currentTarget.dataset.id
     });
+    currentTime = formatTime(new Date());
+    currentData = formatCurrentDate(new Date());
+    // 检查能否预定该课程
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      ddata: {
+        requestType: "checkCourseReserveCancel",
+        applyId: this.data.applyId,
+        openid: app.globalData.openid
+      }
+    }).then(res => {
+
+    }).catch(err => {
+      console.error(err)
+    });
     // 检查是否预约过课程
     wx.cloud.callFunction({
       name: "courseReserve",
       data: {
-        requestType: "checkCourseReserve",
+        requestType: "getMyCourseReserveById",
         applyId: this.data.applyId,
         openid: app.globalData.openid
       }
@@ -89,7 +111,6 @@ Page({
             },
           })
         }
-
       }
     }).catch(err => {
       console.error(err)

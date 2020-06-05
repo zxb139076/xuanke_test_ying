@@ -16,6 +16,7 @@ const formatTime = date => {
   return [hour, minute].map(formatNumber).join(':')
 }
 
+// 时间格式为2020-01-01
 const formatCurrentDate = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1

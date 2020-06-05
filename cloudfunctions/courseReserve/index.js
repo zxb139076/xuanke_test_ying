@@ -22,12 +22,7 @@ exports.main = async (event, context) => {
           console.log(res.data)
         }
       });
-    } else if (event.requestType == 'checkCourseReserve') { // 检查我是否已经预约该课程
-      return await db.collection("courseReserve").where({
-        applyId: event.applyId,
-        _openid: event.openid
-      }).get();
-    } else if (event.requestType == 'getMyCourseReserveById') {// 获取我当前时间的预定课程
+    } else if (event.requestType == 'getMyCourseReserveById') {// 获取用户是否有预约该课程
       return await db.collection("courseReserve").where({
         applyId: event.applyId,
         _openid: event.openid
