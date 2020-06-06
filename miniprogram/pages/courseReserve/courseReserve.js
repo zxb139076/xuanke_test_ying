@@ -1,12 +1,16 @@
+// 获得当前的时间点 2020-01-01 12:00:01
 import {
   formatDate
 } from '../util/util.js';
+// 获得近7天的日期列表
 import {
   getDates
 } from '../util/util.js';
+// 获得当前的时分秒
 import {
   formatTime
 } from '../util/util.js';
+// 获得当前日期
 import {
   formatCurrentDate
 } from '../util/util.js';
@@ -14,18 +18,19 @@ import {
 const app = getApp();
 Page({
   data: {
-    isLoad: false,
-    dataList: [],
-    index: 0,
-    currentData: '',
-    currentWeek: '',
-    resultList: null,
-    countList: null,
+    isLoad: false, // 页面是否加载完成
+    dataList: [], // 近七天的日期列表
+    index: 0, // 日期索引值
+    currentData: '', // 当前日期
+    currentWeek: '', // 当前星期数
+    resultList: null, // 课程列表
+    countList: null, // 课程预定人数列表
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
   },
 
   // 确认预约课程
   confirmReserve: function (event) {
+    // 设置当前的课程applyId
     this.setData({
       applyId: event.currentTarget.dataset.id
     });
@@ -53,19 +58,21 @@ Page({
             openid: app.globalData.openid
           }
         }).then(res => {
+          // 如果存在预约记录
           if (res.result.data.length > 0) {
             wx.showToast({
-              title: '你已预约过',
-            })
-            return false;
+              title: '你已预约过该课程',
+              icon: 'none'
+            });
           } else {
             // 检查当前预约人数是否已满
             var lentgh = event.currentTarget.dataset.length;
+            // 如果当前预约人数已存在1人
             if (lentgh >= 1) {
               wx.showToast({
-                title: '当前预约已满',
+                title: '当前预约人数已满5人',
+                icon: 'none'
               })
-              return false;
             } else {
               // 获取用户信息
               wx.getUserInfo({
@@ -75,7 +82,7 @@ Page({
                     headimgurl: res.userInfo.avatarUrl
                   })
                   const time = formatDate(new Date());
-                  const db = wx.cloud.database()
+                  const db = wx.cloud.database();
                   // 增加预约课程记录
                   db.collection('courseReserve').add({
                     data: {
@@ -97,31 +104,41 @@ Page({
                       console.log('[数据库] [预约课程] 成功，记录 _id: ', res._id);
                       wx.navigateTo({
                         url: '../courseReserveFinished/courseReserveFinished?id=' + this.data.applyId
-                      })
+                      });
                     },
                     fail: err => {
                       wx.showToast({
                         icon: 'none',
                         title: '预约课程失败'
-                      })
+                      });
                       console.error('[数据库] [预约课程] 失败：', err)
                     }
-                  })
+                  });
                 },
               })
             }
           }
         }).catch(err => {
-          console.error(err)
+          //confirmReserve方法 检查是否预约过该课程失败
+          console.error(err);
+          wx.showToast({
+            title: '预约课程失败，请重试！',
+            icon: 'none'
+          });
         });
       } else {
         wx.showToast({
-          title: '该课程已经开课，不能预约',
+          title: '课程已经开课，不能预约',
           icon: 'none'
-        })
+        });
       }
     }).catch(err => {
-      console.error(err)
+      //confirmReserve方法 检查该时段能否预定该课程失败
+      console.error(err);
+      wx.showToast({
+        title: '预约课程失败，请重试！',
+        icon: 'none'
+      });
     });
   },
 

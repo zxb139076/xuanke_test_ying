@@ -42,7 +42,8 @@ Page({
         currentData: currentData
       }
     }).then(res => {
-      if (res.result.list.length > 0) {// 如果该课程满足取消条件
+      // 如果该课程满足取消条件
+      if (res.result.list.length > 0) {
         this.setData({
           courseIsFinished: "0"
         });
@@ -51,7 +52,7 @@ Page({
           courseIsFinished: "1"
         });
       }
-      // 取得当前课程信息
+      // 取得当前预定的课程信息
       wx.cloud.callFunction({
         name: "courseArrange",
         data: {
@@ -63,7 +64,7 @@ Page({
           courseInfo: res.result.data[0],
           id: options.id,
         });
-        // 获取我当前的预定信息
+        // 获取课程预定信息
         wx.cloud.callFunction({
           name: "courseReserve",
           data: {
@@ -73,6 +74,7 @@ Page({
           }
         }).then(res => {
           this.setData({
+            // onLoad方法：取得课程预定信息失败
             myReserveInfo: res.result.data[0],
             isLoad: true
           });
@@ -80,9 +82,11 @@ Page({
           console.error(err)
         })
       }).catch(err => {
+        // onLoad方法：取得当前预定的课程信息失败
         console.error(err)
       })
     }).catch(err => {
+      // onLoad方法：检查是否可以取消预约课程失败
       console.error(err)
     })
   },
@@ -102,6 +106,7 @@ Page({
       }
     }).then(res => {
       if (res.result.list.length > 0) { // 如果该课程满足条件可以取消
+        // 取消当前课程的预约记录
         wx.cloud.callFunction({
           name: "courseReserve",
           data: {
@@ -119,15 +124,24 @@ Page({
           })
         }).catch(err => {
           console.error(err)
+          wx.showToast({
+            title: '当前课程已经开始，不能取消',
+            icon: 'none'
+          });
         })
       } else {
         wx.showToast({
           title: '当前课程已经开始，不能取消',
           icon: 'none'
-        })
+        });
       }
     }).catch(err => {
-      console.error(err)
+      //cancelCourseReserve方法，检查当前是否可以取消预约该课程失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试',
+        icon: 'none'
+      });
     })
   },
 

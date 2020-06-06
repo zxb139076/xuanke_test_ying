@@ -1,4 +1,4 @@
-//得到时间格式2018-10-02
+//得到时间格式2018-10-02 12:01:01
 const formatDate = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
