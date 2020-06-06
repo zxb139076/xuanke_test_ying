@@ -147,12 +147,15 @@ Page({
       title: '加载中',
       icon: 'loading',
       duration: 1000
-    })
+    });
+    wx.setNavigationBarTitle({
+      title: '课程预定',
+    });
   },
 
   onLoad: function (options) {
     // 获取当前的时间，如果没有则不赋值
-    if (options.currentData != undefined) {
+    if (this.nullToEmpty(options.currentData) != "") {
       this.setData({
         currentData: options.currentData,
         currentWeek: options.currentWeek,
@@ -165,7 +168,9 @@ Page({
         index: -1
       })
     }
+    // 获取当前的日期
     var currentData = null;
+    // 获取当前是星期几
     var currentWeek = null;
     var time = formatDate(new Date());
     var dataSet = getDates(7, time);
@@ -177,6 +182,7 @@ Page({
       currentData = this.data.currentData;
       currentWeek = this.data.currentWeek;
     }
+    // 获取当前的日期索引
     for (var i = 0; i < dataSet.length; i++) {
       if (currentData == dataSet[i].time) {
         index = i;
@@ -214,10 +220,18 @@ Page({
           isLoad: true
         });
       }).catch(err => {
-        console.error(err)
+        //onLoad方法，获取当前预约的人数失败
+        console.error(err);
+        wx.showToast({
+          title: '操作失败，请重试！',
+        });
       })
     }).catch(err => {
-      console.error(err)
+      //onLoad方法，获取课程列表失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试！',
+      });
     })
   },
 
@@ -252,10 +266,20 @@ Page({
           isLoad: true
         });
       }).catch(err => {
-        console.error(err)
+        // onShow方法 获取当前选课人数失败
+        console.error(err);
+        wx.showToast({
+          title: '操作失败，请重试！',
+          icon: 'none'
+        });
       })
     }).catch(err => {
-      console.error(err)
+      //onShow方法 获取课程列表失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试！',
+        icon: 'none'
+      });
     })
   },
 
@@ -272,8 +296,11 @@ Page({
       icon: 'loading',
       duration: 1000
     })
+    // 获取当前的索引值
     var index = e.currentTarget.dataset.index;
+    // 获取当前的日期
     var currentData = this.data.dataList[index].time;
+    // 获取当前是星期几
     var currentWeek = this.data.dataList[index].week;
     this.setData({
       currentWeek: currentWeek,
@@ -306,10 +333,20 @@ Page({
           isLoad: true
         });
       }).catch(err => {
-        console.error(err)
+        // daSelect方法，获取当前选课人数失败
+        console.error(err);
+        wx.showToast({
+          title: '操作失败，请重试！',
+          icon: 'none'
+        });
       })
     }).catch(err => {
-      console.error(err)
+      // dataSelect方法 获取课程列表失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试！',
+        icon: 'none'
+      });
     })
   },
 
@@ -319,5 +356,14 @@ Page({
       url: '../courseReserveFinished/courseReserveFinished?id=' + event.currentTarget.dataset.id
     })
   },
+
+  // 讲值为null或undefined的字段转换
+  nullToEmpty: function(value) {
+    if (value == undefined) {
+      return "";
+    } else if (value == null) {
+      return "";
+    } 
+  }
 
 })

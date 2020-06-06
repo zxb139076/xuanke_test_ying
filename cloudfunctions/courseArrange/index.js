@@ -1,11 +1,11 @@
-const cloud = require('wx-server-sdk');
-cloud.init();
-const db = cloud.database();
+import { init, database } from 'wx-server-sdk';
+init();
+const db = database();
 const _ = db.command;
 const $ = db.command.aggregate;
 
 // 云函数入口函数
-exports.main = async (event, context) => {
+export async function main(event, context) {
   try {
     if (event.requestType == 'courseArrangeGetList') { // 获取课程排课列表
       return await db.collection("courseArrange").where({
