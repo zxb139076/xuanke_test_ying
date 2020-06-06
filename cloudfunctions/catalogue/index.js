@@ -2,6 +2,7 @@ const cloud = require('wx-server-sdk');
 cloud.init();
 const db = cloud.database();
 const _ = db.command;
+const $ = db.command.aggregate;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -14,7 +15,7 @@ exports.main = async (event, context) => {
       }).get();
     } else if (event.requestType == 'saveCatalogue') { // 保存课程类目信息
       if (event.id != "0") {
-        return await db.collection("catalogue").where({ // 保存课程类目信息 
+        return await db.collection("catalogue").where({
           _id: event.id
         }).update({
           data: {
@@ -31,6 +32,18 @@ exports.main = async (event, context) => {
             catalogueGroups: event.catalogueGroups
           }
         });
+      }
+    } else if (event.requestType == "checkCatalogueIsExited") { // 检查课程类目信息是否存在
+      if (event.id != "0") {
+        return await db.collection("catalogue").aggregate().match(_.expr(
+            $.neq(['$_id', event.id]),      
+        )).match({
+          catalogueName: event.catalogueName
+        }).end();
+      } else {
+        return await db.collection("catalogue").aggregate().match({
+          catalogueName: event.catalogueName
+        }).end();
       }
     }
   } catch (e) {

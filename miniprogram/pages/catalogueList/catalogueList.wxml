@@ -8,7 +8,7 @@
 			<!-- 添加 -->
 			<van-col span="2">
 				<view class="edit view_flex">
-					<van-image width="20" height="20" src="{{addImage}}" bind:click="showAddCourse" data-id="{{item._id}}" />
+					<van-image width="20" height="20" src="{{addImage}}" bind:click="showCourseList" data-id="{{item._id}}" />
 				</view>
 			</van-col>
 			<!-- 编辑 -->
