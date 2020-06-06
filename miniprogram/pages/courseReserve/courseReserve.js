@@ -29,88 +29,96 @@ Page({
     this.setData({
       applyId: event.currentTarget.dataset.id
     });
-    currentTime = formatTime(new Date());
-    currentData = formatCurrentDate(new Date());
-    // 检查能否预定该课程
+    // 获取当前日期和时间
+    var currentTime = formatTime(new Date());
+    var currentData = formatCurrentDate(new Date());
+    // 检查该时段能否预定该课程
     wx.cloud.callFunction({
       name: "courseArrange",
-      ddata: {
-        requestType: "checkCourseReserveCancel",
-        applyId: this.data.applyId,
-        openid: app.globalData.openid
-      }
-    }).then(res => {
-
-    }).catch(err => {
-      console.error(err)
-    });
-    // 检查是否预约过课程
-    wx.cloud.callFunction({
-      name: "courseReserve",
       data: {
-        requestType: "getMyCourseReserveById",
-        applyId: this.data.applyId,
-        openid: app.globalData.openid
+        requestType: "checkCourseReserveConfirm",
+        currentData: currentData,
+        currentTime: currentTime,
+        applyId: this.data.applyId
       }
     }).then(res => {
-      var isReserve = res.result.data.length
-      if (isReserve > 0) {
-        wx.showToast({
-          title: '你已预约过',
-        })
-        return false;
-      } else {
-        // 检查当前预约人数是否已满
-        var lentgh = event.currentTarget.dataset.length;
-        if (lentgh >= 1) {
-          wx.showToast({
-            title: '当前预约已满',
-          })
-          return false;
-        } else {
-          // 获取用户信息
-          wx.getUserInfo({
-            complete: (res) => {
-              this.setData({
-                nickName: res.userInfo.nickName,
-                headimgurl: res.userInfo.avatarUrl
+      // 如果该课程可以预约
+      if (res.result.list.length > 0) {
+        // 检查是否预约过课程
+        wx.cloud.callFunction({
+          name: "courseReserve",
+          data: {
+            requestType: "getMyCourseReserveById",
+            applyId: this.data.applyId,
+            openid: app.globalData.openid
+          }
+        }).then(res => {
+          if (res.result.data.length > 0) {
+            wx.showToast({
+              title: '你已预约过',
+            })
+            return false;
+          } else {
+            // 检查当前预约人数是否已满
+            var lentgh = event.currentTarget.dataset.length;
+            if (lentgh >= 1) {
+              wx.showToast({
+                title: '当前预约已满',
               })
-              const time = formatDate(new Date());
-              const db = wx.cloud.database()
-              // 增加预约课程记录
-              db.collection('courseReserve').add({
-                data: {
-                  applyId: this.data.applyId,
-                  nickName: res.userInfo.nickName,
-                  headimgurl: res.userInfo.avatarUrl,
-                  updateTime: time,
-                  isFinished: 0
-                },
-                success: res => {
+              return false;
+            } else {
+              // 获取用户信息
+              wx.getUserInfo({
+                complete: (res) => {
                   this.setData({
-                    counterId: res._id
+                    nickName: res.userInfo.nickName,
+                    headimgurl: res.userInfo.avatarUrl
                   })
-                  wx.showToast({
-                    title: '预约课程成功',
-                    icon: 'none'
-                  })
-                  // 完成课程预约并跳转页面
-                  console.log('[数据库] [预约课程] 成功，记录 _id: ', res._id);
-                  wx.navigateTo({
-                    url: '../courseReserveFinished/courseReserveFinished?id=' + this.data.applyId
+                  const time = formatDate(new Date());
+                  const db = wx.cloud.database()
+                  // 增加预约课程记录
+                  db.collection('courseReserve').add({
+                    data: {
+                      applyId: this.data.applyId,
+                      nickName: res.userInfo.nickName,
+                      headimgurl: res.userInfo.avatarUrl,
+                      updateTime: time,
+                      isFinished: 0
+                    },
+                    success: res => {
+                      this.setData({
+                        counterId: res._id
+                      })
+                      wx.showToast({
+                        title: '预约课程成功',
+                        icon: 'none'
+                      })
+                      // 完成课程预约并跳转页面
+                      console.log('[数据库] [预约课程] 成功，记录 _id: ', res._id);
+                      wx.navigateTo({
+                        url: '../courseReserveFinished/courseReserveFinished?id=' + this.data.applyId
+                      })
+                    },
+                    fail: err => {
+                      wx.showToast({
+                        icon: 'none',
+                        title: '预约课程失败'
+                      })
+                      console.error('[数据库] [预约课程] 失败：', err)
+                    }
                   })
                 },
-                fail: err => {
-                  wx.showToast({
-                    icon: 'none',
-                    title: '预约课程失败'
-                  })
-                  console.error('[数据库] [预约课程] 失败：', err)
-                }
               })
-            },
-          })
-        }
+            }
+          }
+        }).catch(err => {
+          console.error(err)
+        });
+      } else {
+        wx.showToast({
+          title: '该课程已经开课，不能预约',
+          icon: 'none'
+        })
       }
     }).catch(err => {
       console.error(err)

@@ -183,6 +183,18 @@ exports.main = async (event, context) => {
           ])
         ])
       )).end();
+    } else if (event.requestType == 'checkCourseReserveConfirm') {// 检查当前是否可以预约该课程
+      return await db.collection("courseArrange").aggregate().match({
+        _id: event.id
+      }).match(_.expr(
+        $.or([
+          $.gt(['$currentData', event.currentData]),
+          $.and([
+            $.eq(['$currentData', event.currentData]),
+            $.gt(['$startTime', event.currentTime])
+          ])
+        ])
+      )).end();
     }
   } catch (e) {
     console.error(e)

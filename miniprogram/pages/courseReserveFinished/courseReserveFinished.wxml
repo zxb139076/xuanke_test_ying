@@ -20,7 +20,7 @@
 				</view>
 				<view wx:if="{{courseIsFinished == '0'}}" style="flex-grow:1;display:flex;justify-content:left;align-items:center;">
 					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);float:left;" bindtap="cancelCourseReserve">
-						取消预定
+						取消预约
 					</button>
 				</view>
 			</view>
