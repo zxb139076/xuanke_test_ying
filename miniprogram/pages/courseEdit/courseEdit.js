@@ -1,17 +1,19 @@
-// pages/catalogueEdit/catalogueEdit.js
 Page({
   data: {
-    id: '0',
-    catalogueId: '',
-    courseName: '',
-    courseDetail: '',
+    id: '0', //课程id
+    catalogueId: '', //课程类目id
+    courseName: '', //课程名称
+    courseDetail: '', //课程详情
   },
 
   onLoad: function (options) {
+    //如果课程id不为0
     if (options.id != "0") {
+      //保存课程id
       this.setData({
         id: options.id
       });
+      //获取课程信息
       wx.cloud.callFunction({
         name: "course",
         data: {
@@ -27,7 +29,7 @@ Page({
       }).catch(err => {
         console.error(err)
       })
-    } else {
+    } else { //如果课程id存在
       this.setData({
         catalogueId: options.catalogueId
       });
@@ -54,6 +56,7 @@ Page({
     })
   },
 
+  // 保存课程信息
   saveEditCourse: function () {
     if (this.data.courseName == '') {
       wx.showToast({
@@ -67,25 +70,58 @@ Page({
       });
       return false;
     }
+    //检查课程信息是否存在
+    console.log("课程id:" + this.data.id);
+    console.log("课程名称:" + this.data.courseName);
     wx.cloud.callFunction({
       name: "course",
       data: {
-        requestType: 'saveCourse',
+        requestType: "checkCourseIsExited",
         id: this.data.id,
-        catalogueId: this.data.catalogueId,
-        courseName: this.data.courseName,
-        courseDetail: this.data.courseDetail,
+        courseName: this.data.courseName
       }
     }).then(res => {
-      wx.navigateBack({
-        complete: (res) => {
+      // 如果课程名称没有重复
+      if (res.result.list < 1) {
+        //保存课程信息
+        wx.cloud.callFunction({
+          name: "course",
+          data: {
+            requestType: 'saveCourse',
+            id: this.data.id,
+            catalogueId: this.data.catalogueId,
+            courseName: this.data.courseName,
+            courseDetail: this.data.courseDetail,
+          }
+        }).then(res => {
+          wx.navigateBack({
+            complete: (res) => {
+              wx.showToast({
+                title: '保存成功',
+              });
+            },
+          })
+        }).catch(err => {
+          //saveEditCourse方法，保存课程信息失败
+          console.error(err);
           wx.showToast({
-            title: '保存成功',
+            title: '操作失败，请重试',
+            icon: 'none'
           });
-        },
-      })
+        });
+      } else { // 课程名称有重复
+        wx.showToast({
+          title: '课程名称已存在，请重试',
+          icon: 'none'
+        });
+      }
     }).catch(err => {
-      console.error(err)
+      //saveEditCourse方法，检查课程信息是否存在失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试',
+        icon: 'none'
+      });
     });
   },
 })

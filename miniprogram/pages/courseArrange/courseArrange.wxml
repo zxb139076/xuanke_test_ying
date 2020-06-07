@@ -21,7 +21,7 @@
 			<van-row style="height:30px;" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 				<van-col span="24">
 					<!--van-card-->
-					<van-card desc="{{item.startTime}}至{{item.endTime}}" title="{{item.courseName}}" thumb="{{headImage}}">
+					<van-card desc="{{item.startTime}}至{{item.endTime}}\n当前已预约人数:{{countList[itemIdx].arrangeList.length}}" title="{{item.courseName}}" thumb="{{headImage}}">
 						<!--编辑信息-->
 						<view slot="footer" style="display:flex;float:right;">
 							<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">

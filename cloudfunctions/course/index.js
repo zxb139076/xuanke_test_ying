@@ -2,6 +2,7 @@ const cloud = require('wx-server-sdk');
 cloud.init();
 const db = cloud.database();
 const _ = db.command;
+const $ = db.command.aggregate;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -34,6 +35,18 @@ exports.main = async (event, context) => {
             courseDetail: event.courseDetail
           }
         });
+      }
+    } else if (event.requestType == "checkCourseIsExited") { // 检查课程信息是否存在
+      if (event.id != "0") {
+        return await db.collection("course").aggregate().match(_.expr(
+          $.neq(['$_id', event.id]),
+        )).match({
+          course: event.courseName
+        }).end();
+      } else {
+        return await db.collection("course").aggregate().match({
+          courseName: event.courseName
+        }).end();
       }
     }
   } catch (e) {

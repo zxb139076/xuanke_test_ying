@@ -1,16 +1,18 @@
+// 获取当前时间点
 import {
   formatTime
 } from '../util/util.js';
+// 获取当前的日期
 import {
   formatCurrentDate
 } from '../util/util.js';
 
 Page({
   data: {
-    id: "0",
-    isLoad: false,
-    courseInfo: '',
-    resultList: null,
+    id: "0", //当前课程id
+    isLoad: false,//页面加载是否完成
+    courseInfo: '',//当前课程信息
+    resultList: null,//当前选课人的信息
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
   },
 
@@ -19,30 +21,41 @@ Page({
       title: '加载中',
       icon: 'loading',
       duration: 1000
-    })
+    });
+    wx.setNavigationBarTitle({
+      title: '课程排课详情',
+    });
   },
 
   onLoad: function (options) {
+    this.setData({
+      id: options.id
+    });
+    // 获取课程详情信息
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: "showCourseArrangeDetail",
-        id: options.id
+        id: this.data.id
       }
     }).then(res => {
       this.setData({
         resultList: res.result.list[0].courseReserveList,
         courseInfo: res.result.list[0],
-        isLoad: true,
-        id: options.id
+        isLoad: true
       });
     }).catch(err => {
-      console.error(err)
+      // onLoad方法，获取课程详情信息失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试！',
+      });
     })
   },
 
   onShow: function () {
     if (this.data.id != "0") {
+      // 获取课程详情信息
       wx.cloud.callFunction({
         name: "courseArrange",
         data: {
@@ -56,14 +69,21 @@ Page({
           isLoad: true
         });
       }).catch(err => {
-        console.error(err)
+        //onshow方法，获取课程详情信息
+        console.error(err);
+        wx.showToast({
+          title: '操作失败，请重试！',
+        });
       })
     }
   },
 
   confirmCourseArrange: function () {
+    // 获取当前时间
     var currentTime = formatTime(new Date());
+    // 获取当前日期
     var currentData = formatCurrentDate(new Date());
+    // 获取当前课程是否可以确认完成
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
@@ -110,10 +130,16 @@ Page({
         })
       }
     }).catch(err => {
-      console.error(err)
+      //confirmCourseArrange方法，获取当前课程能否确认完成
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试',
+        icon: 'none'
+      })
     })
   },
 
+  // 显示课程确认详情
   showConfirmDetail: function () {
     wx.navigateTo({
       url: '../courseArrangeConfirmFinished/courseArrangeConfirmFinished?id=' + this.data.id,

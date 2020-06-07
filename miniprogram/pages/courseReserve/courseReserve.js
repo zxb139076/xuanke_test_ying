@@ -22,7 +22,7 @@ Page({
     dataList: [], // 近七天的日期列表
     index: 0, // 日期索引值
     currentData: '', // 当前日期
-    currentWeek: '', // 当前星期数
+    currentWeek: '', // 当前星期几
     resultList: null, // 课程列表
     countList: null, // 课程预定人数列表
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
@@ -225,7 +225,7 @@ Page({
         wx.showToast({
           title: '操作失败，请重试！',
         });
-      })
+      });
     }).catch(err => {
       //onLoad方法，获取课程列表失败
       console.error(err);
@@ -272,7 +272,7 @@ Page({
           title: '操作失败，请重试！',
           icon: 'none'
         });
-      })
+      });
     }).catch(err => {
       //onShow方法 获取课程列表失败
       console.error(err);
@@ -280,7 +280,7 @@ Page({
         title: '操作失败，请重试！',
         icon: 'none'
       });
-    })
+    });
   },
 
   onHide: function () {
@@ -339,7 +339,7 @@ Page({
           title: '操作失败，请重试！',
           icon: 'none'
         });
-      })
+      });
     }).catch(err => {
       // dataSelect方法 获取课程列表失败
       console.error(err);
@@ -357,7 +357,7 @@ Page({
     })
   },
 
-  // 讲值为null或undefined的字段转换
+  // 将为null或undefined的字段转换
   nullToEmpty: function(value) {
     if (value == undefined) {
       return "";

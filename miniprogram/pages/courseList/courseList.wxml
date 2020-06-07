@@ -1,5 +1,5 @@
 <block wx:if="{{resultList.length > 0}}">
-	<view class="catalogue-list">
+	<view class="course-list">
 		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 			<van-col span="20">
 				<!-- 课程展示 -->
