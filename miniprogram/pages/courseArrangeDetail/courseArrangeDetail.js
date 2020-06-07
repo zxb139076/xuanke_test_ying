@@ -78,6 +78,7 @@ Page({
     }
   },
 
+  // 确认课程为完成状态
   confirmCourseArrange: function () {
     // 获取当前时间
     var currentTime = formatTime(new Date());
@@ -118,10 +119,20 @@ Page({
               url: '../courseArrangeConfirmFinished/courseArrangeConfirmFinished?id=' + this.data.id,
             })
           }).catch(err => {
-            console.error(err)
+             // confirmCourseArrange方法，课程预定人员更新为完成状态失败
+            console.error(err);
+            wx.showToast({
+              title: '操作失败，请重试',
+              icon: 'none'
+            });
           })
         }).catch(err => {
+          // confirmCourseArrange方法，课程更新为完成状态失败
           console.error(err)
+          wx.showToast({
+            title: '操作失败，请重试',
+            icon: 'none'
+          });
         })
       } else {
         wx.showToast({
@@ -135,7 +146,7 @@ Page({
       wx.showToast({
         title: '操作失败，请重试',
         icon: 'none'
-      })
+      });
     })
   },
 
