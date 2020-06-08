@@ -12,11 +12,11 @@ exports.main = async (event, context) => {
         $.or([
           $.and([
             $.eq(['$username', event.account]),
-            $.gt(['$password', event.password])
+            $.eq(['$password', event.password])
           ]),
           $.and([
-            $.eq(['$phoneNumber', event.account]),
-            $.gt(['$password', event.password])
+            $.eq(['$phone', event.account]),
+            $.eq(['$password', event.password])
           ])
         ])
       )).end();
