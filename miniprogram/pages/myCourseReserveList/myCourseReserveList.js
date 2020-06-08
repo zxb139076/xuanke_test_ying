@@ -46,22 +46,30 @@ Page({
     })
   },
 
+  getCourseId: function (event) {
+    // 获取当前选择的课程Id
+    this.setData({
+      courseId: event.currentTarget.dataset.id
+    });
+  },
+
   // 取消当前预定的课程
   cancelCourseReserve: function (event) {
     var currentTime = formatTime(new Date());
     var currentData = formatCurrentDate(new Date());
     // 检查当前时间点是否可以取消预约该课程
-    console.log("当前课程ID:" + event.currentTarget.dataset.courseId);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: "checkCourseReserveCancel",
-        id: event.currentTarget.dataset.courseId,
+        id: this.data.courseId,
         currentTime: currentTime,
         currentData: currentData
       }
     }).then(res => {
-      if (res.result.length > 0) {
+      // 如果该课程满足条件可以取消
+      if (res.result.list.length > 0) {
+        // 取消当前课程的预约记录
         wx.cloud.callFunction({
           name: "courseReserve",
           data: {
@@ -74,7 +82,7 @@ Page({
             icon: 'none'
           });
         }).catch(err => {
-          //cancelCourseReserve方法，取消当前预定的课程
+          //cancelCourseReserve方法，取消当前预定的课程失败
           console.error(err);
           wx.showToast({
             title: '操作失败，请重试',

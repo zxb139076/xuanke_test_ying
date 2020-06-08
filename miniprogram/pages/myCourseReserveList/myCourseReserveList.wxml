@@ -2,10 +2,9 @@
 	<view class="title">
 		<view>
 			<text>{{item.arrangeInfo[0].currentWeek}}</text>
-			<text>({{item.arrangeInfo[0].currentData}})</text>
+			<text>({{item.arrangeInfo[0].currentData}}\t</text>
+			<text>{{item.arrangeInfo[0].startTime}}至{{item.arrangeInfo[0].endTime}})</text>
 		</view>
-		<view wx:if ="{{item.arrangeInfo[0].isFinished == 0}}" class="bcc">课程未完成</view>
-		<view wx:else class="bcc">课程已完成</view>
 	</view>
 
 	<view class="hr"></view>
@@ -13,9 +12,14 @@
 	<view class="content">
 		<van-card desc="{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
 	</view>
-	<view style="display:flex;float:right;">
-		<button wx:if="{{item.arrangeInfo[0].isFinished == 0}}" size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="cancelCourseReserve" data-id="{{item._id}}" data-courseId="{{item.arrangeInfo[0]._id}}">
+	<view wx:if="{{item.arrangeInfo[0].isFinished == 0}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item.arrangeInfo[0]._id}}">
 			取消预定课程
+		</button>
+	</view>
+	<view wx:if="{{item.arrangeInfo[0].isFinished == 1}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
+			课程已完成
 		</button>
 	</view>
 </view>

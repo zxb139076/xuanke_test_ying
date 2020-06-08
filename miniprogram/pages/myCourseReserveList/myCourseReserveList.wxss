@@ -1,10 +1,8 @@
-/* miniprogram/pages/courseQuery/courseQuery.wxss */
 .list {
   width: 90%;
   margin-left: 5%;
   margin-top: 16px;
   margin-bottom: 16px;
-  background-color: white;
 }
 
 .title {
@@ -13,17 +11,4 @@
   margin-left: 10%;
   margin-bottom: 5px;
   font-size: 14px;
-}
-
-.bcc {
-  display: flex;
-  align-items: right;
-  justify-content: right;
-  padding-left: 30%;
-}
-
-.button {
-  border-width: 1px;
-  border-radius: 30px;
-  border-color: black;
 }
