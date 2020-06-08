@@ -1,0 +1,23 @@
+<view style="display:flex; flex-direction:column; height:800rpx;width:750rpx;">
+	<view style="display:flex; flex-grow:1;" class="view_flex">
+		<view style="flex:grow:1;" class="view_flex">
+			<text>账号：</text>
+		</view>
+		<view style="flex:grow:1;">
+			<input placeholder="用户名或手机号" type="text" bindblur="usernameBlur"></input>
+		</view>
+	</view>
+	<view class="hr"></view>
+	<view style="display:flex; flex-grow:1;" class="view_flex">
+		<view style="flex:grow:1;" class="view_flex">
+			<text>密码：</text>
+		</view>
+		<view style="flex:grow:1;">
+			<input placeholder="密码" type="password" bindblur="passwordBlur"></input>
+		</view>
+	</view>
+	<view class="hr"></view>
+  <view class="signin" style="display:flex; flex-direction:row; height:300rpx;width:750rpx;">
+      <button type="submit" catchtap="signin">登录</button>
+    </view>
+</view>

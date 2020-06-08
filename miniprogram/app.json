@@ -13,7 +13,8 @@
     "pages/courseArrangeConfirmFinished/courseArrangeConfirmFinished",
     "pages/courseReserveFinished/courseReserveFinished",
     "pages/my/my",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/login2/login2"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
