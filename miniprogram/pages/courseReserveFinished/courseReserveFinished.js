@@ -169,7 +169,7 @@ Page({
   // 返回首页
   returnToHome: function () {
     wx.switchTab({
-      url: '../homePage/homePage',
+      url: '../index/index',
     });
     console.log("返回首页成功")
   },

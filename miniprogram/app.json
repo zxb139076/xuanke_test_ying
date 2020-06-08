@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/homePage/homePage",
+    "pages/index/index",
     "pages/myCourseReserveList/myCourseReserveList",
     "pages/courseReserve/courseReserve",
     "pages/catalogueList/catalogueList",
@@ -32,7 +32,7 @@
       {
         "selectedIconPath": "images/2.png",
         "iconPath": "images/1.png",
-        "pagePath": "pages/homePage/homePage",
+        "pagePath": "pages/index/index",
         "text": "首页"
       },
       {

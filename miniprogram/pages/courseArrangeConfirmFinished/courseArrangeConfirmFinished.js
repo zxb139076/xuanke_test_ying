@@ -37,7 +37,7 @@ Page({
 
   returnToHome: function () {
     wx.switchTab({
-      url: '../homePage/homePage',
+      url: '../index/index',
     });
   },
 
