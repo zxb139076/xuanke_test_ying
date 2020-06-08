@@ -68,9 +68,9 @@ Page({
             // 检查当前预约人数是否已满
             var lentgh = event.currentTarget.dataset.length;
             // 如果当前预约人数已存在1人
-            if (lentgh >= 1) {
+            if (lentgh >= 4) {
               wx.showToast({
-                title: '当前预约人数已满5人',
+                title: '当前预约人数已满4人',
                 icon: 'none'
               })
             } else {
