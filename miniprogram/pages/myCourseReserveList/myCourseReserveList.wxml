@@ -6,9 +6,7 @@
 			<text>{{item.arrangeInfo[0].startTime}}至{{item.arrangeInfo[0].endTime}})</text>
 		</view>
 	</view>
-
 	<view class="hr"></view>
-
 	<view class="content">
 		<van-card desc="预定时间:{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
 	</view>

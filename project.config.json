@@ -113,6 +113,13 @@
 					"id": -1,
 					"name": "login2",
 					"pathName": "pages/login2/login2",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "login2",
+					"pathName": "pages/login2/login2",
 					"scene": null
 				}
 			]

@@ -40,13 +40,15 @@ Page({
     }).then(res => {
       //如果账号存在则跳转否则提示错误
       if (res.result.list.length > 0) {
-        wx.redirectTo({
+        // 将用户名保存在本地
+        wx.setStorageSync('username', this.data.account);
+        wx.switchTab({
           url: '../index/index',
         });
         wx.showToast({
           title: '登陆成功',
           icon: 'none'
-        })
+        });
       } else {
         wx.showToast({
           title: '用户名或密码不正确，请重试！',
