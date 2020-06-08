@@ -14,9 +14,21 @@ import {
 const app = getApp()
 Page({
   data: {
-    openid: '',
+    isLoad: false,// 页面是否加载完成
+    openid: '', //用户的openid
     resultList: null, // 获取我的预定课程列表
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
+  },
+
+  onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
+    wx.setNavigationBarTitle({
+      title: '预定列表',
+    });
   },
 
   onLoad: function (options) {

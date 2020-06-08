@@ -1,9 +1,21 @@
 Page({
   data: {
+    isLoad: false,
     id: '0', //课程id
     catalogueId: '', //课程类目id
     courseName: '', //课程名称
     courseDetail: '', //课程详情
+  },
+
+  onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
+    wx.setNavigationBarTitle({
+      title: '课程编辑',
+    });
   },
 
   onLoad: function (options) {
@@ -34,6 +46,9 @@ Page({
         catalogueId: options.catalogueId
       });
     }
+    this.setData({
+      isLoad: true
+    });
   },
 
   //获取课程名称

@@ -10,6 +10,17 @@ Page({
     courseName: ""
   },
 
+  onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
+    wx.setNavigationBarTitle({
+      title: '课程排课编辑',
+    });
+  },
+
   CourseNameChange: function (e) {
     this.setData({
       courseName: this.data.array[e.detail.value]

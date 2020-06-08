@@ -11,7 +11,10 @@ Page({
       title: '加载中',
       icon: 'loading',
       duration: 1000
-    })
+    });
+    wx.setNavigationBarTitle({
+      title: '课程排课确认详情',
+    });
   },
 
   onLoad: function (options) {

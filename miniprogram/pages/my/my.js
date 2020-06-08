@@ -14,6 +14,17 @@ Page({
     courseArrange: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/courseArrange.png?sign=37423aa41059e292f278a853a2d214d6&t=1591063734"
   },
 
+  onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
+    wx.setNavigationBarTitle({
+      title: '我的',
+    });
+  },
+
   onShow: function () {
     var value = wx.getStorageSync('login');
     if (value && value == '1') {

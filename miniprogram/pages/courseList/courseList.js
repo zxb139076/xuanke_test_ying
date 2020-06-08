@@ -16,7 +16,10 @@ Page({
       title: '加载中',
       icon: 'loading',
       duration: 1000
-    })
+    });
+    wx.setNavigationBarTitle({
+      title: '课程列表',
+    });
   },
 
   onLoad: function (options) {

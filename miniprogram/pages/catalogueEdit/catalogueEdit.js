@@ -6,6 +6,17 @@ Page({
     catalogueGroups: '',
   },
 
+  onReady: function () {
+    wx.showLoading({
+        title: '加载中',
+        icon: 'loading',
+        duration: 1000
+    });
+    wx.setNavigationBarTitle({
+        title: '课程类目编辑',
+      });
+},
+
   onLoad: function (options) {
     // 如果当前id不为空，则是编辑模式
     if (options.id != "0") {
