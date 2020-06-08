@@ -1,18 +1,20 @@
-<!--miniprogram/pages/courseQuery/courseQuery.wxml-->
 <view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 	<view class="title">
 		<view>
 			<text>{{item.arrangeInfo[0].currentWeek}}</text>
 			<text>({{item.arrangeInfo[0].currentData}})</text>
 		</view>
-		<view class="bcc">未完成</view>
+		<view wx:if ="{{item.arrangeInfo[0].isFinished == 0}}" class="bcc">课程未完成</view>
+		<view wx:else class="bcc">课程已完成</view>
 	</view>
+
 	<view class="hr"></view>
+
 	<view class="content">
 		<van-card desc="{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
 	</view>
 	<view style="display:flex;float:right;">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+		<button wx:if="{{item.arrangeInfo[0].isFinished == 0}}" size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="cancelCourseReserve" data-id="{{item._id}}" data-courseId="{{item.arrangeInfo[0]._id}}">
 			取消预定课程
 		</button>
 	</view>
