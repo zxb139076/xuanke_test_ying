@@ -1,0 +1,18 @@
+.title {
+  width: 750rpx;
+  height: 400rpx;
+  background-color: rgb(172, 241, 241);
+}
+
+.img {
+  width: 750rpx;
+  height: 400rpx;
+}
+
+.select {
+  margin-top: 100rpx;
+  width: 600rpx;
+  height: 100rpx;
+  background-image: url("https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/home/sky2.jpg?sign=b63eaff8219fd97b673a17b0e6636f7f&t=1591588224");
+  font-weight: 900;
+}

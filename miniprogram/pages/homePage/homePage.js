@@ -2,11 +2,20 @@ const app = getApp()
 
 Page({
   data: {
+    isLoad: false,
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     logged: false,
     takeSession: false,
     requestResult: ''
+  },
+
+  onReady: function () {
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
   },
 
   onLoad: function () {
@@ -17,6 +26,15 @@ Page({
       return
     }
     this.onGetOpenid();
+    this.setData({
+      isLoad: true,
+    });
+  },
+
+  showCourseReserve: function () {
+    wx.navigateTo({
+      url: '../courseReserve/courseReserve',
+    });
   },
 
 

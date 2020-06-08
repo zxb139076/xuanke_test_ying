@@ -1,4 +1,3 @@
-/* pages/login/login.wxss */
 .main {
   display: flex;
   flex-direction: column;
