@@ -1,66 +1,68 @@
-// pages/register/register.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    username: "",
+    password: "",
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  usernameBlur: function (e) {
+    this.setData({
+      account: e.detail.value
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  passwordBlur: function (e) {
+    this.setData({
+      password: e.detail.value
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  signin: function () {
+    if (this.data.account == "") {
+      wx.showToast({
+        title: '账号不能为空',
+        icon: 'none'
+      });
+    } else if (this.data.password == "") {
+      wx.showToast({
+        title: '密码不能为空',
+        icon: 'none'
+      });
+    }
+    console.log("账号：" + this.data.account + "密码：" + this.data.password);
+    // 验证账号和密码信息
+    wx.cloud.callFunction({
+      name: "users",
+      data: {
+        requestType: "checkSignIn",
+        account: this.data.account,
+        password: this.data.password
+      }
+    }).then(res => {
+      //如果账号存在则跳转否则提示错误
+      if (res.result.list.length > 0) {
+        // 将用户名保存在本地
+        wx.setStorageSync('username', this.data.account);
+        wx.switchTab({
+          url: '../index/index',
+        });
+        wx.showToast({
+          title: '登陆成功',
+          icon: 'none'
+        });
+      } else {
+        wx.showToast({
+          title: '用户名或密码不正确，请重试！',
+          icon: 'none'
+        });
+      }
+    }).catch(err => {
+      //signin方法，验证账号和密码失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试',
+        icon: 'none'
+      })
+    });
   }
+
 })

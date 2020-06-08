@@ -183,6 +183,12 @@ page {
   justify-content: center;
 }
 
+.view_flex_right {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
 view {
   font-size: 14px;
 }
