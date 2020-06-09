@@ -61,7 +61,13 @@ Page({
       });
     }
     console.log("账号：" + this.data.username + "真实姓名：" + this.data.realname + "密码：" + this.data.password + "电话号码：" + this.data.phone);
+    wx.cloud.callFunction({
 
+    }),then(res => {
+
+    }).catch(res => {
+      
+    })
   }
 
   //   // 注册用户信息
