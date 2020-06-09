@@ -1,8 +1,9 @@
 Page({
   data: {
+    id: "0",
     username: "",
     realname: "",
-    password: "",
+    password: "123456",
     phone: "",
   },
 
@@ -61,49 +62,54 @@ Page({
       });
     }
     console.log("账号：" + this.data.username + "真实姓名：" + this.data.realname + "密码：" + this.data.password + "电话号码：" + this.data.phone);
+    // 检查用户信息是否存在
     wx.cloud.callFunction({
-
-    }),then(res => {
-
+      name: 'users',
+      data: {
+        requestType: "checkAccountIsExisted",
+        id: "0",
+        username: this.data.username,
+        phone: this.data.phone
+      }
+    }).then(res => {
+      // 如果账号信息不存在，则可以添加用户信息
+      if (res.result.list.length < 1) {
+        wx.cloud.callFunction({
+          name: 'users',
+          data: {
+            requestType: 'registerAccount',
+            id: this.data.id,
+            username: this.data.username,
+            realname: this.data.realname,
+            password: this.data.password,
+            phone: this.data.phone
+          }
+        }).then(res => {
+          wx.showToast({
+            title: '注册用户成功！',
+            icon: 'none'
+          })
+        }).catch(res => {
+          // register方法，注册用户失败
+          wx.showToast({
+            title: '操作失败，请重试',
+            icon: 'none'
+          });
+        })
+      } else {
+        wx.showToast({
+          title: '账号信息已存在，请重试！',
+          icon: 'none'
+        })
+      }
     }).catch(res => {
-      
-    })
+      // register方法，验证注册信息失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试',
+        icon: 'none'
+      });
+    });
   }
-
-  //   // 注册用户信息
-  //   wx.cloud.callFunction({
-  //     name: "users",
-  //     data: {
-  //       requestType: "checkSignIn",
-  //       account: this.data.account,
-  //       password: this.data.password
-  //     }
-  //   }).then(res => {
-  //     //如果账号存在则跳转否则提示错误
-  //     if (res.result.list.length > 0) {
-  //       // 将用户名保存在本地
-  //       wx.setStorageSync('username', this.data.account);
-  //       wx.switchTab({
-  //         url: '../index/index',
-  //       });
-  //       wx.showToast({
-  //         title: '登陆成功',
-  //         icon: 'none'
-  //       });
-  //     } else {
-  //       wx.showToast({
-  //         title: '用户名或密码不正确，请重试！',
-  //         icon: 'none'
-  //       });
-  //     }
-  //   }).catch(err => {
-  //     //signin方法，验证账号和密码失败
-  //     console.error(err);
-  //     wx.showToast({
-  //       title: '操作失败，请重试',
-  //       icon: 'none'
-  //     })
-  //   });
-  // }
 
 })

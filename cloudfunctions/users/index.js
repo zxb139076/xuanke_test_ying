@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
           ])
         ])
       )).end();
-    } else if (event.requestType == 'register') { //注册用户信息
+    } else if (event.requestType == 'registerAccount') { //注册用户信息
       if (event.id != "0") {
         return await db.collection("users").where({
           _id: event.id
@@ -41,6 +41,32 @@ exports.main = async (event, context) => {
             phone: event.phone
           }
         });
+      }
+    } else if (event.requestType = 'checkAccountIsExisted') { // 检查用户信息是否存在
+      if (event.id != "0") {
+        return await db.collection("course").aggregate().match(_.expr(
+          $.neq(['$_id', event.id]),
+        )).match(_.expr(
+          $.or([
+            $.and([
+              $.eq(['$username', event.username])
+            ]),
+            $.and([
+              $.eq(['$phone', event.phone])
+            ])
+          ])
+        )).end();
+      } else {
+        return await db.collection("users").aggregate().match(_.expr(
+          $.or([
+            $.and([
+              $.eq(['$username', event.username])
+            ]),
+            $.and([
+              $.eq(['$phone', event.phone])
+            ])
+          ])
+        )).end();
       }
     }
   } catch (e) {
