@@ -36,6 +36,6 @@
 	</view>
 	<view class="hr"></view>
 	<view style="display:flex; flex-direction:row; height:300rpx; width:750rpx;" class="signin">
-		<button type="submit" bindtap="signin">添加用户</button>
+		<button type="submit" bindtap="register">添加用户</button>
 	</view>
 </view>
