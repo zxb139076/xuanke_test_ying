@@ -97,6 +97,13 @@ Page({
     })
   },
 
+  // 显示用户管理列表
+  showUserList: function () {
+    wx.navigateTo({
+      url: '../userList/userList',
+    })
+  },
+
   // 显示我预定的课程列表
   showCourseReserve: function() {
     wx.navigateTo({

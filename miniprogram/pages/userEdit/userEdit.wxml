@@ -1,0 +1,41 @@
+<view style="display:flex; flex-direction:column; height:800rpx;width:750rpx;">
+	<view style="display:flex; flex-grow:1;width:750rpx;" class="view_flex">
+		<view style="flex:grow:1;width:30%;" class="view_flex_right">
+			<text>用户名：</text>
+		</view>
+		<view style="flex:grow:1;">
+			<input placeholder="请填写用户名，如zhang_san" type="text" bindblur="usernameBlur" value="{{username}}"></input>
+		</view>
+	</view>
+	<view class="hr"></view>
+	<view style="display:flex; flex-grow:1;width:750rpx;" class="view_flex">
+		<view style="flex:grow:1;width:30%;" class="view_flex_right">
+			<text>真实姓名：</text>
+		</view>
+		<view style="flex:grow:1;">
+			<input placeholder="请填写用户真实姓名" type="text" bindblur="realnameBlur" value="{{realname}}"></input>
+		</view>
+	</view>
+	<view class="hr"></view>
+	<view style="display:flex; flex-grow:1;width:750rpx;" class="view_flex">
+		<view style="flex:grow:1;width:30%;" class="view_flex_right">
+			<text>密码：</text>
+		</view>
+		<view style="flex:grow:1;">
+			<input placeholder="密码" type="password" bindblur="passwordBlur" value="{{password}}" disabled></input>
+		</view>
+	</view>
+	<view class="hr"></view>
+	<view style="display:flex; flex-grow:1;width:750rpx;" class="view_flex">
+		<view style="flex:grow:1;width:30%;" class="view_flex_right">
+			<text>手机号：</text>
+		</view>
+		<view style="flex:grow:1;">
+			<input placeholder="用户名或手机号" type="text" bindblur="phoneBlur" value="{{phone}}"></input>
+		</view>
+	</view>
+	<view class="hr"></view>
+	<view style="display:flex; flex-direction:row; height:300rpx; width:750rpx;" class="signin">
+		<button type="submit" bindtap="register">提交</button>
+	</view>
+</view>

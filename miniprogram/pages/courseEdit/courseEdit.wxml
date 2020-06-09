@@ -1,22 +1,22 @@
 <block wx:if="{{isLoad}}">
-<view class="top view_content">
-	课程编辑
-</view>
-<view>
-	<view class="view_content">课程名称</view>
-	<view style="width:100%;height:20px;" class="EditContent view_content">
-		<input type="text" value="{{courseName}}" placeholder="请输入课程名称：" bindblur="courseNameBlur"></input>
+	<view class="top view_content">
+		课程编辑
 	</view>
-</view>
-<view class="hr"></view>
-<view>
-	<view class="view_content">课程描述</view>
-	<view style="width:100%;height:20px;" class="EditContent view_content">
-		<input type="text" value="{{courseDetail}}" placeholder="请输入课程描述：" bindblur="courseDetailBlur"></input>
+	<view>
+		<view class="view_content">课程名称</view>
+		<view style="width:100%;height:20px;" class="EditContent view_content">
+			<input type="text" value="{{courseName}}" placeholder="请输入课程名称：" bindblur="courseNameBlur"></input>
+		</view>
 	</view>
-</view>
-<view class="hr"></view>
-<view class="add" bindtap="saveEditCourse">
-	<button>提交</button>
-</view>
+	<view class="hr"></view>
+	<view>
+		<view class="view_content">课程描述</view>
+		<view style="width:100%;height:20px;" class="EditContent view_content">
+			<input type="text" value="{{courseDetail}}" placeholder="请输入课程描述：" bindblur="courseDetailBlur"></input>
+		</view>
+	</view>
+	<view class="hr"></view>
+	<view class="add" bindtap="saveEditCourse">
+		<button>提交</button>
+	</view>
 </block>

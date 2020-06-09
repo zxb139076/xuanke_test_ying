@@ -1,4 +1,3 @@
-// pages/courseAdd/courseAdd.js
 var app = getApp()
 Page({
   data: {

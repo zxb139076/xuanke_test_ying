@@ -42,7 +42,7 @@ exports.main = async (event, context) => {
           }
         });
       }
-    } else if (event.requestType = 'checkAccountIsExisted') { // 检查用户信息是否存在
+    } else if (event.requestType == 'checkAccountIsExisted') { // 检查用户信息是否存在
       if (event.id != "0") {
         return await db.collection("course").aggregate().match(_.expr(
           $.neq(['$_id', event.id]),
@@ -68,6 +68,8 @@ exports.main = async (event, context) => {
           ])
         )).end();
       }
+    } else if (event.requestType == 'usersGetList') { // 获取用户列表
+      return await db.collection("users").get();
     }
   } catch (e) {
     console.error(e)

@@ -1,0 +1,9 @@
+.edit {
+  height: 90px;
+  background-color: #FAFAFA;
+}
+
+.course-list {
+  margin-bottom: 60px;
+  line-height: 46px;
+}

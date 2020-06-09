@@ -1,0 +1,28 @@
+<block wx:if="{{resultList.length > 0}}">
+	<view class="course-list">
+		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+			<van-col span="20">
+				<!-- 课程展示 -->
+				<van-card desc="{{item.realname}}" title="{{item.username}}" thumb="{{headImage}}" />
+			</van-col>
+			<!-- 编辑 -->
+			<van-col span="2">
+				<view class="edit view_flex">
+					<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditCourse" data-id="{{item._id}}" />
+				</view>
+			</van-col>
+      <van-col span="2">
+				<view class="edit view_flex">
+				</view>
+			</van-col>
+		</van-row>
+	</view>
+</block>
+<block wx:elif="{{(resultList.length < 1) && (isLoad)}}">
+	<view class="view_flex" style="width:750rpx;height:1000rpx">
+		当前还没有用户！
+	</view>
+</block>
+<view class="add" bindtap="showAddUser" data-id="0">
+	<button>添加学生</button>
+</view>

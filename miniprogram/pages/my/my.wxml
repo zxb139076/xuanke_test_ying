@@ -62,15 +62,19 @@
 		</view>
 		<view class="center" bindtap="showCourseArrange">
 			<view class="img">
-				<van-image width="20" height="20" src="{{courseArrange}}" bind:click="" />
+				<van-image width="20" height="20" src="{{courseArrange}}" />
 			</view>
 			<view class="doc">
 				课程排课
 			</view>
 		</view>
-		<view class="center" bindtap="showCourseArrange">
-			<view class="img"></view>
-			<view class="doc"></view>
+		<view class="center" bindtap="showUserList">
+			<view class="img">
+				<van-image width="20" height="20" src="{{courseArrange}}" />
+			</view>
+			<view class="doc">
+				学生管理
+			</view>
 		</view>
 		<view class="center" bindtap="showCourseArrange">
 			<view class="img" style="width: 175rpx;"></view>
