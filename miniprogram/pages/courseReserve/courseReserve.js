@@ -98,7 +98,7 @@ Page({
                       wx.showToast({
                         title: '预约课程成功',
                         icon: 'none'
-                      })
+                      });
                       // 完成课程预约并跳转页面
                       console.log('[数据库] [预约课程] 成功，记录 _id: ', res._id);
                       wx.navigateTo({
