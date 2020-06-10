@@ -30,11 +30,9 @@ Page({
 
   // 确认预约课程
   confirmReserve: function (event) {
-    // 设置当前的课程applyId
     this.setData({
       applyId: event.currentTarget.dataset.id
     });
-    // 获取当前日期和时间
     var currentTime = formatTime(new Date());
     var currentData = formatCurrentDate(new Date());
     // 检查该时段能否预定该课程
@@ -67,13 +65,14 @@ Page({
           } else {
             // 检查当前预约人数是否已满
             var lentgh = event.currentTarget.dataset.length;
-            // 如果当前预约人数已存在1人
+            // 如果当前预约人数已存在4人
             if (lentgh >= 4) {
               wx.showToast({
                 title: '当前预约人数已满4人',
                 icon: 'none'
               })
             } else {
+              // 获取用户的账号信息
               // 获取用户信息
               wx.getUserInfo({
                 complete: (res) => {
