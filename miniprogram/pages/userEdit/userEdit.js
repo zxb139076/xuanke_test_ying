@@ -114,24 +114,28 @@ Page({
         title: '账号不能为空',
         icon: 'none'
       });
+      return false;
     }
     if (this.data.realname == "") {
       wx.showToast({
         title: '真实姓名不能为空',
         icon: 'none'
       });
+      return false;
     }
     if (this.data.password == "") {
       wx.showToast({
         title: '密码不能为空',
         icon: 'none'
       });
+      return false;
     }
     if (this.data.phone == "") {
       wx.showToast({
         title: '手机号不能为空',
         icon: 'none'
       });
+      return false;
     }
     console.log("账号：" + this.data.username + "真实姓名：" + this.data.realname + "密码：" + this.data.password + "电话号码：" + this.data.phone);
     // 检查用户信息是否存在
