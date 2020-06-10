@@ -3,21 +3,37 @@ const cloud = require('wx-server-sdk');
 cloud.init();
 const db = cloud.database();
 const _ = db.command;
+const $ = db.command.aggregate;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    if (event.requestType == 'showMyCourseReserveList') { // 获取我预定的课程列表,含课程信息
-      return await db.collection("courseReserve").aggregate().lookup({
-          from: 'courseArrange',
-          localField: 'applyId',
-          foreignField: '_id',
-          as: 'arrangeInfo'
+    if (event.requestType == 'showMyCourseReserveList') { // 取得我预定的课程列表信息，包含个人预定信息
+      return await db.collection("courseArrange").aggregate().lookup({
+          from: 'courseReserve',
+          let: {
+            arrange_id: '$_id', // 排课的ID
+          },
+          pipeline: $.pipeline()
+            .match(_.expr($.and([
+              $.eq(['$applyId', '$$arrange_id']), // 排课的ID对应选课表中相应的applyId
+            ]))).match({
+              _openid: event.openid
+            })
+            .project({
+              _id: 0,
+              _openid: 1,
+              applyId: 1,
+              headimgurl: 1,
+              isFinished: 1,
+              nickName: 1,
+              updateTime: 1
+            })
+            .done(),
+          as: 'reserveList'
         }).sort({
           currentData: -1,
-        })
-        .match({
-          _openid: event.openid
+          startTime: -1
         }).end();
     } else if (event.requestType == 'deleteCourseReserveById') { //取消我预定的课程
       return await db.collection("courseReserve").doc(event.id).remove({

@@ -1,5 +1,4 @@
-
-// 获得当前的时分
+// 获得当前的时钟分钟
 import {
   formatTime
 } from '../util/util.js';
@@ -11,7 +10,7 @@ import {
 const app = getApp()
 Page({
   data: {
-    isLoad: false,// 页面是否加载完成
+    isLoad: false, // 页面是否加载完成
     openid: '', //用户的openid
     resultList: null, // 获取我的预定课程列表
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495",
@@ -63,6 +62,7 @@ Page({
     })
   },
 
+  // 获取当前选择的课程ID
   getCourseId: function (event) {
     // 获取当前选择的课程Id
     this.setData({

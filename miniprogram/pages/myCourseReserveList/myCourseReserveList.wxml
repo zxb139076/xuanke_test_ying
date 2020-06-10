@@ -1,26 +1,26 @@
 <view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 	<view class="title">
 		<view>
-			<text>{{item.arrangeInfo[0].currentWeek}}</text>
-			<text>({{item.arrangeInfo[0].currentData}}\t</text>
-			<text>{{item.arrangeInfo[0].startTime}}至{{item.arrangeInfo[0].endTime}})</text>
+			<text>{{item.currentWeek}}</text>
+			<text>({{item.currentData}}\t</text>
+			<text>{{item.startTime}}至{{item.endTime}})</text>
 		</view>
 	</view>
 	<view class="hr"></view>
 	<view class="content">
-		<van-card desc="预定时间:{{item.updateTime}}" title="{{item.arrangeInfo[0].courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
+		<van-card desc="预定时间:{{item.reserveList[0].updateTime}}" title="{{item.courseName}}:{{item.reserveList[0].nickName}}" thumb="{{headImgUrl}}" />
 	</view>
-	<view wx:if="{{((currentData < item.arrangeInfo[0].currentData) || ((currentData == item.arrangeInfo[0].currentData) && (currentTime < item.arrangeInfo[0].startTime ))) && (item.arrangeInfo[0].isFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item.arrangeInfo[0]._id}}">
+	<view wx:if="{{((currentData < item.currentData) || ((currentData == item.currentData) && (currentTime < item.startTime ))) && (item.isFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item._id}}">
 			取消预定课程
 		</button>
 	</view>
-	<view wx:if="{{((currentData > item.arrangeInfo[0].currentData) || ((currentData == item.arrangeInfo[0].currentData) && (currentTime > item.arrangeInfo[0].startTime ))) && (item.arrangeInfo[0].isFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+	<view wx:if="{{((currentData > item.currentData) || ((currentData == item.currentData) && (currentTime > item.startTime ))) && (item.isFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
 		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
 			课程待完成
 		</button>
 	</view>
-	<view wx:if="{{(item.arrangeInfo[0].isFinished == 1)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+	<view wx:if="{{(item.isFinished == 1)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
 		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
 			课程已结束
 		</button>

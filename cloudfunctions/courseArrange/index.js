@@ -97,7 +97,7 @@ export async function main(event, context) {
       }).match({
         currentData: event.currentData
       }).end();
-    } else if (event.requestType == 'checkCourseArrangeByTime') { // 检查该日期该事件段是否有课程
+    } else if (event.requestType == 'checkCourseArrangeByTime') { // 检查该日期该时间段是否有课程
       if (event.id == "0") {
         return await db.collection("courseArrange").aggregate().match({
           currentData: event.currentData
