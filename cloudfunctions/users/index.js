@@ -44,7 +44,7 @@ exports.main = async (event, context) => {
       }
     } else if (event.requestType == 'checkAccountIsExisted') { // 检查用户信息是否存在
       if (event.id != "0") {
-        return await db.collection("course").aggregate().match(_.expr(
+        return await db.collection("users").aggregate().match(_.expr(
           $.neq(['$_id', event.id]),
         )).match(_.expr(
           $.or([
@@ -70,6 +70,10 @@ exports.main = async (event, context) => {
       }
     } else if (event.requestType == 'usersGetList') { // 获取用户列表
       return await db.collection("users").get();
+    } else if ( event.requestType == 'getUserById') {// 根据Id获取用户信息
+      return await db.collection("users").where({
+        _id: event.id
+      }).get();
     }
   } catch (e) {
     console.error(e)

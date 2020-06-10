@@ -127,6 +127,13 @@
 					"id": -1,
 					"name": "register",
 					"pathName": "pages/register/register",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "userList",
+					"pathName": "pages/userList/userList",
 					"scene": null
 				}
 			]

@@ -35,7 +35,7 @@
 		</view>
 	</view>
 	<view class="hr"></view>
-	<view style="display:flex; flex-direction:row; height:300rpx; width:750rpx;" class="signin">
-		<button type="submit" bindtap="register">提交</button>
+	<view class="add" bindtap="saveEditUser">
+		<button>提交</button>
 	</view>
 </view>

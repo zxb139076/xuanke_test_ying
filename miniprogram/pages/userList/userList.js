@@ -37,7 +37,35 @@ Page({
         title: '获取用户列表失败',
         icon: 'none'
       })
-    })
+    });
+  },
+
+  onShow: function () {
+    //获取用户列表信息
+    wx.cloud.callFunction({
+      name: "users",
+      data: {
+        requestType: 'usersGetList',
+      }
+    }).then(res => {
+      this.setData({
+        resultList: res.result.data,
+        isLoad: true
+      });
+    }).catch(err => {
+      //onLoad方法，获取用户列表失败
+      console.error(err);
+      wx.showToast({
+        title: '操作失败，请重试',
+        icon: 'none'
+      })
+    });
+  },
+
+  onHide: function () {
+    this.setData({
+      isLoad: false
+    });
   },
 
   // 显示编辑课程信息

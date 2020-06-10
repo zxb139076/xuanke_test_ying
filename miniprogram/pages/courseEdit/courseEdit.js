@@ -64,13 +64,6 @@ Page({
     })
   },
 
-  //清除课程名称
-  courseNameClear: function (e) {
-    this.setData({
-      courseName: ''
-    })
-  },
-
   // 保存课程信息
   saveEditCourse: function () {
     if (this.data.courseName == '') {

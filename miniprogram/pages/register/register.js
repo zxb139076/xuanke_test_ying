@@ -95,12 +95,12 @@ Page({
             title: '操作失败，请重试',
             icon: 'none'
           });
-        })
+        });
       } else {
         wx.showToast({
           title: '账号信息已存在，请重试！',
           icon: 'none'
-        })
+        });
       }
     }).catch(res => {
       // register方法，验证注册信息失败
