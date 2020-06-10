@@ -22,7 +22,7 @@
 			<text>密码：</text>
 		</view>
 		<view style="flex:grow:1;">
-			<input placeholder="密码" type="password" bindblur="passwordBlur" value="{{password}}" disabled></input>
+			<input placeholder="密码" type="password" bindblur="passwordBlur" value="{{password}}" ></input>
 		</view>
 	</view>
 	<view class="hr"></view>
