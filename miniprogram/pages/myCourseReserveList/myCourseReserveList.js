@@ -1,23 +1,22 @@
 
-// 获得当前的时分秒
+// 获得当前的时分
 import {
   formatTime
 } from '../util/util.js';
 // 获得当前的时间点 2020-01-01 12:00:01
 import {
-  formatDate
-} from '../util/util.js';
-// 获得当前日期
-import {
   formatCurrentDate
 } from '../util/util.js';
+// 获得当前日期
 const app = getApp()
 Page({
   data: {
     isLoad: false,// 页面是否加载完成
     openid: '', //用户的openid
     resultList: null, // 获取我的预定课程列表
-    headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
+    headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495",
+    currentData: "",
+    currentTime: ""
   },
 
   onReady: function () {
@@ -32,6 +31,12 @@ Page({
   },
 
   onLoad: function (options) {
+    var currentData = formatCurrentDate(new Date());
+    var currentTime = formatTime(new Date());
+    this.setData({
+      currentData: currentData,
+      currentTime: currentTime
+    })
     if (app.globalData.openid) {
       this.setData({
         openid: app.globalData.openid // 设置openid
