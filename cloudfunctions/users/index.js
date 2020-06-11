@@ -7,7 +7,7 @@ const $ = db.command.aggregate;
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    if (event.requestType == 'checkSignIn') { // 验证登陆信息
+    if (event.requestType == 'checkSignIn') { // 验证登陆信息，用户登录时使用
       return await db.collection("users").aggregate().match(_.expr(
         $.or([
           $.and([
@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
           ])
         ])
       )).end();
-    } else if (event.requestType == 'registerAccount') { //注册用户信息
+    } else if (event.requestType == 'registerAccount') { //注册用户信息，教师注册学生信息时使用
       if (event.id != "0") {
         return await db.collection("users").where({
           _id: event.id
@@ -42,7 +42,7 @@ exports.main = async (event, context) => {
           }
         });
       }
-    } else if (event.requestType == 'checkAccountIsExisted') { // 检查用户信息是否存在
+    } else if (event.requestType == 'checkAccountIsExisted') { // 检查用户信息是否存在，教师注册用户信息时用于检验
       if (event.id != "0") {
         return await db.collection("users").aggregate().match(_.expr(
           $.neq(['$_id', event.id]),
@@ -68,13 +68,13 @@ exports.main = async (event, context) => {
           ])
         )).end();
       }
-    } else if (event.requestType == 'usersGetList') { // 获取用户列表
+    } else if (event.requestType == 'usersGetList') { // 获取用户列表，教师获取学生列表时使用
       return await db.collection("users").get();
-    } else if (event.requestType == 'getUserById') {// 根据Id获取用户信息
+    } else if (event.requestType == 'getUserById') { // 根据Id获取用户信息，教师编辑用户信息时使用
       return await db.collection("users").where({
         _id: event.id
       }).get();
-    } else if (event.requestType == 'getUserINFO') {// 根据用户名或手机号获取用户信息
+    } else if (event.requestType == 'getUserINFO') { // 根据用户名或手机号获取用户信息
       return await db.collection("users").aggregate().match(_.expr(
         $.or([
           $.and([
@@ -85,6 +85,25 @@ exports.main = async (event, context) => {
           ])
         ])
       )).end();
+    } else if (event.requestType == 'updateOpenid') { // 更新用户账号绑定的openid，绑定用户的openid时使用
+      return await db.collection("users").where(_.expr(
+        $.or([
+          $.and([
+            $.eq(['$username', event.account])
+          ]),
+          $.and([
+            $.eq(['$phone', event.account])
+          ])
+        ])
+      )).update({
+        data: {
+          openid: event.openid
+        },
+      });
+    } else if (event.requestType == 'checkOpenidIsExisted') {
+      return await db.collection("users").where({
+        openid: event.openid
+      }).get();
     }
   } catch (e) {
     console.error(e)

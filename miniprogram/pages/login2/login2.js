@@ -17,10 +17,6 @@ Page({
     })
   },
 
-  onLoad: function(e) {
-    this.wxlogin();
-  },
-
   // 登陆
   signin: function () {
     if (this.data.account == "") {
@@ -44,26 +40,80 @@ Page({
         password: this.data.password
       }
     }).then(res => {
-      //如果账号存在
+      //如果账号密码存在
       if (res.result.list.length > 0) {
-        // 如果当前账号还没有绑定微信号
-        // 检查当前用户绑定的微信号
-        if (app.globalData.openid == res.result.list[0].openid) {
-          // 将用户名保存在本地
-          wx.setStorageSync('username', res.result.list[0].username);
-          wx.switchTab({
-            url: '../index/index',
+        this.setData({
+          username: res.result.list[0].username,
+          openid: res.result.list[0].openid
+        });
+        // 如果当前账号绑定了微信号openid
+        if (this.data.openid != "0") {
+          // 检查当前用户绑定的微信号
+          if (app.globalData.openid == this.data.openid) {
+            // 将用户名保存在本地
+            wx.setStorageSync('username', this.data.username);
+            wx.switchTab({
+              url: '../index/index',
+            });
+            wx.showToast({
+              title: '登陆成功',
+              icon: 'none'
+            });
+          } else {
+            // 用户已被其它账号绑定
+            wx.showToast({
+              title: '当前账号已被其它用户绑定',
+              icon: 'none'
+            })
+          }
+        } else { // 如果当前账号没有绑定openid
+          // 检查当前openid是否已绑定到了其他账号上
+          wx.cloud.callFunction({
+            name: "users",
+            data: {
+              requestType: "checkOpenidIsExisted",
+              openid: app.globalData.openid
+            }
+          }).then(res => {
+            if (res.result.data.length < 1) {
+              wx.cloud.callFunction({
+                name: "users",
+                data: {
+                  requestType: "updateOpenid",
+                  account: this.data.account,
+                  openid: app.globalData.openid
+                }
+              }).then(res => {
+                // 将用户名保存在本地
+                wx.setStorageSync('username', this.data.username);
+                wx.switchTab({
+                  url: '../index/index',
+                });
+                wx.showToast({
+                  title: '登陆成功',
+                  icon: 'none'
+                });
+              }).catch(err => {
+                // signin方法，更新账号信息出错
+                console.log(err);
+                wx.showToast({
+                  title: '操作失败，请重试',
+                  icon: 'none'
+                })
+              });
+            } else {
+              wx.showToast({
+                title: '当前微信已经绑定到了其它账号，请重试！',
+              });
+            }
+          }).catch(err => {
+            // signin方法, 检查当前openid是否已绑定到了其他账号上失败
+            console.log(err);
+            wx.showToast({
+              title: '操作失败，请重试！',
+              icon: 'none'
+            });
           });
-          wx.showToast({
-            title: '登陆成功',
-            icon: 'none'
-          });
-        } else {
-          // 用户已被其它账号绑定
-          wx.showToast({
-            title: '当前账号已被其它用户绑定',
-            icon: 'none'
-          })
         }
       } else {
         wx.showToast({
@@ -80,35 +130,5 @@ Page({
       })
     });
   },
-
-  // 没有备案的域名之前不能支持
-  /**wxlogin: function () {//获取用户的openID和sessionKey
-    var that = this;
-    wx.login({
-      //获取code 使用wx.login得到的登陆凭证，用于换取openid
-      success: (res) => {
-        wx.request({
-          method: "GET",
-          url: 'https://api.weixin.qq.com/sns/jscode2session',
-          data: {
-            code: res.code,
-            appId: "wxd5a17a7b7742e870",
-            appKey: "aad533b539cf4eda122f5d650b9ea329c",
-            js_code: res.code,
-            grant_type: "authorization_code"
-          },
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: (res) => {
-            console.log(res);
-            that.setData({
-              sessionKey: res.data.session_key
-            });
-          }
-        });
-      }
-    });
-  }**/
 
 })
