@@ -16,6 +16,7 @@ Page({
     })
   },
 
+  // 登陆
   signin: function () {
     if (this.data.account == "") {
       wx.showToast({
@@ -38,10 +39,10 @@ Page({
         password: this.data.password
       }
     }).then(res => {
-      //如果账号存在则跳转否则提示错误
+      //如果账号存在
       if (res.result.list.length > 0) {
         // 将用户名保存在本地
-        wx.setStorageSync('username', this.data.account);
+        wx.setStorageSync('username', res.result.list[0].username);
         wx.switchTab({
           url: '../index/index',
         });

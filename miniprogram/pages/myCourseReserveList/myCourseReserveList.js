@@ -30,6 +30,7 @@ Page({
   },
 
   onLoad: function (options) {
+    // 获取用户账号信息
     var currentData = formatCurrentDate(new Date());
     var currentTime = formatTime(new Date());
     this.setData({

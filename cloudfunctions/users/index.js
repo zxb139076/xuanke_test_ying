@@ -70,10 +70,21 @@ exports.main = async (event, context) => {
       }
     } else if (event.requestType == 'usersGetList') { // 获取用户列表
       return await db.collection("users").get();
-    } else if ( event.requestType == 'getUserById') {// 根据Id获取用户信息
+    } else if (event.requestType == 'getUserById') {// 根据Id获取用户信息
       return await db.collection("users").where({
         _id: event.id
       }).get();
+    } else if (event.requestType == 'getUserINFO') {// 根据用户名或手机号获取用户信息
+      return await db.collection("users").aggregate().match(_.expr(
+        $.or([
+          $.and([
+            $.eq(['$username', event.account]),
+          ]),
+          $.and([
+            $.eq(['$phone', event.account]),
+          ])
+        ])
+      )).end();
     }
   } catch (e) {
     console.error(e)
