@@ -86,8 +86,6 @@ Page({
       currentData: currentData,
     });
     // 获取当前时间的课程列表
-    console.log("当前用户:" + this.data.username);
-    console.log("当前用户:" + this.data.currentData);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {

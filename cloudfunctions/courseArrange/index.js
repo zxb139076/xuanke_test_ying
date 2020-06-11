@@ -6,17 +6,17 @@ const _ = db.command;
 const $ = db.command.aggregate;
 
 // 云函数入口函数
-export async function main(event, context) {
+exports.main = async (event, context) => {
   try {
-    if (event.requestType == 'courseArrangeGetList') { // 获取课程排课列表
+    if (event.requestType == 'courseArrangeGetList') { // 获取当前日期的课程排课列表，教师在课程排课列表界面使用
       return await db.collection("courseArrange").where({
         currentData: event.currentData
       }).get();
-    } else if (event.requestType == 'getCourseArrangeById') { // 查询课程排课信息
+    } else if (event.requestType == 'getCourseArrangeById') { // 查询课程排课信息，教师在课程排课编辑界面使用
       return await db.collection("courseArrange").where({
         _id: event.id
       }).get();
-    } else if (event.requestType == 'showCourseArrangeDetail') { // 显示课程排课详细信息
+    } else if (event.requestType == 'showCourseArrangeDetail') { // 显示课程排课详细信息，教师在课程排课详情界面使用
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         localField: '_id',
@@ -25,7 +25,7 @@ export async function main(event, context) {
       }).match({
         _id: event.id
       }).end();
-    } else if (event.requestType == 'saveCourseArrange') { // 保存课程排课信息
+    } else if (event.requestType == 'saveCourseArrange') { // 保存课程排课信息，教师在排课编辑界面保存时使用
       if (event.id != "0") {
         return await db.collection("courseArrange").where({
           _id: event.id
@@ -44,11 +44,11 @@ export async function main(event, context) {
             currentWeek: event.currentWeek,
             startTime: event.startTime,
             endTime: event.endTime,
-            isFinished: 0
+            courseIsFinished: 0
           }
         });
       }
-    } else if (event.requestType == 'courseArrangeGetListByOrder') { //获取课程列表
+    } else if (event.requestType == 'courseArrangeGetListByOrder') { //获取课程列表，用户在课程预约列表界面使用
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         let: {
@@ -75,7 +75,7 @@ export async function main(event, context) {
       }).match({
         currentData: event.currentData
       }).end();
-    } else if (event.requestType == 'getCountOfCourseArrange') { // 获取当前选课的人数
+    } else if (event.requestType == 'getCountOfCourseArrange') { // 获取当前选课的人数，用户在课程预约列表界面使用
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         let: {
@@ -99,7 +99,7 @@ export async function main(event, context) {
       }).match({
         currentData: event.currentData
       }).end();
-    } else if (event.requestType == 'checkCourseArrangeByTime') { // 检查该日期该时间段是否有课程
+    } else if (event.requestType == 'checkCourseArrangeByTime') { // 检查该日期该时间段是否有课程，教师在保存排课信息编辑时使用
       if (event.id == "0") {
         return await db.collection("courseArrange").aggregate().match({
           currentData: event.currentData
@@ -145,7 +145,7 @@ export async function main(event, context) {
           ])
         )).end();
       }
-    } else if (event.requestType == 'updateCourseArrangeFinished') { // 更新预定人的课程为完成状态
+    } else if (event.requestType == 'updateCourseArrangeFinished') { // 更新预定人的课程为完成状态，教师在更新课程完成状态时使用
       return await db.collection("courseReserve").where({
         applyId: event.id
       }).update({
@@ -153,7 +153,7 @@ export async function main(event, context) {
           isFinished: 1
         },
       });
-    } else if (event.requestType == 'updateCourseArrange') { // 更新课程为完成状态
+    } else if (event.requestType == 'updateCourseArrange') { // 更新课程为完成状态，教师在更新课程完成状态时使用
       return await db.collection("courseArrange").where({
         _id: event.id
       }).update({
@@ -161,7 +161,7 @@ export async function main(event, context) {
           isFinished: 1
         },
       });
-    } else if (event.requestType == 'checkCourseArrangeUpdateFinished') { // 检查课程是否可以更新为完成状态
+    } else if (event.requestType == 'checkCourseArrangeUpdateFinished') { // 检查课程是否可以更新为完成状态，教师在更新课程完成状态时使用
       return await db.collection("courseArrange").aggregate().match({
         _id: event.id
       }).match(_.expr(
@@ -173,7 +173,7 @@ export async function main(event, context) {
           ])
         ])
       )).end();
-    } else if (event.requestType == 'checkCourseReserveCancel') {// 检查当前课程是否可以取消预约
+    } else if (event.requestType == 'checkCourseReserveCancel') {// 检查当前课程是否可以取消预约，用户在预约功能时使用，重复
       return await db.collection("courseArrange").aggregate().match({
         _id: event.id
       }).match(_.expr(
@@ -185,7 +185,7 @@ export async function main(event, context) {
           ])
         ])
       )).end();
-    } else if (event.requestType == 'checkCourseReserveConfirm') {// 检查当前是否可以预约该课程
+    } else if (event.requestType == 'checkCourseReserveConfirm') {// 检查当前是否可以预约该课程，用户在预约功能时使用，重复
       return await db.collection("courseArrange").aggregate().match({
         _id: event.id
       }).match(_.expr(

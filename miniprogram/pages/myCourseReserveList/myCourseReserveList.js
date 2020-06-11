@@ -15,7 +15,8 @@ Page({
     resultList: null, // 获取我的预定课程列表
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495",
     currentData: "",
-    currentTime: ""
+    currentTime: "",
+    username: ""
   },
 
   onReady: function () {
@@ -32,6 +33,10 @@ Page({
   onLoad: function (options) {
     // 获取用户的账号信息
     const username = wx.getStorageSync('username');
+    this.setData({
+      username: username
+    })
+    console.log("当前登陆的账户:" + username);
     var currentData = formatCurrentDate(new Date());
     var currentTime = formatTime(new Date());
     this.setData({
@@ -43,9 +48,10 @@ Page({
       name: "courseReserve",
       data: {
         requestType: 'showMyCourseReserveList',
-        username: username
+        username: this.data.username
       }
     }).then(res => {
+      console.log(res.result.list);
       this.setData({
         resultList: res.result.list
       });

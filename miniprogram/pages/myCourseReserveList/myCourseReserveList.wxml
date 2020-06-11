@@ -8,19 +8,19 @@
 	</view>
 	<view class="hr"></view>
 	<view class="content">
-		<van-card desc="预定时间:{{item.reserveList[0].updateTime}}" title="{{item.courseName}}:{{item.reserveList[0].nickName}}" thumb="{{headImgUrl}}" />
+		<van-card desc="预定时间:{{item.updateTime}}" title="{{item.courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
 	</view>
-	<view wx:if="{{((currentData < item.currentData) || ((currentData == item.currentData) && (currentTime < item.startTime ))) && (item.isFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item._id}}">
+	<view wx:if="{{((currentData < item.currentData) || ((currentData == item.currentData) && (currentTime < item.startTime ))) && (item.courseIsFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item.arrangeInfo[0]._id}}">
 			取消预定课程
 		</button>
 	</view>
-	<view wx:if="{{((currentData > item.currentData) || ((currentData == item.currentData) && (currentTime > item.startTime ))) && (item.isFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+	<view wx:if="{{((currentData > item.currentData) || ((currentData == item.currentData) && (currentTime > item.startTime ))) && (item.courseIsFinished == 0)}}" style="display:flex;float:right;">
 		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
 			课程待完成
 		</button>
 	</view>
-	<view wx:if="{{(item.isFinished == 1)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+	<view wx:if="{{(item.courseIsFinished == 1)}}" style="display:flex;float:right;">
 		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
 			课程已结束
 		</button>

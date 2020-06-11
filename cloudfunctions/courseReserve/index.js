@@ -9,34 +9,34 @@ const $ = db.command.aggregate;
 exports.main = async (event, context) => {
   try {
     if (event.requestType == 'showMyCourseReserveList') { // 取得我预定的课程列表信息，包含个人预定信息
-      return await db.collection("courseArrange").aggregate().lookup({
-          from: 'courseReserve',
-          let: {
-            arrange_id: '$_id', // arrange_id为排课的ID，将_id映射为其上
-          },
-          pipeline: $.pipeline()
-            .match(_.expr($.and([
-              $.eq(['$applyId', '$$arrange_id']), // 排课的ID对应选课表中相应的applyId
-            ]))).match({
-              username: event.username
-            })
-            .project({
-              _id: 0,
-              _openid: 1,
-              applyId: 1,
-              headimgurl: 1,
-              isFinished: 1,
-              phone: 1,
-              realname: 1,
-              updateTime: 1,
-              username: 1,
-            })
-            .done(),
-          as: 'reserveList'
-        }).sort({ //按照课程的时间降序排序
-          currentData: -1,
-          startTime: -1
-        }).end();
+      return await db.collection("courseReserve").aggregate().lookup({
+        from: 'courseArrange',
+        let: {
+          applyId: '$applyId', // arrange_id为排课的ID，将_id映射为其上
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$_id', '$$applyId']), // 排课的ID对应选课表中相应的applyId
+          ])))
+          .project({
+            _id: 1,
+            courseName: 1,
+            currentData: 1,
+            currentWeek: 1,
+            endTime: 1,
+            courseIsFinished: 1,
+            startTime: 1
+          })
+          .done(),
+        as: 'arrangeInfo'
+      }).replaceRoot({
+        newRoot: $.mergeObjects([$.arrayElemAt(['$arrangeInfo', 0]), '$$ROOT'])
+      }).sort({
+        currentData: -1,
+        startTime: -1
+      }).match({
+        username: event.username
+      }).end();
     } else if (event.requestType == 'deleteCourseReserveById') { //取消我预定的课程
       return await db.collection("courseReserve").doc(event.id).remove({
         success: function (res) {
