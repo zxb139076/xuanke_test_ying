@@ -1,6 +1,7 @@
-import { init, database } from 'wx-server-sdk';
-init();
-const db = database();
+// 云函数入口文件
+const cloud = require('wx-server-sdk')
+cloud.init();
+const db = cloud.database();
 const _ = db.command;
 const $ = db.command.aggregate;
 
@@ -47,26 +48,27 @@ export async function main(event, context) {
           }
         });
       }
-    } else if (event.requestType == 'courseArrangeGetListByOrder') { //检查我当前有没有预约过该课程
+    } else if (event.requestType == 'courseArrangeGetListByOrder') { //获取课程列表
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         let: {
-          arrange_id: '$_id',
+          arrange_id: '$_id', 
         },
         pipeline: $.pipeline()
           .match(_.expr($.and([
             $.eq(['$applyId', '$$arrange_id']),
           ]))).match({
-            _openid: event.openid
+            username: event.username
           })
           .project({
             _id: 0,
             _openid: 1,
             applyId: 1,
-            headimgurl: 1,
             isFinished: 1,
-            nickName: 1,
-            updateTime: 1
+            phone: 1,
+            realname: 1,
+            updateTime: 1,
+            username: 1
           })
           .done(),
         as: 'arrangeList'
