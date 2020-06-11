@@ -81,18 +81,21 @@ Page({
     });
   },
 
-  wxlogin: function () {//获取用户的openID和sessionKey
+  // 没有备案的域名之前不能支持
+  /**wxlogin: function () {//获取用户的openID和sessionKey
     var that = this;
     wx.login({
       //获取code 使用wx.login得到的登陆凭证，用于换取openid
       success: (res) => {
         wx.request({
           method: "GET",
-          url: 'https://xxxwx/wxlogin.do',
+          url: 'https://api.weixin.qq.com/sns/jscode2session',
           data: {
             code: res.code,
-            appId: "appIdSbcx",
-            appKey: "appKeySbcx"
+            appId: "wxd5a17a7b7742e870",
+            appKey: "aad533b539cf4eda122f5d650b9ea329c",
+            js_code: res.code,
+            grant_type: "authorization_code"
           },
           header: {
             'content-type': 'application/json' // 默认值
@@ -106,6 +109,6 @@ Page({
         });
       }
     });
-  }
+  }**/
 
 })
