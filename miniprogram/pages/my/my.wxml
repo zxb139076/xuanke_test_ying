@@ -18,7 +18,7 @@
 				<van-image width="20" height="20" src="{{myReserve}}" />
 			</view>
 			<view class="doc">
-				我的预定
+				我的预约
 			</view>
 		</view>
 		<view class="center" bindtap="showCourseInfo">
@@ -73,7 +73,7 @@
 				<van-image width="20" height="20" src="{{courseArrange}}" />
 			</view>
 			<view class="doc">
-				学生管理
+				学员管理
 			</view>
 		</view>
 		<view class="center" bindtap="showCourseArrange">

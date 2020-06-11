@@ -30,23 +30,20 @@ Page({
   },
 
   onLoad: function (options) {
+    // 获取用户的账号信息
+    const username = wx.getStorageSync('username');
     var currentData = formatCurrentDate(new Date());
     var currentTime = formatTime(new Date());
     this.setData({
       currentData: currentData,
       currentTime: currentTime
-    })
-    if (app.globalData.openid) {
-      this.setData({
-        openid: app.globalData.openid // 设置openid
-      })
-    }
+    });
     // 获取我的课程预定列表
     wx.cloud.callFunction({
       name: "courseReserve",
       data: {
-        requestType: "showMyCourseReserveList",
-        openid: this.data.openid
+        requestType: 'showMyCourseReserveList',
+        username: username
       }
     }).then(res => {
       this.setData({
@@ -78,7 +75,7 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: "checkCourseReserveCancel",
+        requestType: 'checkCourseReserveCancel',
         id: this.data.courseId,
         currentTime: currentTime,
         currentData: currentData

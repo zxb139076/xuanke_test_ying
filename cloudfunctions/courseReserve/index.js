@@ -12,13 +12,13 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").aggregate().lookup({
           from: 'courseReserve',
           let: {
-            arrange_id: '$_id', // 排课的ID
+            arrange_id: '$_id', // arrange_id为排课的ID，将_id映射为其上
           },
           pipeline: $.pipeline()
             .match(_.expr($.and([
               $.eq(['$applyId', '$$arrange_id']), // 排课的ID对应选课表中相应的applyId
             ]))).match({
-              _openid: event.openid
+              username: event.username
             })
             .project({
               _id: 0,
@@ -26,12 +26,14 @@ exports.main = async (event, context) => {
               applyId: 1,
               headimgurl: 1,
               isFinished: 1,
-              nickName: 1,
-              updateTime: 1
+              phone: 1,
+              realname: 1,
+              updateTime: 1,
+              username: 1,
             })
             .done(),
           as: 'reserveList'
-        }).sort({
+        }).sort({ //按照课程的时间降序排序
           currentData: -1,
           startTime: -1
         }).end();
@@ -41,10 +43,10 @@ exports.main = async (event, context) => {
           console.log(res.data)
         }
       });
-    } else if (event.requestType == 'getMyCourseReserveById') { // 根据排课ID和用户openid获取用户是否有预约该课程
+    } else if (event.requestType == 'getMyCourseReserveById') { // 根据排课ID和用户username获取用户是否有预约该课程
       return await db.collection("courseReserve").where({
         applyId: event.applyId,
-        _openid: event.openid
+        username: event.username
       }).get();
     }
   } catch (e) {
