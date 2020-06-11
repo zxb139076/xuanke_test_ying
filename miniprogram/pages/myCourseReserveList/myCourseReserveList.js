@@ -25,12 +25,11 @@ Page({
       duration: 1000
     });
     wx.setNavigationBarTitle({
-      title: '预定列表',
+      title: '课程预约列表',
     });
   },
 
   onLoad: function (options) {
-    // 获取用户账号信息
     var currentData = formatCurrentDate(new Date());
     var currentTime = formatTime(new Date());
     this.setData({
@@ -121,6 +120,17 @@ Page({
         icon: 'none'
       });
     })
+  },
+
+  // 将为null或undefined的字段转换
+  nullToEmpty: function (value) {
+    if (value == undefined) {
+      return "";
+    } else if (value == null) {
+      return "";
+    } else if (value == "") {
+      return "";
+    }
   }
 
 })

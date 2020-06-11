@@ -105,31 +105,58 @@ Page({
   },
 
   // 显示我预定的课程列表
-  showCourseReserve: function() {
-    wx.navigateTo({
-      url: '../myCourseReserveList/myCourseReserveList',
-    })
+  showCourseReserve: function () {
+    if (this.checkUserIsLogin()) {
+      wx.navigateTo({
+        url: '../myCourseReserveList/myCourseReserveList',
+      });
+    }
   },
 
   // 显示关于选课界面
-  showCourseInfo: function() {
+  showCourseInfo: function () {
     wx.showToast({
       title: '正在开发中',
     })
   },
 
   // 显示我的客服页面
-  showClientServices: function() {
+  showClientServices: function () {
     wx.showToast({
       title: '正在开发中',
     })
   },
 
   // 显示课程预览
-  showCoursePreview: function() {
+  showCoursePreview: function () {
     wx.showToast({
       title: '正在开发中',
     })
+  },
+
+  // 将为null或undefined的字段转换
+  nullToEmpty: function (value) {
+    if (value == undefined) {
+      return "";
+    } else if (value == null) {
+      return "";
+    } else if (value == "") {
+      return "";
+    }
+  },
+
+  // 检查用户登陆状态
+  checkUserIsLogin: function () {
+    const username = wx.getStorageSync('username');
+    if (this.nullToEmpty(username) == "") {
+      wx.showToast({
+        title: '未登陆',
+        icon: 'none'
+      })
+      return false;
+    } else {
+      return true;
+    }
   }
 
 })
