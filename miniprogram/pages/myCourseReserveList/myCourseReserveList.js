@@ -51,9 +51,9 @@ Page({
         username: this.data.username
       }
     }).then(res => {
-      console.log(res.result.list);
       this.setData({
-        resultList: res.result.list
+        resultList: res.result.list,
+        isLoad: true
       });
     }).catch(err => {
       //onLoad方法，获取我的课程预定列表失败

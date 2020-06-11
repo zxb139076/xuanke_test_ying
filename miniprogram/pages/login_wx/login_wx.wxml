@@ -3,11 +3,8 @@
 		<image scaleToFill class="img" src="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/cloud.jpg?sign=99f43835c21902a9a41be8cf6249e1c7&t=1590992399"></image>
 	</view>
 	<view class="foot">
-		<view class="cancel">
-			<button plain style="width:100%;" bindtap="backToMyPages">返回</button>
-		</view>
 		<view class="login">
-			<button plain open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" style="width:100%;">登陆</button>
+			<button plain open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" style="width:100%;">微信授权登陆</button>
 		</view>
 	</view>
 </view>

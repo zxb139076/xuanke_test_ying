@@ -134,6 +134,13 @@
 					"id": -1,
 					"name": "userList",
 					"pathName": "pages/userList/userList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "login_wx",
+					"pathName": "pages/login_wx/login_wx",
 					"scene": null
 				}
 			]

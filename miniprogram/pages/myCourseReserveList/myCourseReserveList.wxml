@@ -1,28 +1,35 @@
-<view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-	<view class="title">
-		<view>
-			<text>{{item.currentWeek}}</text>
-			<text>({{item.currentData}}\t</text>
-			<text>{{item.startTime}}至{{item.endTime}})</text>
+<block wx:if="{{resultList.length > 0}}">
+	<view class="list" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+		<view class="title">
+			<view>
+				<text>{{item.currentWeek}}</text>
+				<text>({{item.currentData}}\t</text>
+				<text>{{item.startTime}}至{{item.endTime}})</text>
+			</view>
+		</view>
+		<view class="hr"></view>
+		<view class="content">
+			<van-card desc="预定时间:{{item.updateTime}}" title="{{item.courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
+		</view>
+		<view wx:if="{{((currentData < item.currentData) || ((currentData == item.currentData) && (currentTime < item.startTime ))) && (item.courseIsFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
+			<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item.arrangeInfo[0]._id}}">
+				取消预定课程
+			</button>
+		</view>
+		<view wx:if="{{((currentData > item.currentData) || ((currentData == item.currentData) && (currentTime > item.startTime ))) && (item.courseIsFinished == 0)}}" style="display:flex;float:right;">
+			<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
+				课程待完成
+			</button>
+		</view>
+		<view wx:if="{{(item.courseIsFinished == 1)}}" style="display:flex;float:right;">
+			<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
+				课程已结束
+			</button>
 		</view>
 	</view>
-	<view class="hr"></view>
-	<view class="content">
-		<van-card desc="预定时间:{{item.updateTime}}" title="{{item.courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
+</block>
+<block wx:elif="{{(resultList.length < 1) && (isLoad)}}">
+	<view class="view_flex" style="width:750rpx;height:1000rpx">
+		当前还没有课程预约内容！
 	</view>
-	<view wx:if="{{((currentData < item.currentData) || ((currentData == item.currentData) && (currentTime < item.startTime ))) && (item.courseIsFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item.arrangeInfo[0]._id}}">
-			取消预定课程
-		</button>
-	</view>
-	<view wx:if="{{((currentData > item.currentData) || ((currentData == item.currentData) && (currentTime > item.startTime ))) && (item.courseIsFinished == 0)}}" style="display:flex;float:right;">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
-			课程待完成
-		</button>
-	</view>
-	<view wx:if="{{(item.courseIsFinished == 1)}}" style="display:flex;float:right;">
-		<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" disabled>
-			课程已结束
-		</button>
-	</view>
-</view>
+</block>
