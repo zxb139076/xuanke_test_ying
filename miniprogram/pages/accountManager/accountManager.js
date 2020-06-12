@@ -74,6 +74,15 @@ Page({
     } else {
       return true;
     }
+  },
+
+  /**
+   * 跳转到密码编辑界面
+   */
+  showPasswordEdit: function() {
+    wx.navigateTo({
+      url: '../passwordEdit/passwordEdit',
+    })
   }
  
 })

@@ -1,66 +1,70 @@
-// pages/passwordEdit/passwordEdit.js
 Page({
 
   /**
-   * 页面的初始数据
+   * data
    */
   data: {
-
+    isLoad: false,
+    originPassword: "",
+    newPassword: "",
+    newPassword2: "",
+    username: ""
   },
 
   /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
+   * onReady
    */
   onReady: function () {
-
+    wx.showLoading({
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
+    });
+    wx.setNavigationBarTitle({
+      title: '设置密码',
+    });
   },
 
   /**
-   * 生命周期函数--监听页面显示
+   * onLoad
+   * @param {*} e 
    */
-  onShow: function () {
-
+  onLoad: function(e) {
+    var username = wx.getStorageSync('username');
+    this.setData({
+      isLoad: true,
+      username: username
+    })
   },
 
   /**
-   * 生命周期函数--监听页面隐藏
+   * 获取原密码
+   * @param {*} e 
    */
-  onHide: function () {
-
+  originPasswordBlur: function (e) {
+    this.setData({
+      originPassword: e.detail.value
+    })
   },
 
   /**
-   * 生命周期函数--监听页面卸载
+   * 获取新密码
+   * @param {*} e 
    */
-  onUnload: function () {
-
+  newPasswordBlur: function (e) {
+    this.setData({
+      newPassword: e.detail.value
+    })
   },
 
   /**
-   * 页面相关事件处理函数--监听用户下拉动作
+   * 获取新密码确认
+   * @param {}} e 
    */
-  onPullDownRefresh: function () {
-
+  newPassword2Blur: function (e) {
+    this.setData({
+      newPassword2: e.detail.value
+    })
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

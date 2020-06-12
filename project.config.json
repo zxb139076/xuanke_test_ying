@@ -141,6 +141,20 @@
 					"id": -1,
 					"name": "login_wx",
 					"pathName": "pages/login_wx/login_wx",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "accountManager",
+					"pathName": "pages/accountManager/accountManager",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "passwordEdit",
+					"pathName": "pages/passwordEdit/passwordEdit",
 					"scene": null
 				}
 			]
