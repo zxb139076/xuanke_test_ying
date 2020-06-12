@@ -100,7 +100,22 @@ exports.main = async (event, context) => {
           openid: event.openid
         },
       });
-    } else if (event.requestType == 'checkOpenidIsExisted') {
+    } else if (event.requestType == 'updatePassword') { // 更新用户账号密码，用户修改密码时使用
+      return await db.collection("users").where(_.expr(
+        $.or([
+          $.and([
+            $.eq(['$username', event.account])
+          ]),
+          $.and([
+            $.eq(['$phone', event.account])
+          ])
+        ])
+      )).update({
+        data: {
+          password: event.password
+        },
+      });
+    } else if (event.requestType == 'checkOpenidIsExisted') { // 检查openid是否已经绑定到其它账号，用户登陆时使用
       return await db.collection("users").where({
         openid: event.openid
       }).get();
