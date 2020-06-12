@@ -9,17 +9,21 @@ import {
 
 Page({
   data: {
-    isLoad: false, //页面是否加载完成
-    dataList: [], //近7天的日期队列
-    index: 0, //索引值
-    currentData: '', //当前日期
-    currentWeek: '', //当前是星期几
-    resultList: null, //课程列表
-    countList: null, // 课程预定人数列表
+    isLoad: false, 
+    dataList: [], 
+    index: 0, 
+    currentData: '', 
+    currentWeek: '', 
+    resultList: null, 
+    countList: null, 
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115"
   },
 
+  /**
+   * onReady
+   */
   onReady: function () {
+    console.log("onReady");
     wx.showLoading({
       title: '加载中',
       icon: 'loading',
@@ -30,7 +34,12 @@ Page({
     });
   },
 
+  /**
+   * onLoad
+   * @param {*} options 
+   */
   onLoad: function (options) {
+    console.log("onLoad");
     // 获取当前的时间，如果没有则不赋值
     if (this.nullToEmpty(options.currentData) != "") {
       this.setData({
@@ -70,51 +79,16 @@ Page({
     }
     this.setData({
       currentData: currentData,
-      currentWeek: currentWeek
+      currentWeek: currentWeek,
+      dataList: dataSet,
+      index: index
     })
-    // 获取课程排课列表
-    wx.cloud.callFunction({
-      name: "courseArrange",
-      data: {
-        requestType: 'courseArrangeGetList',
-        currentData: this.data.currentData
-      }
-    }).then(res => {
-      this.setData({
-        dataList: dataSet,
-        resultList: res.result.data,
-        index: index,
-        isLoad: true
-      });
-      // 获取当前预约的人数
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCountOfCourseArrange',
-          currentData: this.data.currentData,
-        }
-      }).then(res => {
-        this.setData({
-          countList: res.result.list,
-          isLoad: true
-        });
-      }).catch(err => {
-        //onLoad方法，获取当前预约的人数失败
-        console.error(err);
-        wx.showToast({
-          title: '操作失败，请重试！',
-        });
-      });
-    }).catch(err => {
-      //onLoad方法，获取课程排课列表失败
-      console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试',
-        icon: 'none'
-      })
-    })
+    this.getCourseArrangeList(this.data.currentData);
   },
 
+  /**
+   * onShow
+   */
   onShow: function () {
     console.log("onshow");
     // 获取当前的课程列表
@@ -123,53 +97,22 @@ Page({
       icon: 'loading',
       duration: 1000
     });
-    wx.cloud.callFunction({
-      name: "courseArrange",
-      data: {
-        requestType: 'courseArrangeGetList',
-        currentData: this.data.currentData
-      }
-    }).then(res => {
-      this.setData({
-        resultList: res.result.data,
-      });
-      // 获取当前选课的人数
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCountOfCourseArrange',
-          currentData: this.data.currentData,
-        }
-      }).then(res => {
-        this.setData({
-          countList: res.result.list,
-          isLoad: true
-        });
-      }).catch(err => {
-        // onShow方法 获取当前选课人数失败
-        console.error(err);
-        wx.showToast({
-          title: '操作失败，请重试！',
-          icon: 'none'
-        });
-      });
-    }).catch(err => {
-      // onShow方法，获取课程列表失败
-      console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试！',
-        icon: 'none'
-      });
-    });
+    this.getCourseArrangeList(this.data.currentData);
   },
 
+  /**
+   * onHide
+   */
   onHide: function () {
     this.setData({
       isLoad: false
     });
   },
 
-  // 选择当前排课的日期(星期几)
+  /**
+   * dataSelect
+   * @param {*} e 
+   */
   dataSelect: function (e) {
     wx.showLoading({
       title: '加载中',
@@ -187,46 +130,54 @@ Page({
       currentWeek: currentWeek,
       index: index,
       isLoad: false
-    })
+    });
+    // 获取课程排课列表
+    this.getCourseArrangeList(currentData);
+  },
+
+  /**
+   * 根据当前日期获取课程排课列表
+   * @param {当前日期} currentData 
+   */
+  getCourseArrangeList: function (currentData) {
     // 获取课程排课列表
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: 'courseArrangeGetList',
-        currentData: this.data.currentData,
+        currentData: currentData,
       }
     }).then(res => {
       this.setData({
         resultList: res.result.data
       });
-      // 获取当前选课的人数
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCountOfCourseArrange',
-          currentData: this.data.currentData,
-        }
-      }).then(res => {
-        this.setData({
-          countList: res.result.list,
-          isLoad: true
-        });
-      }).catch(err => {
-        // daSelect方法，获取当前选课人数失败
-        console.error(err);
-        wx.showToast({
-          title: '操作失败，请重试！',
-          icon: 'none'
-        });
+      this.getCountOfCourseArrange(currentData);
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * 获取当前课程的选课人数
+   * @param {当前日期} currentData 
+   */
+  getCountOfCourseArrange: function (currentData) {
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'getCountOfCourseArrange',
+        currentData: currentData,
+      }
+    }).then(res => {
+      this.setData({
+        countList: res.result.list,
+        isLoad: true
       });
     }).catch(err => {
-      // 获取课程列表失败
       console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试！',
-        icon: 'none'
-      });
-    })
+      this.showToast("操作失败，请重试！");
+    });
   },
 
   // 显示添加课程排课页面
@@ -257,6 +208,17 @@ Page({
     } else if (value == null) {
       return "";
     }
+  },
+
+  /**
+   * 封装弹窗代码
+   * @param {弹窗标题} title 
+   */
+  showToast: function (title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
+    })
   }
 
 })

@@ -36,7 +36,7 @@ exports.main = async (event, context) => {
     } else if (event.requestType == "checkCatalogueIsExited") { // 检查课程类目信息是否存在
       if (event.id != "0") {
         return await db.collection("catalogue").aggregate().match(_.expr(
-            $.neq(['$_id', event.id]),      
+          $.neq(['$_id', event.id]),
         )).match({
           catalogueName: event.catalogueName
         }).end();
@@ -45,6 +45,12 @@ exports.main = async (event, context) => {
           catalogueName: event.catalogueName
         }).end();
       }
+    } else if (event.requestType == "deleteCatalogueById") { // 删除课程信息
+      return await db.collection("catalogue").doc(event.id).remove({
+        success: function (res) {
+          console.log(res.data)
+        }
+      });
     }
   } catch (e) {
     console.error(e)

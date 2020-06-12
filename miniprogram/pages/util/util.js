@@ -43,7 +43,6 @@ function dateLater(dates, later) {
   var dateObj = {};
   var show_day = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
   var date = new Date(dates);
-  console.log(date);
   date.setDate(date.getDate() + later);
   var day = date.getDay();
   var yearDate = date.getFullYear();
