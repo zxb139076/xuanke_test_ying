@@ -48,6 +48,12 @@ exports.main = async (event, context) => {
           courseName: event.courseName
         }).end();
       }
+    } else if (event.requestType == "deleteCourseById") { // 删除课程信息
+      return await db.collection("course").doc(event.id).remove({
+        success: function (res) {
+          console.log(res.data)
+        }
+      });
     }
   } catch (e) {
     console.error(e)

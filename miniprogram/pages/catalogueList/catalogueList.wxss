@@ -1,4 +1,3 @@
-/* pages/courseAdd/courseAdd.wxss */
 .edit {
   height: 104px;
   background-color: #FAFAFA;

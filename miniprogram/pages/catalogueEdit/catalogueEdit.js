@@ -1,4 +1,8 @@
 Page({
+
+  /**
+   * data
+   */
   data: {
     id: '0', //当前课程类目Id
     catalogueName: '', //课程类目名称
@@ -6,24 +10,29 @@ Page({
     catalogueGroups: '',
   },
 
+  /**
+   * onReady
+   */
   onReady: function () {
     wx.showLoading({
-        title: '加载中',
-        icon: 'loading',
-        duration: 1000
+      title: '加载中',
+      icon: 'loading',
+      duration: 1000
     });
     wx.setNavigationBarTitle({
-        title: '课程类目编辑',
-      });
-},
+      title: '课程类目编辑',
+    });
+  },
 
+  /**
+   * onLoad
+   * @param {*} options 
+   */
   onLoad: function (options) {
-    // 如果当前id不为空，则是编辑模式
     if (options.id != "0") {
       this.setData({
         id: options.id
       });
-      // 获取课程类目信息
       wx.cloud.callFunction({
         name: "catalogue",
         data: {
@@ -37,111 +46,123 @@ Page({
           catalogueGroups: res.result.data[0].catalogueGroups
         });
       }).catch(err => {
-        //onLoad方法，获取课程类目信息失败
-        console.error(err)
-        wx.showToast({
-          title: '操作失败，请重试',
-          icon: 'none'
-        })
+        console.error(err);
+        this.showToast("操作失败，请重试");
       })
     }
   },
 
-  //获取课程类目名称
+  /**
+   * 获得用户输入的课程类目名称
+   * @param {*} e 
+   */
   catalogueNameBlur: function (e) {
     this.setData({
       catalogueName: e.detail.value
     })
   },
 
-  //获取课程类目描述
+  /**
+   * 获得用户输入的课程类目描述
+   * @param {*} e 
+   */
   catalogueDetailBlur: function (e) {
     this.setData({
       catalogueDetail: e.detail.value
     })
   },
 
-  //获取课程类目适合人群
+  /**
+   * 获得用户输入的课程类目适合人群
+   * @param {*} e 
+   */
   catalogueGroupsBlur: function (e) {
     this.setData({
       catalogueGroups: e.detail.value
     })
   },
 
-  //保存课程类目
+  /**
+   * 用户点击保存课程类目
+   */
   saveEditCatalogue: function () {
     if (this.data.catalogueName == '') {
-      wx.showToast({
-        title: '请填写类目名称',
-        icon: 'none'
-      });
+      this.showToast("请填写课程类目名称");
       return false;
     }
     if (this.data.catalogueDetail == '') {
-      wx.showToast({
-        title: '请填写类目描述',
-        icon: 'none'
-      });
+      this.showToast("请填写课程类目描述");
       return false;
     }
     if (this.data.catalogueGroups == '') {
-      wx.showToast({
-        title: '请填写适合人群',
-        icon: 'none'
-      });
+      this.showToast("请填写课程类目适合人群");
       return false;
     }
-    // 检查课程类目信息是否存在
+    this.checkCatalogueIsExisted(this.data.catalogueName, this.data.catalogueName, this.data.catalogueGroups);
+  },
+
+  /**
+   * 检查课程类目信息是否存在
+   * @param {课程类目名称} catalogueName 
+   * @param {课程类目描述} catalogueDetail 
+   * @param {课程类目适合人群} catalogueGroups 
+   */
+  checkCatalogueIsExisted: function (catalogueName, catalogueDetail, catalogueGroups) {
     wx.cloud.callFunction({
       name: "catalogue",
       data: {
         requestType: "checkCatalogueIsExited",
         id: this.data.id,
-        catalogueName: this.data.catalogueName
+        catalogueName: catalogueName
       }
     }).then(res => {
-      // 如果该课程类目信息不存在
       if (res.result.list < 1) {
-        // 保存课程类目信息
-        wx.cloud.callFunction({
-          name: "catalogue",
-          data: {
-            requestType: 'saveCatalogue',
-            id: this.data.id,
-            catalogueName: this.data.catalogueName,
-            catalogueDetail: this.data.catalogueDetail,
-            catalogueGroups: this.data.catalogueGroups
-          }
-        }).then(res => {
-          wx.navigateBack({
-            complete: (res) => {
-              wx.showToast({
-                title: '保存课程类目成功',
-                icon: 'none'
-              });
-            }
-          })
-        }).catch(err => {
-          //saveEditCatalogue方法，保存课程类目失败
-          console.error(err);
-          wx.showToast({
-            title: '操作失败，请重试',
-            icon: 'none'
-          })
-        });
+        this.updateCatalogue(catalogueName, catalogueDetail, catalogueGroups);
       } else {
-        wx.showToast({
-          title: '课程类目名称已存在，请重试！',
-          icon: 'none'
-        });
+        this.showToast("课程类目名称已存在，请重试！");
       }
     }).catch(err => {
-      //saveEditCatalogue方法，检查课程类目信息是否存在
       console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试',
-        icon: 'none'
-      });
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * 更新或保存课程类目信息
+   * @param {课程类目名称} catalogueName 
+   * @param {课程类目描述} catalogueDetail 
+   * @param {课程类目适合人群} catalogueGroups 
+   */
+  updateCatalogue: function (catalogueName, catalogueDetail, catalogueGroups) {
+    wx.cloud.callFunction({
+      name: "catalogue",
+      data: {
+        requestType: 'saveCatalogue',
+        id: this.data.id,
+        catalogueName: catalogueName,
+        catalogueDetail: catalogueDetail,
+        catalogueGroups: catalogueGroups
+      }
+    }).then(res => {
+      wx.navigateBack({
+        complete: (res) => {
+          this.showToast("保存课程类目名称成功！");
+        }
+      })
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * 封装弹窗代码
+   * @param {弹窗提示信息} title 
+   */
+  showToast: function (title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
     });
   }
 })
