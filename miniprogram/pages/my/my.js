@@ -1,6 +1,7 @@
 const app = getApp()
 
 Page({
+
   data: {
     avatarUrl: './user-unlogin.png',
     nickName: '',
@@ -11,7 +12,8 @@ Page({
     clientServices: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/clientServices.png?sign=f013de6d5862c470b78bf55e9a336271&t=1591062986",
     course: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/course.png?sign=5039e0c324cdeed4de63c52f00fac65d&t=1591063046",
     courseManager: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/courseManager.png?sign=4c49e022a75f3f46047dbac810ab2264&t=1591063718",
-    courseArrange: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/courseArrange.png?sign=37423aa41059e292f278a853a2d214d6&t=1591063734"
+    courseArrange: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/courseArrange.png?sign=37423aa41059e292f278a853a2d214d6&t=1591063734",
+    userManager: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/users.png?sign=b7ecb66dd2e48b7a7e51cd8cf5f1298d&t=1591932464"
   },
 
   onReady: function () {
@@ -26,8 +28,7 @@ Page({
   },
 
   onShow: function () {
-    var value = wx.getStorageSync('login');
-    if (value && value == '1') {
+    if (this.checkUserIsLogin2()) {
       // 获取用户信息
       wx.getSetting({
         success: res => {
@@ -49,7 +50,7 @@ Page({
             });
           }
         }
-      })
+      });
     } else {
       this.setData({
         avatarUrl: './user-unlogin.png',
@@ -58,13 +59,25 @@ Page({
     }
   },
 
-  // 用户登陆处理
+  /**
+   * 点击用户头像时触发
+   */
   userlogin: function () {
-    // 还未获取到用户授权，返回到登陆界面
-    if (!this.data.logged) {
-      wx.navigateTo({
-        url: '../login/login',
-      })
+    // 用户未登陆，返回到登陆界面
+    if (!this.checkUserIsLogin2()) {
+      wx.getSetting({
+        success: res => {
+          if (res.authSetting['scope.userInfo']) {
+            wx.navigateTo({
+              url: '../login2/login2',
+            })
+          } else {
+            wx.navigateTo({
+              url: '../login_wx/login_wx',
+            });
+          }
+        }
+      });
     } else {
       wx.showModal({
         cancelColor: 'true',
@@ -74,37 +87,55 @@ Page({
           if (!res.confirm) {
             return;
           }
-          wx.setStorageSync('login', '0');
-          wx.navigateTo({
-            url: '../login/login'
-          })
+          wx.setStorageSync('username', '');
+          wx.getSetting({
+            success: res => {
+              if (res.authSetting['scope.userInfo']) {
+                wx.navigateTo({
+                  url: '../login2/login2',
+                })
+              } else {
+                wx.navigateTo({
+                  url: '../login_wx/login_wx',
+                });
+              }
+            }
+          });
         }
       })
     }
   },
 
-  // 跳转到课程管理界面
+  /**
+   * 跳转到课程管理界面
+   */
   showCatalogueManager: function () {
     wx.navigateTo({
       url: '../catalogueList/catalogueList',
     })
   },
 
-  // 跳转到课程排课界面
+  /**
+   * 跳转到课程排课界面
+   */
   showCourseArrange: function () {
     wx.navigateTo({
       url: '../courseArrange/courseArrange',
     })
   },
 
-  // 显示用户管理列表
+  /**
+   * 跳转到用户管理界面
+   */
   showUserList: function () {
     wx.navigateTo({
       url: '../userList/userList',
     })
   },
 
-  // 显示我预定的课程列表
+  /**
+   * 跳转到我的预约界面
+   */
   showCourseReserve: function () {
     if (this.checkUserIsLogin()) {
       wx.navigateTo({
@@ -113,28 +144,37 @@ Page({
     }
   },
 
-  // 显示关于选课界面
+  /**
+   * 跳转到关于选课界面
+   */
   showCourseInfo: function () {
     wx.showToast({
       title: '正在开发中',
     })
   },
 
-  // 显示我的客服页面
+  /**
+   * 跳转到我的客服页面
+   */
   showClientServices: function () {
     wx.showToast({
       title: '正在开发中',
     })
   },
 
-  // 显示课程预览
-  showCoursePreview: function () {
-    wx.showToast({
-      title: '正在开发中',
+  /**
+   * 跳转到账号管理界面
+   */
+  showAccountManager: function () {
+    wx.navigateTo({
+      url: '../accountManager/accountManager',
     })
   },
 
-  // 将为null或undefined的字段转换
+  /**
+   * 空字符串处理
+   * @param {需要处理的字符串} value 
+   */
   nullToEmpty: function (value) {
     if (value == undefined) {
       return "";
@@ -145,7 +185,9 @@ Page({
     }
   },
 
-  // 检查用户登陆状态
+  /**
+   * 检查用户登陆状态
+   */
   checkUserIsLogin: function () {
     const username = wx.getStorageSync('username');
     if (this.nullToEmpty(username) == "") {
@@ -153,6 +195,18 @@ Page({
         title: '未登陆',
         icon: 'none'
       })
+      return false;
+    } else {
+      return true;
+    }
+  },
+
+  /**
+   * 检查用户登陆状态2
+   */
+  checkUserIsLogin2: function () {
+    const username = wx.getStorageSync('username');
+    if (this.nullToEmpty(username) == "") {
       return false;
     } else {
       return true;

@@ -37,12 +37,12 @@
 				我的客服
 			</view>
 		</view>
-		<view class="center" bindtap="showCoursePreview">
+		<view class="center" bindtap="showAccountManager">
 			<view class="img">
 				<van-image width="20" height="20" src="{{course}}" bind:click="" />
 			</view>
 			<view class="doc">
-				课程预览
+				账号管理
 			</view>
 		</view>
 	</view>
@@ -70,7 +70,7 @@
 		</view>
 		<view class="center" bindtap="showUserList">
 			<view class="img">
-				<van-image width="20" height="20" src="{{courseArrange}}" />
+				<van-image width="20" height="20" src="{{userManager}}" />
 			</view>
 			<view class="doc">
 				学员管理
