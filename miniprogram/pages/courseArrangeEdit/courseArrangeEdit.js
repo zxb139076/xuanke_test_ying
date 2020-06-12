@@ -1,4 +1,8 @@
 Page({
+
+  /**
+   * data
+   */
   data: {
     isLoad: false,
     array: null,
@@ -10,6 +14,9 @@ Page({
     courseName: ""
   },
 
+  /**
+   * onReady
+   */
   onReady: function () {
     wx.showLoading({
       title: '加载中',
@@ -21,18 +28,79 @@ Page({
     });
   },
 
+  /**
+   * onLoad
+   * @param {*} options 
+   */
+  onLoad: function (options) {
+    if (options.id != "0") {
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: 'getCourseArrangeById',
+          id: options.id
+        }
+      }).then(res => {
+        this.setData({
+          startTime: res.result.data[0].startTime,
+          endTime: res.result.data[0].endTime,
+          courseName: res.result.data[0].courseName,
+          currentData: res.result.data[0].currentData,
+          currentWeek: res.result.data[0].currentWeek,
+          id: res.result.data[0]._id
+        });
+      }).catch(err => {
+        console.error(err)
+      })
+    } else {
+      this.setData({
+        currentData: options.currentData,
+        currentWeek: options.currentWeek
+      })
+    }
+    wx.cloud.callFunction({
+      name: "course",
+      data: {
+        requestType: 'courseGetAllList',
+      }
+    }).then(res => {
+      var array = [];
+      for (var i = 0; i < res.result.data.length; i++) {
+        array[i] = res.result.data[i].courseName;
+      }
+      this.setData({
+        array: array,
+        isLoad: true
+      });
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+
+  /**
+   * 获取用户课程名称的输入
+   * @param {*} e 
+   */
   CourseNameChange: function (e) {
     this.setData({
       courseName: this.data.array[e.detail.value]
     })
   },
 
+  /**
+   * 获取用户输入的课程开始时间
+   * @param {*} e 
+   */
   StartTimeChange: function (e) {
     this.setData({
       startTime: e.detail.value
     })
   },
 
+  /**
+   * 获取用户输入的课程结束时间
+   * @param {*} e 
+   */
   EndTimeChange: function (e) {
     this.setData({
       endTime: e.detail.value
@@ -108,49 +176,6 @@ Page({
     });
   },
 
-  onLoad: function (options) {
-    if (options.id != "0") {
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCourseArrangeById',
-          id: options.id
-        }
-      }).then(res => {
-        this.setData({
-          startTime: res.result.data[0].startTime,
-          endTime: res.result.data[0].endTime,
-          courseName: res.result.data[0].courseName,
-          currentData: res.result.data[0].currentData,
-          currentWeek: res.result.data[0].currentWeek,
-          id: res.result.data[0]._id
-        });
-      }).catch(err => {
-        console.error(err)
-      })
-    } else {
-      this.setData({
-        currentData: options.currentData,
-        currentWeek: options.currentWeek
-      })
-    }
-    wx.cloud.callFunction({
-      name: "course",
-      data: {
-        requestType: 'courseGetAllList',
-      }
-    }).then(res => {
-      var array = [];
-      for (var i = 0; i < res.result.data.length; i++) {
-        array[i] = res.result.data[i].courseName;
-      }
-      this.setData({
-        array: array,
-        isLoad: true
-      });
-    }).catch(err => {
-      console.error(err)
-    })
-  }
+
 
 })
