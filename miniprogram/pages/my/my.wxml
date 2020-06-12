@@ -47,11 +47,11 @@
 		</view>
 	</view>
 
-	<view class="title">
+	<view wx:if="{{isAdmin}}" class="title">
 		<text>管理工具</text>
 	</view>
 
-	<view class="content">
+	<view wx:if="{{isAdmin}}" class="content">
 		<view class="center" bindtap="showCatalogueManager">
 			<view class="img">
 				<van-image width="20" height="20" src="{{courseManager}}" />

@@ -173,6 +173,9 @@ Page({
       }
     }).then(res => {
       this.showToast("密码更新成功");
+      wx.navigateTo({
+        url: '../passwordEditFinished/passwordEditFinished',
+      })
     }).catch(err => {
       this.showToast("操作失败，请重试");
     });

@@ -3,10 +3,11 @@ const app = getApp()
 Page({
 
   data: {
-    avatarUrl: '../../images/user-unlogin.png',
-    nickName: '',
-    userInfo: {},
-    logged: false,
+    avatarUrl: '../../images/user-unlogin.png', //未登陆时的用户头像
+    nickName: '',  // 用户的昵称
+    userInfo: {},  // 用户信息
+    logged: false, // 页面是否加载完成
+    isAdmin: false,
     myReserve: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/myReserve.png?sign=34828c33d8235586b62ac8e666eeead3&t=1591061409",
     info: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/info.png?sign=7bc8e16f73afc10ad9edd4836e2a68fa&t=1591062818",
     clientServices: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/clientServices.png?sign=f013de6d5862c470b78bf55e9a336271&t=1591062986",
@@ -51,12 +52,36 @@ Page({
           }
         }
       });
+      this.checkIsAdmin();
     } else {
       this.setData({
         avatarUrl: './user-unlogin.png',
         logged: false
       });
     }
+  },
+
+  /**
+   * 检查是否有管理员权限
+   */
+  checkIsAdmin: function () {
+    const username = wx.getStorageSync('username');
+    wx.cloud.callFunction({
+      name: "userRights",
+      data: {
+        requestType: "checkIsAdmin",
+        username: username
+      }
+    }).then(res => {
+      // 如果该用户是管理员
+      if (res.result.data.length > 0) {
+        this.setData({
+          isAdmin: true
+        })
+      }
+    }).catch(err => {
+      this.showToast("操作失败，请重试");
+    });
   },
 
   /**
@@ -211,6 +236,17 @@ Page({
     } else {
       return true;
     }
+  },
+
+  /**
+   * 弹窗代码封装
+   * @param {弹窗标题} title 
+   */
+  showToast: function (title) {
+    wx.showToast({
+      title: title,
+      icon: 'none',
+    })
   }
 
 })

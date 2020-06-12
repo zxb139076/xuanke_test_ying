@@ -20,7 +20,8 @@
     "pages/userList/userList",
     "pages/userEdit/userEdit",
     "pages/accountManager/accountManager",
-    "pages/passwordEdit/passwordEdit"
+    "pages/passwordEdit/passwordEdit",
+    "pages/passwordEditFinished/passwordEditFinished"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

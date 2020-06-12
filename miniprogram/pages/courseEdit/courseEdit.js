@@ -1,12 +1,19 @@
 Page({
+
+  /**
+   * 初始化数据
+   */
   data: {
     isLoad: false,
-    id: '0', //课程id
-    catalogueId: '', //课程类目id
-    courseName: '', //课程名称
-    courseDetail: '', //课程详情
+    id: '0',
+    catalogueId: '',
+    courseName: '',
+    courseDetail: '',
   },
 
+  /**
+   * onReady
+   */
   onReady: function () {
     wx.showLoading({
       title: '加载中',
@@ -18,6 +25,10 @@ Page({
     });
   },
 
+  /**
+   * onLoad
+   * @param {*} options 
+   */
   onLoad: function (options) {
     //如果课程id不为0
     if (options.id != "0") {
@@ -51,85 +62,102 @@ Page({
     });
   },
 
-  //获取课程名称
+  /**
+   * 获得用户输入的课程名称
+   * @param {*} e 
+   */
   courseNameBlur: function (e) {
     this.setData({
       courseName: e.detail.value
     })
   },
-  //获取课程描述
+
+  /**
+   * 获得用户输入的课程描述
+   * @param {*} e 
+   */
   courseDetailBlur: function (e) {
     this.setData({
       courseDetail: e.detail.value
     })
   },
 
-  // 保存课程信息
+  /**
+   * 点击保存课程信息
+   */
   saveEditCourse: function () {
     if (this.data.courseName == '') {
-      wx.showToast({
-        title: '请填写课程名称',
-      });
+      this.showToast("请填写课程名称");
       return false;
     }
     if (this.data.courseDetail == '') {
-      wx.showToast({
-        title: '请填写课程描述',
-      });
+      this.showToast("请填写课程描述");
       return false;
     }
-    //检查课程信息是否存在
-    console.log("课程id:" + this.data.id);
-    console.log("课程名称:" + this.data.courseName);
+    this.checkCourseIsExited(this.data.courseName, this.data.courseDetail);
+  },
+
+  /**
+   * 检查课程信息是否存在
+   * @param {课程名称} courseName 
+   * @param {课程描述} courseDetail 
+   */
+  checkCourseIsExited: function (courseName, courseDetail) {
     wx.cloud.callFunction({
       name: "course",
       data: {
         requestType: "checkCourseIsExited",
         id: this.data.id,
-        courseName: this.data.courseName
+        courseName: courseName
       }
     }).then(res => {
-      // 如果课程名称没有重复
       if (res.result.list < 1) {
-        //保存课程信息
-        wx.cloud.callFunction({
-          name: "course",
-          data: {
-            requestType: 'saveCourse',
-            id: this.data.id,
-            catalogueId: this.data.catalogueId,
-            courseName: this.data.courseName,
-            courseDetail: this.data.courseDetail,
-          }
-        }).then(res => {
-          wx.navigateBack({
-            complete: (res) => {
-              wx.showToast({
-                title: '保存成功',
-              });
-            },
-          })
-        }).catch(err => {
-          //saveEditCourse方法，保存课程信息失败
-          console.error(err);
-          wx.showToast({
-            title: '操作失败，请重试',
-            icon: 'none'
-          });
-        });
-      } else { // 课程名称有重复
-        wx.showToast({
-          title: '课程名称已存在，请重试',
-          icon: 'none'
-        });
+        this.updateCourseInfo(courseName, courseDetail);
+      } else { 
+        this.showToast("课程名称已存在，请重试！");
       }
     }).catch(err => {
-      //saveEditCourse方法，检查课程信息是否存在失败
       console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试',
-        icon: 'none'
-      });
+      this.showToast("操作失败，请重试！");
     });
   },
+
+  /**
+   * 更新课程信息
+   * @param {课程名称} courseName 
+   * @param {课程描述} courseDetail 
+   */
+  updateCourseInfo: function(courseName, courseDetail) {
+    //保存课程信息
+    wx.cloud.callFunction({
+      name: "course",
+      data: {
+        requestType: 'saveCourse',
+        id: this.data.id,
+        catalogueId: this.data.catalogueId,
+        courseName: courseName,
+        courseDetail: courseDetail,
+      }
+    }).then(res => {
+      wx.navigateBack({
+        complete: (res) => {
+          this.showToast("保存成功");
+        },
+      })
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试");
+    });
+  },
+
+  /**
+   * 封装弹窗代码
+   * @param {*} title 
+   */
+  showToast: function (title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
+    })
+  }
 })
