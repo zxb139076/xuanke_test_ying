@@ -34,30 +34,45 @@ Page({
    */
   onLoad: function (options) {
     if (options.id != "0") {
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCourseArrangeById',
-          id: options.id
-        }
-      }).then(res => {
-        this.setData({
-          startTime: res.result.data[0].startTime,
-          endTime: res.result.data[0].endTime,
-          courseName: res.result.data[0].courseName,
-          currentData: res.result.data[0].currentData,
-          currentWeek: res.result.data[0].currentWeek,
-          id: res.result.data[0]._id
-        });
-      }).catch(err => {
-        console.error(err)
-      })
+      this.getCourseArrangeById(options.id);
     } else {
       this.setData({
         currentData: options.currentData,
         currentWeek: options.currentWeek
       })
     }
+    this.getAllCourseList();
+  },
+
+  /**
+   * 根据ID获取课程排课详细信息
+   * @param {课程排课id} id 
+   */
+  getCourseArrangeById: function (id) {
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'getCourseArrangeById',
+        id: id
+      }
+    }).then(res => {
+      this.setData({
+        startTime: res.result.data[0].startTime,
+        endTime: res.result.data[0].endTime,
+        courseName: res.result.data[0].courseName,
+        currentData: res.result.data[0].currentData,
+        currentWeek: res.result.data[0].currentWeek,
+        id: res.result.data[0]._id
+      });
+    }).catch(err => {
+      console.error(err)
+    });
+  },
+
+  /**
+   * 获取全部课程列表
+   */
+  getAllCourseList: function () {
     wx.cloud.callFunction({
       name: "course",
       data: {
@@ -74,7 +89,7 @@ Page({
       });
     }).catch(err => {
       console.error(err)
-    })
+    });
   },
 
   /**
@@ -107,75 +122,96 @@ Page({
     })
   },
 
+  /**
+   * 保存课程排课信息
+   */
   saveCourseArrange: function () {
     if (this.data.courseName == '') {
-      wx.showToast({
-        title: '请填写课程名称',
-      });
+      this.showToast("请填写课程名称");
       return false;
     }
     if (this.data.startTime == '') {
-      wx.showToast({
-        title: '请填写课程开始时间',
-      });
+      this.showToast("请填写课程开始时间");
       return false;
     }
     if (this.data.endTime == '') {
-      wx.showToast({
-        title: '请填写课程结束时间',
-      });
+      this.showToast("请填写课程结束时间")
       return false;
     }
-    if ((this.data.startTime) > (this.data.endTime)) {
-      wx.showToast({
-        title: '开始时间大于结束时间',
-        icon: 'none'
-      })
+    if ((this.data.startTime) >= (this.data.endTime)) {
+      this.showToast("课程开始时间大于等于课程结束时间");
       return;
     }
+    this.checkCourseArrangeByTime(this.data.currentData, this.data.startTime, this.data.endTime);
+  },
+
+  /**
+   * 检查当前日期当前时间是否有课程存在
+   * @param {当前的日期} currentData 
+   * @param {课程开始时间} startTime 
+   * @param {课程结束时间} endTime 
+   */
+  checkCourseArrangeByTime: function (currentData, startTime, endTime) {
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         id: this.data.id,
         requestType: 'checkCourseArrangeByTime',
-        currentData: this.data.currentData,
-        startTime: this.data.startTime,
-        endTime: this.data.endTime
+        currentData: currentData,
+        startTime: startTime,
+        endTime: endTime
       }
     }).then(res => {
       if (res.result.list.length < 1) {
-        wx.cloud.callFunction({
-          name: "courseArrange",
-          data: {
-            requestType: 'saveCourseArrange',
-            id: this.data.id,
-            courseName: this.data.courseName,
-            currentData: this.data.currentData,
-            currentWeek: this.data.currentWeek,
-            startTime: this.data.startTime,
-            endTime: this.data.endTime,
-          }
-        }).then(res => {
-          wx.navigateBack({
-            complete: (res) => {
-              wx.showToast({
-                title: '保存成功',
-              });
-            },
-          })
-        }).catch(err => {
-          console.error(err)
-        });
+        this.updateCourseArrange(currentData, startTime, endTime);
       } else {
-        wx.showToast({
-          title: '该时段已有课程',
-        })
+        this.showToast("该时段已经有课程，请重新填写时间！");
       }
     }).catch(err => {
-      console.error(err)
+      console.error(err);
+      this.showToast("操作失败，请重试");
     });
   },
 
+  /**
+   * 更新课程排课信息
+   * @param {当前的日期} currentData 
+   * @param {课程开始时间} startTime 
+   * @param {课程结束时间} endTime 
+   */
+  updateCourseArrange: function (currentData, startTime, endTime) {
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'saveCourseArrange',
+        id: this.data.id,
+        courseName: this.data.courseName,
+        currentData: currentData,
+        currentWeek: this.data.currentWeek,
+        startTime: startTime,
+        endTime: endTime,
+      }
+    }).then(res => {
+      wx.navigateBack({
+        complete: (res) => {
+          this.showToast("保存成功！");
+        },
+      })
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试");
+    });
+  },
 
+  /**
+   * 弹窗代码封装
+   * @param {弹窗的标题} title 
+   */
+  showToast: function (title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
+    })
+  }
 
 })
