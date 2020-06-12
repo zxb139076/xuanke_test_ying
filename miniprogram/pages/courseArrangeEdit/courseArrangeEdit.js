@@ -34,6 +34,9 @@ Page({
    */
   onLoad: function (options) {
     if (options.id != "0") {
+      this.setData({
+        id: options.id
+      })
       this.getCourseArrangeById(options.id);
     } else {
       this.setData({
@@ -42,6 +45,34 @@ Page({
       })
     }
     this.getAllCourseList();
+  },
+
+  /**
+   * onShow
+   * @param {*} options 
+   */
+  onShow: function (options) {
+    if (options.id != "0") {
+      this.setData({
+        id: options.id
+      })
+      this.getCourseArrangeById(options.id);
+    } else {
+      this.setData({
+        currentData: options.currentData,
+        currentWeek: options.currentWeek
+      })
+    }
+    this.getAllCourseList();
+  },
+
+  /**
+   * onHide
+   */
+  onHide: function() {
+    this.setData({
+      isLoad: false
+    })
   },
 
   /**
