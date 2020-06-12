@@ -1,7 +1,7 @@
 Page({
 
   data: {
-    avatarUrl: './user-unlogin.png',
+    avatarUrl: '../../images/user-unlogin.png',
     nickName: '',
     userInfo: {},
     logged: false,

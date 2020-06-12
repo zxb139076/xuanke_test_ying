@@ -189,6 +189,12 @@ page {
   justify-content: left;
 }
 
+.view_flex_left {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
 view {
   font-size: 14px;
 }
