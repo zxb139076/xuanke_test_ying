@@ -1,5 +1,5 @@
 <block wx:if="{{resultList.length > 0}}">
-	<view style="width:750rpx;height:160rpx;display:flex;flex-direction:column;">
+	<view style="width:750rpx;height:120rpx;display:flex;flex-direction:column;">
 		<view style="display:flex;flex-direction:row">
 			<picker value="{{selectDate}}" mode="date" start="{{startData}}" end="{{endData}}" filed="day" bindchange="bindCourseBeginDataChange">
 				<text>起始时间：</text>
