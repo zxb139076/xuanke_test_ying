@@ -21,7 +21,7 @@ Page({
       duration: 1000
     });
     wx.setNavigationBarTitle({
-      title: '设置密码',
+      title: '添加学员信息',
     });
   },
 
