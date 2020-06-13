@@ -158,7 +158,7 @@ exports.main = async (event, context) => {
         _id: event.id
       }).update({
         data: {
-          isFinished: 1
+          courseIsFinished: 1
         },
       });
     } else if (event.requestType == 'checkCourseArrangeUpdateFinished') { // 检查课程是否可以更新为完成状态，教师在更新课程完成状态时使用

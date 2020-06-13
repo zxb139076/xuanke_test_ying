@@ -1,10 +1,8 @@
-<block wx:if="{{isLoad}}">
-	<view class="container">
-		<view style="width:750rpx;">
-			<image scaleToFill class="img" src="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/home/home_pinao.jpg?sign=66d757650cbc7b52822d4707459a8a1d&t=1591586229"></image>
-		</view>
-		<view class="select view_flex" bindtap="showCourseReserve">
-			课程预约
-		</view>
+<view class="container">
+	<view style="width:750rpx;">
+		<image scaleToFill class="img" src="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/home/home_pinao.jpg?sign=66d757650cbc7b52822d4707459a8a1d&t=1591586229"></image>
 	</view>
-</block>
+	<view class="select view_flex" bindtap="showCourseReserve">
+		课程预约
+	</view>
+</view>

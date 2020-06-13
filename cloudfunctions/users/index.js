@@ -97,6 +97,7 @@ exports.main = async (event, context) => {
         ])
       )).update({
         data: {
+          headImg: event.headImg,
           openid: event.openid
         },
       });

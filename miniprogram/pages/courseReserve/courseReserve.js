@@ -278,9 +278,10 @@ Page({
       if (res.result.list.length > 0) {
         const realname = res.result.list[0].realname;
         const phone = res.result.list[0].phone;
+        const headImg = res.result.list[0].headImg;
         const time = formatDate(new Date());
         // 增加课程预约记录
-        this.addCourseReserve(applyId, username, realname, phone, time);
+        this.addCourseReserve(applyId, username, realname, phone, headImg, time);
       } else {
         this.showToast("操作失败，请重试");
       }
@@ -296,9 +297,10 @@ Page({
    * @param {用户的账号名} username 
    * @param {用户的真实姓名} realname
    * @param {用户的手机号} phone
+   * @param {用户的头像} headImg
    * @param {用户的预约时间点} time
    */
-  addCourseReserve(applyId, username, realname, phone, time) {
+  addCourseReserve(applyId, username, realname, phone, headImg, time) {
     const db = wx.cloud.database();
     db.collection('courseReserve').add({
       data: {
@@ -307,7 +309,8 @@ Page({
         realname: realname,
         phone: phone,
         updateTime: time,
-        isFinished: 0
+        isFinished: 0,
+        headImg: headImg
       },
       success: res => {   
         // 跳转到预约详情页
