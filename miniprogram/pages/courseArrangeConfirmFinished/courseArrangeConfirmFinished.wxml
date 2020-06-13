@@ -4,22 +4,29 @@
 			<van-image width="200rpx" height="200rpx" src="{{headImgUrl}}"></van-image>
 		</view>
 		<view style="flex-grow:1;display:flex;flex-direction:column;">
-			<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;"><text>课程名称:{{courseInfo.courseName}}</text></view>
-			<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;">
-				<text>课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）</text></view>
+			<view style="flex-grow:1;justify-content:left;align-items:center;display:flex;">
+				<text>课程名称:{{courseInfo.courseName}}</text>
+			</view>
+			<view style="flex-grow:1;justify-content:left;align-items:center;display:flex;">
+				<text>课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）</text>
+			</view>
 			<view style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
-				<text style="font-weight:900;">课程完成</text>
+				<text>预约人数：{{resultList.length}}</text>
+			</view>
+			<view style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
+				<text wx:if="{{courseInfo.courseIsFinished}}">课程完成状态 已完成</text>
+				<text wx:else>课程完成状态：未完成</text>
 			</view>
 		</view>
 	</view>
 </view>
 <view style="width:750rpx;justify-content:center;align-items:center;display:flex;margin:5px">
 	<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);width:90%;" bindtap="returnToHome">
-		返回首页
+		返回设置界面
 	</button>
 </view>
 <view style="width:750rpx;justify-content:center;align-items:center;display:flex;margin:5px">
 	<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);width:90%;" bindtap="returnToList">
-		返回列表
+		返回排课列表
 	</button>
 </view>

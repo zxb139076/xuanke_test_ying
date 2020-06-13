@@ -9,14 +9,14 @@
 				<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;"><text>课程名称:{{courseInfo.courseName}}</text></view>
 				<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;">
 					<text wx:if="{{courseInfo.courseIsFinished==1}}">
-						课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n 当前预约人数：{{resultList.length}} \n 课程完成状态：已完成
+						课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n 预约人数：{{resultList.length}} \n 课程完成状态：已完成
 					</text>
 					<text wx:if="{{courseInfo.courseIsFinished==0}}">
-						课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n 当前预约人数：{{resultList.length}} \n 课程完成状态：未完成
+						课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n 预约人数：{{resultList.length}} \n 课程完成状态：未完成
 					</text>
 				</view>
 				<view style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
-					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);" bindtap="confirmCourseArrange">确认完成</button>
+					<button wx:if="{{courseInfo.courseIsFinished==0}}" size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);" bindtap="confirmCourseArrange">确认完成</button>
 					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);" bindtap="showConfirmDetail">查看详情</button>
 				</view>
 			</view>
