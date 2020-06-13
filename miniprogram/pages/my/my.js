@@ -159,6 +159,15 @@ Page({
   },
 
   /**
+   * 显示课程排课列表
+   */
+  showAllCourseArrangeList: function() {
+    wx.navigateTo({
+      url: '../allCourseArrangeList/allCourseArrangeList',
+    })
+  },
+
+  /**
    * 跳转到我的预约界面
    */
   showCourseReserve: function () {

@@ -23,5 +23,5 @@
 	</view>
 </block>
 <view class="add" bindtap="showAddUser" data-id="0">
-	<button>添加学生</button>
+	<button>添加学员</button>
 </view>

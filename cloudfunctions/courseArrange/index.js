@@ -185,6 +185,13 @@ exports.main = async (event, context) => {
           ])
         ])
       )).end();
+    } else if (event.requestType == 'getReadyFinishedCourseArrange') { // 根据查询条件获取课程列表
+      return await db.collection("courseArrange").aggregate().sort({
+        currentData: -1,
+        startTime: -1
+      }).match({
+
+      }).end();
     }
   } catch (e) {
     console.error(e)

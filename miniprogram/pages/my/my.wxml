@@ -76,9 +76,13 @@
 				学员管理
 			</view>
 		</view>
-		<view class="center" bindtap="showCourseArrange">
-			<view class="img" style="width: 175rpx;"></view>
-			<view class="doc" style="width: 175rpx;"></view>
+		<view class="center" bindtap="showAllCourseArrangeList">
+			<view class="img">
+				<van-image width="20" height="20" src="{{courseArrange}}" />
+			</view>
+			<view class="doc">
+				排课列表
+			</view>
 		</view>
 	</view>
 

@@ -1,0 +1,22 @@
+<block wx:if="{{resultList.length > 0}}">
+	<view class="course-list">
+		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+			<van-col span="20">
+				<van-card desc="{{item.currentData}}（{{item.currentWeek}}）" title="{{item.courseName}}" thumb="{{headImage}}" />
+			</van-col>
+			<van-col span="2">
+				<view class="edit view_flex">
+					<van-image width="20" height="20" src="{{editImage}}" bind:click="showCourseArrangeDetail" data-id="{{item._id}}" />
+				</view>
+			</van-col>
+		</van-row>
+	</view>
+</block>
+<block wx:elif="{{(resultList.length < 1) && (isLoad)}}">
+	<view class="view_flex" style="width:750rpx;height:1000rpx">
+		没有课程排课内容！
+	</view>
+</block>
+<view class="add" bindtap="showEditCourse" data-id="0">
+	<button>添加课程</button>
+</view>
