@@ -18,13 +18,13 @@ import {
 const app = getApp();
 Page({
   data: {
-    isLoad: false, // 页面是否加载完成
-    dataList: [], // 近七天的日期列表
-    index: 0, // 日期索引值
-    currentData: '', // 当前日期
-    currentWeek: '', // 当前星期几
-    resultList: null, // 课程列表
-    countList: null, // 课程预定人数列表
+    isLoad: false,
+    dataList: [],
+    index: 0,
+    currentData: '',
+    currentWeek: '',
+    resultList: null,
+    countList: null,
     headImage: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=9184ee1dd0a51f9965bb7fccd2598df3&t=1590470115",
     username: ""
   },
@@ -36,12 +36,61 @@ Page({
       duration: 1000
     });
     wx.setNavigationBarTitle({
-      title: '课程预定',
+      title: '课程预约',
     });
   },
 
+  /**
+   * 获取当前预约课程的人数
+   * @param {当前的日期} currentData 
+   */
+  getCountOfCourseArrange: function (currentData) {
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'getCountOfCourseArrange',
+        currentData: currentData,
+      }
+    }).then(res => {
+      this.setData({
+        countList: res.result.list,
+        isLoad: true
+      });
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * 获取课程排课列表
+   * @param {当前的日期} currentData 
+   * @param {预约用户的账号} username 
+   */
+  getCourseArrangeList: function (currentData, username) {
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: 'courseArrangeGetListByOrder',
+        currentData: currentData,
+        username: username
+      }
+    }).then(res => {
+      this.setData({
+        resultList: res.result.list
+      });
+      this.getCountOfCourseArrange(currentData);
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * onLoad
+   * @param {*} options 
+   */
   onLoad: function (options) {
-    // 获取当前登陆的用户
     const username = wx.getStorageSync('username');
     this.setData({
       username: username
@@ -60,9 +109,7 @@ Page({
         index: -1
       })
     }
-    // 获取当前的日期
     var currentData = null;
-    // 获取当前是星期几
     var currentWeek = null;
     var time = formatDate(new Date());
     var dataSet = getDates(7, time);
@@ -74,7 +121,6 @@ Page({
       currentData = this.data.currentData;
       currentWeek = this.data.currentWeek;
     }
-    // 获取当前的日期索引
     for (var i = 0; i < dataSet.length; i++) {
       if (currentData == dataSet[i].time) {
         index = i;
@@ -84,121 +130,36 @@ Page({
     this.setData({
       currentWeek: currentWeek,
       currentData: currentData,
+      dataList: dataSet,
+      index: index,
     });
-    // 获取当前时间的课程列表
-    wx.cloud.callFunction({
-      name: "courseArrange",
-      data: {
-        requestType: 'courseArrangeGetListByOrder',
-        currentData: this.data.currentData,
-        username: this.data.username
-      }
-    }).then(res => {
-      this.setData({
-        resultList: res.result.list
-      });
-      // 获取当前预约的人数
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCountOfCourseArrange',
-          currentData: this.data.currentData,
-        }
-      }).then(res => {
-        this.setData({
-          countList: res.result.list,
-          dataList: dataSet,
-          index: index,
-          isLoad: true
-        });
-      }).catch(err => {
-        //onLoad方法，获取当前预约的人数失败
-        console.error(err);
-        wx.showToast({
-          title: '操作失败，请重试！',
-        });
-      });
-    }).catch(err => {
-      //onLoad方法，获取课程列表失败
-      console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试！',
-        icon: 'none'
-      });
-    })
+    this.getCourseArrangeList(this.data.currentData, username);
   },
 
+  /**
+   * onShow
+   */
   onShow: function () {
-    // 获取当前登陆的用户
-    const username = wx.getStorageSync('username');
-    this.setData({
-      username: username
-    });
     wx.showLoading({
       title: '加载中',
       icon: 'loading',
       duration: 1000
     });
-    // 获取当前时间的课程列表
-    wx.cloud.callFunction({
-      name: "courseArrange",
-      data: {
-        requestType: 'courseArrangeGetListByOrder',
-        currentData: this.data.currentData,
-        username: this.data.username
-      }
-    }).then(res => {
-      this.setData({
-        resultList: res.result.list
-      });
-      // 获取当前选课的人数
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCountOfCourseArrange',
-          currentData: this.data.currentData,
-        }
-      }).then(res => {
-        this.setData({
-          countList: res.result.list,
-          isLoad: true
-        });
-      }).catch(err => {
-        // onShow方法 获取当前选课人数失败
-        console.error(err);
-        wx.showToast({
-          title: '操作失败，请重试！',
-          icon: 'none'
-        });
-      });
-    }).catch(err => {
-      //onShow方法 获取课程列表失败
-      console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试！',
-        icon: 'none'
-      });
-    });
+    this.getCourseArrangeList(this.data.currentData, this.data.username);
   },
 
-  onHide: function () {
-    this.setData({
-      isLoad: false
-    });
-  },
-
-  // 选择当前排课的日期(星期几)
+  /**
+   * 选择当前的排课日期
+   * @param {*} e 
+   */
   dataSelect: function (e) {
     wx.showLoading({
       title: '加载中',
       icon: 'loading',
       duration: 1000
     })
-    // 获取当前的索引值
     var index = e.currentTarget.dataset.index;
-    // 获取当前的日期
     var currentData = this.data.dataList[index].time;
-    // 获取当前是星期几
     var currentWeek = this.data.dataList[index].week;
     this.setData({
       currentWeek: currentWeek,
@@ -206,199 +167,175 @@ Page({
       index: index,
       isLoad: false
     })
-    // 获取当前时间的课程列表
-    wx.cloud.callFunction({
-      name: "courseArrange",
-      data: {
-        requestType: 'courseArrangeGetListByOrder',
-        currentData: this.data.currentData,
-        username: this.data.username
-      }
-    }).then(res => {
-      this.setData({
-        resultList: res.result.list
-      });
-      // 获取当前选课的人数
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: 'getCountOfCourseArrange',
-          currentData: this.data.currentData,
-        }
-      }).then(res => {
-        this.setData({
-          countList: res.result.list,
-          isLoad: true
-        });
-      }).catch(err => {
-        // daSelect方法，获取当前选课人数失败
-        console.error(err);
-        wx.showToast({
-          title: '操作失败，请重试！',
-          icon: 'none'
-        });
-      });
-    }).catch(err => {
-      // dataSelect方法 获取课程列表失败
-      console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试！',
-        icon: 'none'
-      });
-    })
+    this.getCourseArrangeList(currentData, this.data.username);
   },
 
-  // 确认预约课程
-  confirmReserve: function (event) {
-    // 获取用户的账号信息
-    const username = wx.getStorageSync('username');
-    // 设置选择的课程id
+  /**
+   * onHide
+   */
+  onHide: function () {
     this.setData({
-      applyId: event.currentTarget.dataset.id 
+      isLoad: false
     });
-    var currentTime = formatTime(new Date());
+  },
+
+  /**
+   * 用户点击确定预约课程
+   * @param {*} event 
+   */
+  confirmReserve: function (event) {
+    if (this.data.username == "") {
+      wx.navigateTo({
+        url: '../login_wx/login_wx',
+      });
+      this.showToast("当前还没有登录，请先登录！");
+      return false;
+    };
+    this.setData({
+      applyId: event.currentTarget.dataset.id,
+      length: event.currentTarget.dataset.length
+    });
     var currentData = formatCurrentDate(new Date());
-    // 检查该时段能否预定该课程
+    var currentTime = formatTime(new Date());
+    // 检查当前时间段能否预约课程
+    this.checkCourseReserveConfirmer(this.data.currentData, this.data.currentTime, this.data.username, this.data.applyId, this.data.length);
+  },
+
+  /**
+   * 检查当前时段能否预约课程
+   * @param {当前的日期} currentData 
+   * @param {当前的时间} currentTime 
+   * @param {当前账号的用户名} username 
+   * @param {当前预约课程的Id} applyId
+   * @param {当前已选课人数} length
+   */
+  checkCourseReserveConfirmer: function (currentData, currentTime, username, applyId, length) {
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: "checkCourseReserveConfirm",
         currentData: currentData,
         currentTime: currentTime,
-        applyId: this.data.applyId
+        applyId: applyId
       }
     }).then(res => {
-      // 如果该课程可以预约
       if (res.result.list.length > 0) {
-        // 检查是否预约过课程
-        wx.cloud.callFunction({
-          name: "courseReserve",
-          data: {
-            requestType: "getMyCourseReserveById",
-            applyId: this.data.applyId,
-            username: username
-          }
-        }).then(res => {
-          // 如果存在预约记录
-          if (res.result.data.length > 0) {
-            wx.showToast({
-              title: '你已预约过该课程',
-              icon: 'none'
-            });
-          } else {
-            var lentgh = event.currentTarget.dataset.length;
-            // 如果当前预约人数已存在4人
-            if (lentgh >= 4) {
-              wx.showToast({
-                title: '当前预约人数已满4人',
-                icon: 'none'
-              });
-            } else {
-              // 获取用户名信息
-              const username = wx.getStorageSync('username');
-              if (this.nullToEmpty(username) == "") {
-                // 如果当前没有登陆信息，则跳转到登陆页面
-                wx.navigateTo({
-                  url: '../login2/login2',
-                });
-                wx.showToast({
-                  title: '当前还没有登陆，请先登陆！',
-                  icon: 'none'
-                })
-                return false;
-              };
-              wx.cloud.callFunction({
-                name: "users",
-                data: {
-                  requestType: 'getUserINFO',
-                  account: username
-                }
-              }).then(res => {
-                if (res.result.list.length > 0) {
-                  const realname = res.result.list[0].realname;
-                  const phone = res.result.list[0].phone;
-                  const time = formatDate(new Date());
-                  const db = wx.cloud.database();
-                  // 增加预约课程记录
-                  db.collection('courseReserve').add({
-                    data: {
-                      applyId: this.data.applyId,
-                      username: username,
-                      realname: realname,
-                      phone: phone,
-                      updateTime: time,
-                      isFinished: 0
-                    },
-                    success: res => {
-                      this.setData({
-                        counterId: res._id
-                      })
-                      wx.showToast({
-                        title: '预约课程成功',
-                        icon: 'none'
-                      });
-                      // 完成课程预约并跳转页面
-                      console.log('[数据库] [预约课程] 成功，记录 _id: ', res._id);
-                      wx.navigateTo({
-                        url: '../courseReserveFinished/courseReserveFinished?id=' + this.data.applyId
-                      });
-                    },
-                    fail: err => {
-                      wx.showToast({
-                        icon: 'none',
-                        title: '预约课程失败'
-                      });
-                      console.error('[数据库] [预约课程] 失败：', err)
-                    }
-                  });
-                } else { // 如果账号信息不存在
-                  wx.showToast({
-                    title: '账号信息不存在，请重试',
-                    icon: 'none'
-                  })
-                }
-              }).catch(err => {
-                //confirmReserve方法， 获取用户信息失败
-                console.error(err);
-                wx.showToast({
-                  title: '预约课程失败，请重试！',
-                  icon: 'none'
-                });
-              })
-            }
-          }
-        }).catch(err => {
-          //confirmReserve方法 检查是否预约过该课程失败
-          console.error(err);
-          wx.showToast({
-            title: '预约课程失败，请重试！',
-            icon: 'none'
-          });
-        });
+        // 检查我是否预约过该课程
+        this.checkMyReserve(username, applyId, length);
       } else {
-        wx.showToast({
-          title: '课程已经开课，不能预约',
-          icon: 'none'
-        });
+        this.showToast("课程当前时段不能预约，请重试！");
       }
     }).catch(err => {
-      //confirmReserve方法 检查该时段能否预定该课程失败
       console.error(err);
-      wx.showToast({
-        title: '预约课程失败，请重试！',
-        icon: 'none'
-      });
+      this.showToast("操作失败，请重试");
     });
   },
 
-  // 跳转到预定详情页
+  /**
+   * 检查我是否预约过该课程
+   * @param {当前用户的账号} username 
+   * @param {当前选课的ID} applyId 
+   * @param {当前预约课程的人数} length 
+   */
+  checkMyReserve: function (username, applyId, length) {
+    wx.cloud.callFunction({
+      name: "courseReserve",
+      data: {
+        requestType: "getMyCourseReserveById",
+        applyId: applyId,
+        username: username
+      }
+    }).then(res => {
+      if (res.result.data.length > 0) {
+        this.showToast("您已预约过该课程，请重试！");
+      } else {
+        if (length >= 4) {
+          this.showToast("当前预约人数已满4人，请重试！");
+        } else {
+          // 获取用户的账号信息
+          this.getUserInfo(applyId, username);
+        }
+      }
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试");
+    });
+  },
+
+  /**
+   * 获取用户的账号信息
+   * @param {当前预约课程的ID} applyId
+   * @param {用户的账号名} username 
+   */
+  getUserInfo: function (applyId, username) {
+    wx.cloud.callFunction({
+      name: "users",
+      data: {
+        requestType: 'getUserINFO',
+        account: username
+      }
+    }).then(res => {
+      if (res.result.list.length > 0) {
+        const realname = res.result.list[0].realname;
+        const phone = res.result.list[0].phone;
+        const time = formatDate(new Date());
+        // 增加课程预约记录
+        this.addCourseReserve(applyId, username, realname, phone, time);
+      } else {
+        this.showToast("操作失败，请重试");
+      }
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试");
+    });
+  },
+
+  /**
+   * 增加预约课程记录
+   * @param {当前预约课程的ID} applyId
+   * @param {用户的账号名} username 
+   * @param {用户的真实姓名} realname
+   * @param {用户的手机号} phone
+   * @param {用户的预约时间点} time
+   */
+  addCourseReserve(applyId, username, realname, phone, time) {
+    const db = wx.cloud.database();
+    db.collection('courseReserve').add({
+      data: {
+        applyId: applyId,
+        username: username,
+        realname: realname,
+        phone: phone,
+        updateTime: time,
+        isFinished: 0
+      },
+      success: res => {   
+        // 跳转到预约详情页
+        wx.navigateTo({
+          url: '../courseReserveFinished/courseReserveFinished?id=' + applyId
+        });
+        this.showToast("预约课程成功");
+      },
+      fail: err => {
+        this.showToast("操作失败，请重试");
+      }
+    });
+  },
+
+  /**
+   * 跳转到预定详情页面
+   * @param {*} event 
+   */
   showCourseReserveFinished: function (event) {
     wx.navigateTo({
       url: '../courseReserveFinished/courseReserveFinished?id=' + event.currentTarget.dataset.id
     })
   },
 
-  // 将为null或undefined的字段转换
+  /**
+   * 将null字符串转换为empty
+   * @param {*} value 
+   */
   nullToEmpty: function (value) {
     if (value == undefined) {
       return "";
@@ -407,6 +344,17 @@ Page({
     } else if (value == "") {
       return "";
     }
+  },
+
+  /**
+   * 弹窗代码封装
+   * @param {*} title 
+   */
+  showToast: function (title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
+    })
   }
 
 })

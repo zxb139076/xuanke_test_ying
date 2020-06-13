@@ -23,7 +23,6 @@ Page({
    * onReady
    */
   onReady: function () {
-    console.log("onReady");
     wx.showLoading({
       title: '加载中',
       icon: 'loading',
@@ -39,7 +38,6 @@ Page({
    * @param {*} options 
    */
   onLoad: function (options) {
-    console.log("onLoad");
     // 获取当前的时间，如果没有则不赋值
     if (this.nullToEmpty(options.currentData) != "") {
       this.setData({
@@ -90,7 +88,6 @@ Page({
    * onShow
    */
   onShow: function () {
-    console.log("onshow");
     // 获取当前的课程列表
     wx.showLoading({
       title: '加载中',
