@@ -1,4 +1,25 @@
 <block wx:if="{{resultList.length > 0}}">
+	<view style="width:750rpx;height:160rpx;display:flex;flex-direction:column;">
+		<view style="display:flex;flex-direction:row">
+			<picker value="{{selectDate}}" mode="date" start="{{startData}}" end="{{endData}}" filed="day" bindchange="bindCourseBeginDataChange">
+				<text>起始时间：</text>
+			</picker>
+			<text>{{courseBeginData}}</text>
+		</view>
+		<view style="display:flex;flex-direction:row">
+			<picker value="{{selectDate}}" mode="date" start="{{startData}}" end="{{endData}}" filed="day" bindchange="bindCourseEndDataChange">
+				<text>结束时间：</text>
+			</picker>
+			<text>{{courseEndData}}</text>
+		</view>
+		<!-- <view style="display:flex;flex-direction:row">
+			<picker value="{{selectDate}}" mode="date" start="{{startData}}" end="{{endData}}" filed="day" bindchange="bindIsFinishedChange">
+					<text>是否完成：</text>
+			</picker>
+			<text wx:if="{{isFinished==0}}">未完成</text>
+			<text wx:else>未完成</text>
+		</view> -->
+	</view>
 	<view class="course-list">
 		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 			<van-col span="20">
@@ -17,6 +38,6 @@
 		没有课程排课内容！
 	</view>
 </block>
-<view class="add" bindtap="showEditCourse" data-id="0">
-	<button>添加课程</button>
+<view class="add" bindtap="showCourseArrangeListQuery" data-id="0">
+	<button>查询</button>
 </view>

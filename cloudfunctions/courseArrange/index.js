@@ -186,12 +186,50 @@ exports.main = async (event, context) => {
         ])
       )).end();
     } else if (event.requestType == 'getReadyFinishedCourseArrange') { // 根据查询条件获取课程列表
-      return await db.collection("courseArrange").aggregate().sort({
-        currentData: -1,
-        startTime: -1
-      }).match({
-
-      }).end();
+      // 开始时间不为空
+      if (event.courseBeginData != "") {
+        if (event.courseEndData != "") {
+          return await db.collection("courseArrange").aggregate().sort({
+            isFinished: 1,
+            currentData: -1,
+            startTime: -1
+          }).match(_.expr(
+            $.and([
+              $.gte(['$currentData', event.courseBeginData]),
+              $.lte(['$currentData', event.courseEndData])
+            ])
+          )).end();
+        } else {
+          return await db.collection("courseArrange").aggregate().sort({
+            isFinished: 1,
+            currentData: -1,
+            startTime: -1
+          }).match(_.expr(
+            $.and([
+              $.gte(['$currentData', event.courseBeginData]),
+            ])
+          )).end();
+        }
+      } else {  // 开始时间为空
+        if (event.courseEndData != "") {
+          return await db.collection("courseArrange").aggregate().sort({
+            isFinished: 1,
+            currentData: -1,
+            startTime: -1
+          }).match(_.expr(
+            $.and([
+              $.lte(['$currentData', event.courseEndData])
+            ])
+          )).end();
+        } else {
+          return await db.collection("courseArrange").aggregate().sort({
+            isFinished: 1,
+            currentData: -1,
+            startTime: -1
+          }).end();
+        }
+      }
+      
     }
   } catch (e) {
     console.error(e)
