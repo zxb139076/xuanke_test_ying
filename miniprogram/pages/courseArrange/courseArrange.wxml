@@ -24,7 +24,7 @@
 					<van-card desc="{{item.startTime}}至{{item.endTime}}\n当前已预约人数:{{countList[itemIdx].arrangeList.length}}" title="{{item.courseName}}" thumb="{{headImage}}">
 						<!--编辑信息-->
 						<view slot="footer" style="display:flex;float:right;">
-							<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showEditCourseArrange" data-id="{{item._id}}">
+							<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showCourseArrangeEdit" data-id="{{item._id}}">
 								编辑
 							</button>
 							<button size="mini" style="background-color: rgb(177, 211, 236);margin:2px;height:20px;font-size:12px;" bindtap="showCourseArrangeDetail" data-id="{{item._id}}">
@@ -44,6 +44,6 @@
 		<!-- 循环排课信息结束 -->
 	</view>
 </view>
-<view class="add" bindtap="showCourseArrangeAdd">
+<view class="add" bindtap="showCourseArrangeEdit" data-id="0">
 	<button>增加排课</button>
 </view>

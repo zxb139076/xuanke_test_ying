@@ -198,7 +198,7 @@ Page({
     var currentData = formatCurrentDate(new Date());
     var currentTime = formatTime(new Date());
     // 检查当前时间段能否预约课程
-    this.checkCourseReserveConfirmer(this.data.currentData, this.data.currentTime, this.data.username, this.data.applyId, this.data.length);
+    this.checkCourseReserveConfirmer(currentData, currentTime, this.data.username, this.data.applyId, this.data.length);
   },
 
   /**
@@ -210,6 +210,7 @@ Page({
    * @param {当前已选课人数} length
    */
   checkCourseReserveConfirmer: function (currentData, currentTime, username, applyId, length) {
+    console.log("检查当前时段能否预约课程：" + currentData + " " + currentTime);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {

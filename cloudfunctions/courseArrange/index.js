@@ -52,7 +52,7 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         let: {
-          arrange_id: '$_id', 
+          arrange_id: '$_id',
         },
         pipeline: $.pipeline()
           .match(_.expr($.and([
@@ -173,21 +173,9 @@ exports.main = async (event, context) => {
           ])
         ])
       )).end();
-    } else if (event.requestType == 'checkCourseReserveCancel') {// 检查当前课程是否可以取消预约，用户在预约功能时使用，重复
+    } else if (event.requestType == 'checkCourseReserveConfirm') { // 检查当前是否可以预约该课程，用户在预约功能时使用，重复
       return await db.collection("courseArrange").aggregate().match({
-        _id: event.id
-      }).match(_.expr(
-        $.or([
-          $.gt(['$currentData', event.currentData]),
-          $.and([
-            $.eq(['$currentData', event.currentData]),
-            $.gt(['$startTime', event.currentTime])
-          ])
-        ])
-      )).end();
-    } else if (event.requestType == 'checkCourseReserveConfirm') {// 检查当前是否可以预约该课程，用户在预约功能时使用，重复
-      return await db.collection("courseArrange").aggregate().match({
-        _id: event.id
+        _id: event.applyId
       }).match(_.expr(
         $.or([
           $.gt(['$currentData', event.currentData]),

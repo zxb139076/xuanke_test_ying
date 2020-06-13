@@ -177,24 +177,17 @@ Page({
     });
   },
 
-  // 显示添加课程排课页面
-  showCourseArrangeAdd: function (event) {
-    wx.navigateTo({
-      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek + "&id=0",
-    })
-  },
-
   // 显示编辑课程排课页面
-  showEditCourseArrange: function (event) {
+  showCourseArrangeEdit: function (event) {
     wx.navigateTo({
-      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek + "&id=" + event.currentTarget.dataset.id,
+      url: '../courseArrangeEdit/courseArrangeEdit?currentData=' + this.data.currentData + "&currentWeek=" + this.data.currentWeek + "&id=" + event.currentTarget.dataset.id
     })
   },
 
   // 显示课程排课详细信息
   showCourseArrangeDetail: function (event) {
     wx.navigateTo({
-      url: '../courseArrangeDetail/courseArrangeDetail?id=' + event.currentTarget.dataset.id,
+      url: '../courseArrangeDetail/courseArrangeDetail?id=' + event.currentTarget.dataset.id
     })
   },
 

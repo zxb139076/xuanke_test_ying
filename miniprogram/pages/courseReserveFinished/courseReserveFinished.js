@@ -1,4 +1,4 @@
-// 获得当前的时分秒
+// 获得当前的时分
 import {
   formatTime
 } from '../util/util.js';
@@ -10,17 +10,19 @@ import {
 import {
   formatCurrentDate
 } from '../util/util.js';
-const app = getApp();
 Page({
   data: {
     id: "0", //当前课程信息Id
-    isLoad: false, //当前页面是否加载完成
-    courseInfo: '', //当前课程信息
-    myReserveInfo: null, //用户预订课程的信息
+    isLoad: false, 
+    courseInfo: '', 
+    myReserveInfo: null, 
     courseIsFinished: "10", //从时间点判断当前课程是否结束
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
   },
 
+  /**
+   * onReady
+   */
   onReady: function () {
     wx.showLoading({
       title: '加载中',
@@ -32,6 +34,10 @@ Page({
     });
   },
 
+  /**
+   * onLoad
+   * @param {*} options 
+   */
   onLoad: function (options) {
     // 设置当前课程的Id
     this.setData({
@@ -43,7 +49,7 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: "checkCourseReserveCancel",
+        requestType: "checkCourseReserveConfirm",
         id: this.data.id,
         currentTime: currentTime,
         currentData: currentData
@@ -118,7 +124,7 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: "checkCourseReserveCancel",
+        requestType: "checkCourseReserveConfirm",
         id: this.data.id,
         currentTime: currentTime,
         currentData: currentData
@@ -171,7 +177,6 @@ Page({
     wx.switchTab({
       url: '../index/index',
     });
-    console.log("返回首页成功")
   },
 
   // 返回预定课程界面
