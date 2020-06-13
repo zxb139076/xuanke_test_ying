@@ -13,9 +13,9 @@ import {
 Page({
   data: {
     id: "0", //当前课程信息Id
-    isLoad: false, 
-    courseInfo: '', 
-    myReserveInfo: null, 
+    isLoad: false,
+    courseInfo: '',
+    myReserveInfo: null,
     courseIsFinished: "10", //从时间点判断当前课程是否结束
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
   },
@@ -39,13 +39,21 @@ Page({
    * @param {*} options 
    */
   onLoad: function (options) {
-    // 设置当前课程的Id
     this.setData({
-      id: options.id 
+      id: options.id
     });
-    // 检查当前是否可以取消预约该课程
     var currentTime = formatTime(new Date());
     var currentData = formatCurrentDate(new Date());
+    // 检查当前时间点能否取消课程
+    this.checkCourseReserveConfirm(currentData, currentTime);
+  },
+
+  /**
+   * 检查当前时间能否取消课程
+   * @param {当前日期} currentData 
+   * @param {当前时间} currentTime 
+   */
+  checkCourseReserveConfirm: function (currentData, currentTime) {
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
@@ -65,126 +73,147 @@ Page({
           courseIsFinished: "1"
         });
       }
-      // 取得当前预定的课程信息
-      wx.cloud.callFunction({
-        name: "courseArrange",
-        data: {
-          requestType: "getCourseArrangeById",
-          id: this.data.id
-        }
-      }).then(res => {
-        this.setData({
-          courseInfo: res.result.data[0],
-          id: this.data.id,
-        });
-        // 获取用户课程预定信息
-        wx.cloud.callFunction({
-          name: "courseReserve",
-          data: {
-            requestType: "getMyCourseReserveById",
-            applyId: this.data.id,
-            openid: app.globalData.openid
-          }
-        }).then(res => {
-          this.setData({
-            myReserveInfo: res.result.data[0],
-            isLoad: true
-          });
-        }).catch(err => {
-          //onLoad方法，取得用户预订信息失败
-          console.error(err);
-          wx.showToast({
-            title: '操作失败，请重试！',
-            icon: 'none'
-          });
-        })
-      }).catch(err => {
-        // onLoad方法：取得课程信息失败
-        console.error(err);
-        wx.showToast({
-          title: '操作失败，请重试！',
-          icon: 'none'
-        });
-      })
+      // 获取当前课程的预定信息
+      this.getCourseArrangeById();
     }).catch(err => {
-      // onLoad方法：检查当前时间点是否可以取消预约课程失败
       console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试！',
-        icon: 'none'
-      });
-    })
+      this.showToast("操作失败，请重试！");
+    });
   },
 
-  // 取消当前课程的预定
+  /**
+   * 获取当前预定的课程信息
+   */
+  getCourseArrangeById: function () {
+    wx.cloud.callFunction({
+      name: "courseArrange",
+      data: {
+        requestType: "getCourseArrangeById",
+        id: this.data.id
+      }
+    }).then(res => {
+      this.setData({
+        courseInfo: res.result.data[0]
+      });
+      this.getCourseReserveById();
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * 获取当前用户对于该课程的预定信息
+   */
+  getCourseReserveById: function () {
+    var username = wx.getStorageSync('username');
+    wx.cloud.callFunction({
+      name: "courseReserve",
+      data: {
+        requestType: "getMyCourseReserveById",
+        applyId: this.data.id,
+        username: username
+      }
+    }).then(res => {
+      this.setData({
+        myReserveInfo: res.result.data[0],
+        isLoad: true
+      });
+    }).catch(err => {
+      console.error(err);
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * 用户点击取消当前课程的预定
+   * @param {*} event 
+   */
   cancelCourseReserve: function (event) {
     var currentTime = formatTime(new Date());
     var currentData = formatCurrentDate(new Date());
-    // 检查当前时间点是否可以取消预约该课程
+    // 检查当前时间能否取消课程预定
+    this.checkCourseReserveConfirm2(currentData, currentTime);
+  },
+
+  /**
+   * 检查当前时间点能否取消课程预定
+   * @param {当前的日期} currentData 
+   * @param {当前的时间} currentTime 
+   */
+  checkCourseReserveConfirm2: function (currentData, currentTime) {
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: "checkCourseReserveConfirm",
         id: this.data.id,
+        currentData: currentData,
         currentTime: currentTime,
-        currentData: currentData
       }
     }).then(res => {
-      // 如果该课程满足条件可以取消
-      if (res.result.list.length > 0) { 
-        // 取消当前课程的预约记录
-        wx.cloud.callFunction({
-          name: "courseReserve",
-          data: {
-            requestType: "deleteCourseReserveById",
-            id: this.data.myReserveInfo._id,
-          }
-        }).then(res => {
-          wx.navigateBack({
-            complete: (res) => {
-              wx.showToast({
-                title: '取消课程预定成功',
-                icon: 'none'
-              });
-            },
-          })
-        }).catch(err => {
-          //cancelCourseReserve方法，取消当前课程的预约记录失败
-          console.error(err)
-          wx.showToast({
-            title: '操作失败，请重试',
-            icon: 'none'
-          });
-        })
+      if (res.result.list.length > 0) {
+        // 取消当前课程的预定信息
+        this.deleteCourseReserveById();
       } else {
-        wx.showToast({
-          title: '当前课程已经开始，不能取消',
-          icon: 'none'
-        });
+        this.showToast("当前课程已开始，不能取消！");
       }
     }).catch(err => {
-      //cancelCourseReserve方法，检查当前是否可以取消预约该课程失败
       console.error(err);
-      wx.showToast({
-        title: '操作失败，请重试',
-        icon: 'none'
-      });
-    })
+      this.showToast("操作失败，请重试！");
+    });
   },
 
-  // 返回首页
+  /**
+   * 取消当前的课程预定信息
+   */
+  deleteCourseReserveById: function () {
+    wx.cloud.callFunction({
+      name: "courseReserve",
+      data: {
+        requestType: "deleteCourseReserveById",
+        id: this.data.myReserveInfo._id,
+      }
+    }).then(res => {
+      wx.navigateBack({
+        complete: (res) => {
+          this.showToast("课程预定取消成功");
+        },
+      })
+    }).catch(err => {
+      console.error(err)
+      this.showToast("操作失败，请重试！");
+    });
+  },
+
+  /**
+   * 返回课程首页
+   */
   returnToHome: function () {
     wx.switchTab({
       url: '../index/index',
     });
   },
 
-  // 返回预定课程界面
+  /**
+   * 返回预定课程界面
+   */
   returnToList: function () {
     wx.navigateBack({
       complete: (res) => {
         console.log("返回课程预定界面成功")
       },
     })
+  },
+
+  /**
+   * 弹窗代码封装
+   * @param {弹窗的标题} title 
+   */
+  showToast: function (title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
+    })
   }
+
 })

@@ -9,7 +9,7 @@
 		</view>
 		<view class="hr"></view>
 		<view class="content">
-			<van-card desc="预定时间:{{item.updateTime}}" title="{{item.courseName}}:{{item.nickName}}" thumb="{{headImgUrl}}" />
+			<van-card desc="预定时间:{{item.updateTime}}" title="{{item.courseName}}" thumb="{{headImgUrl}}" />
 		</view>
 		<view wx:if="{{((currentData < item.currentData) || ((currentData == item.currentData) && (currentTime < item.startTime ))) && (item.courseIsFinished == 0)}}" style="display:flex;float:right;" bindtap="cancelCourseReserve" data-id="{{item._id}}">
 			<button size="mini" class="button" style="margin:2px;height:30px;font-size:14px;" bindtap="getCourseId" data-id="{{item.arrangeInfo[0]._id}}">
