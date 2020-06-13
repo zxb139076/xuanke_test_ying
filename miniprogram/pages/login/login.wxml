@@ -1,13 +1,23 @@
-<view class="main">
-	<view class="title">
-		<image scaleToFill class="img" src="https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/cloud.jpg?sign=99f43835c21902a9a41be8cf6249e1c7&t=1590992399"></image>
+<view style="display:flex; flex-direction:column; height:800rpx;width:750rpx;">
+	<view style="display:flex; flex-grow:1;" class="view_flex">
+		<view style="flex:grow:1;" class="view_flex">
+			<text>账号：</text>
+		</view>
+		<view style="flex:grow:1;">
+			<input placeholder="用户名或手机号" type="text" bindblur="usernameBlur"></input>
+		</view>
 	</view>
-	<view class="foot">
-		<view class="cancel">
-			<button plain style="width:100%;" bindtap="backToMyPages">返回</button>
+	<view class="hr"></view>
+	<view style="display:flex; flex-grow:1;" class="view_flex">
+		<view style="flex:grow:1;" class="view_flex">
+			<text>密码：</text>
 		</view>
-		<view class="login">
-			<button plain open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" style="width:100%;">登陆</button>
+		<view style="flex:grow:1;">
+			<input placeholder="密码" type="password" bindblur="passwordBlur"></input>
 		</view>
+	</view>
+	<view class="hr"></view>
+	<view class="add" bindtap="signIn">
+		<button>登陆</button>
 	</view>
 </view>

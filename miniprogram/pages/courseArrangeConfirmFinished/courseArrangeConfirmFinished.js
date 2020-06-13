@@ -25,6 +25,7 @@ Page({
    * onLoad
    */
   onLoad: function (options) {
+    // 获取课程排课详情信息
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {

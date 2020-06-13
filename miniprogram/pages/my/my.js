@@ -3,10 +3,10 @@ const app = getApp()
 Page({
 
   data: {
-    avatarUrl: '../../images/user-unlogin.png', //未登陆时的用户头像
-    nickName: '',  // 用户的昵称
-    userInfo: {},  // 用户信息
-    logged: false, // 页面是否加载完成
+    avatarUrl: '../../images/user-unlogin.png', 
+    nickName: '', 
+    userInfo: {}, 
+    logged: false, 
     isAdmin: false,
     myReserve: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/myReserve.png?sign=34828c33d8235586b62ac8e666eeead3&t=1591061409",
     info: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/info.png?sign=7bc8e16f73afc10ad9edd4836e2a68fa&t=1591062818",
@@ -94,7 +94,7 @@ Page({
         success: res => {
           if (res.authSetting['scope.userInfo']) {
             wx.navigateTo({
-              url: '../login2/login2',
+              url: '../login/login',
             })
           } else {
             wx.navigateTo({
@@ -117,7 +117,7 @@ Page({
             success: res => {
               if (res.authSetting['scope.userInfo']) {
                 wx.navigateTo({
-                  url: '../login2/login2',
+                  url: '../login/login',
                 })
               } else {
                 wx.navigateTo({
@@ -173,27 +173,29 @@ Page({
    * 跳转到关于选课界面
    */
   showCourseInfo: function () {
-    wx.showToast({
-      title: '正在开发中',
-    })
+    if (this.checkUserIsLogin()) {
+      this.showToast("正在开发中");
+    }
   },
 
   /**
    * 跳转到我的客服页面
    */
   showClientServices: function () {
-    wx.showToast({
-      title: '正在开发中',
-    })
+    if (this.checkUserIsLogin()) {
+      this.showToast("正在开发中");
+    }
   },
 
   /**
    * 跳转到账号管理界面
    */
   showAccountManager: function () {
-    wx.navigateTo({
-      url: '../accountManager/accountManager',
-    })
+    if (this.checkUserIsLogin()) {
+      wx.navigateTo({
+        url: '../accountManager/accountManager',
+      })
+    }
   },
 
   /**

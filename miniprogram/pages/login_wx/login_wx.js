@@ -15,7 +15,7 @@ Page({
           success: res => {
             app.globalData.openid = res.result.openid;
             wx.navigateTo({
-              url: '../login2/login2',
+              url: '../login/login',
             })
           },
           fail: err => {
