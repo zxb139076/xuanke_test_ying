@@ -9,6 +9,10 @@ import {
 
 const app = getApp()
 Page({
+
+  /**
+   * data
+   */
   data: {
     isLoad: false,
     openid: '',
@@ -82,24 +86,15 @@ Page({
   },
 
   /**
-   * 取得当前选择的课程Id
-   * @param {*} event 
-   */
-  getCourseId: function (event) {
-    this.setData({
-      courseId: event.currentTarget.dataset.id
-    });
-  },
-
-  /**
    * 用户点击取消当前预定的课程
    * @param {qu} event 
    */
   cancelCourseReserve: function (event) {
     var currentTime = formatTime(new Date());
     var currentData = formatCurrentDate(new Date());
-    // 检查当前时间能否取消课程
-    this.checkCourseReserveConfirm(currentData, currentTime, this.data.courseId, event.currentTarget.dataset.id);
+    var applyId = event.currentTarget.dataset.cid;
+    var id = event.currentTarget.dataset.id;
+    this.checkCourseReserveConfirm(currentData, currentTime, applyId, id);
   },
 
   /**
