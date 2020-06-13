@@ -2,10 +2,9 @@
 	<view class="course-list">
 		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 			<van-col span="20">
-				<!-- 课程展示 -->
-				<van-card desc="{{item.realname}}" title="{{item.username}}" thumb="{{headImage}}" />
+				<van-card wx:if="{{item.headImg == ''}}" desc="{{item.realname}}" title="{{item.username}}" thumb="{{headImage}}" />
+				<van-card wx:else desc="{{item.realname}}" title="{{item.username}}" thumb="{{item.headImg}}" />
 			</van-col>
-			<!-- 编辑 -->
 			<van-col span="2">
 				<view class="edit view_flex">
 					<van-image width="20" height="20" src="{{editImage}}" bind:click="showEditUser" data-id="{{item._id}}" />

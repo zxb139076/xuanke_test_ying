@@ -1,5 +1,8 @@
 Page({
 
+  /**
+   * data
+   */
   data: {
     avatarUrl: '../../images/user-unlogin.png',
     nickName: '',
@@ -7,6 +10,9 @@ Page({
     logged: false,
   },
 
+  /**
+   * onReady
+   */
   onReady: function () {
     wx.showLoading({
       title: '加载中',
@@ -18,8 +24,11 @@ Page({
     });
   },
 
+  /**
+   * onShow
+   */
   onShow: function () {
-    if (this.checkUserIsLogin2()) {
+    if (this.checkUserIsLogin()) {
       // 获取用户信息
       wx.getSetting({
         success: res => {
@@ -67,7 +76,7 @@ Page({
   /**
    * 检查用户登陆状态2
    */
-  checkUserIsLogin2: function () {
+  checkUserIsLogin: function () {
     const username = wx.getStorageSync('username');
     if (this.nullToEmpty(username) == "") {
       return false;

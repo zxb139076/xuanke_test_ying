@@ -68,7 +68,7 @@ exports.main = async (event, context) => {
           ])
         )).end();
       }
-    } else if (event.requestType == 'usersGetList') { // 获取用户列表，教师获取学生列表时使用
+    } else if (event.requestType == 'getUserList') { // 获取用户列表，教师获取学生列表时使用
       return await db.collection("users").get();
     } else if (event.requestType == 'getUserById') { // 根据Id获取用户信息，教师编辑用户信息时使用
       return await db.collection("users").where({
