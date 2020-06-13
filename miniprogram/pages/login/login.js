@@ -81,7 +81,7 @@ Page({
    */
   checkAccoutInfo(wx_openid, username, openid) {
     // 如果当前账号绑定了微信号openid
-    if (openid != "0") {
+    if (openid != "") {
       // 检查当前用户微信号的openid是否与账号绑定的openid相同
       if (wx_openid == openid) {
         this.saveUsernameAndJump(username);

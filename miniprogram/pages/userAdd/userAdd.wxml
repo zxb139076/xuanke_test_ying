@@ -1,4 +1,4 @@
-<view style="display:flex; flex-direction:column; height:800rpx;width:750rpx;">
+<view wx:if="{{isLoad}}" style="display:flex; flex-direction:column; height:800rpx;width:750rpx;">
 	<view style="display:flex; flex-grow:1;width:750rpx;" class="view_flex">
 		<view style="flex:grow:1;width:30%;" class="view_flex_right">
 			<text>用户名：</text>

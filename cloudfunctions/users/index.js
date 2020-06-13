@@ -38,7 +38,9 @@ exports.main = async (event, context) => {
             username: event.username,
             realname: event.realname,
             password: event.password,
-            phone: event.phone
+            phone: event.phone,
+            openid: "",
+            headImg: ""
           }
         });
       }
