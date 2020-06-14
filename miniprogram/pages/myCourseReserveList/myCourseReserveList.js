@@ -108,7 +108,7 @@ Page({
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
-        requestType: 'checkCourseReserveCancel',
+        requestType: 'checkCourseReserveConfirm',
         id: applyId,
         currentTime: currentTime,
         currentData: currentData
