@@ -155,20 +155,27 @@ Page({
    */
   updateOpenid: function (wx_openid, username) {
     const avatarUrl = wx.getStorageSync('avatarUrl');
-    wx.cloud.callFunction({
-      name: "users",
-      data: {
-        requestType: "updateOpenid",
-        account: username,
-        openid: wx_openid,
-        headImg: avatarUrl
-      }
-    }).then(res => {
-      this.saveUsernameAndJump(username);
-    }).catch(err => {
-      console.log(err);
-      this.showToast("操作失败，请重试");
-    });
+    if (this.nullToEmpty(avatarUrl) != "") {
+      wx.cloud.callFunction({
+        name: "users",
+        data: {
+          requestType: "updateOpenid",
+          account: username,
+          openid: wx_openid,
+          headImg: avatarUrl
+        }
+      }).then(res => {
+        this.saveUsernameAndJump(username);
+      }).catch(err => {
+        console.log(err);
+        this.showToast("操作失败，请重试");
+      });
+    } else {
+      this.showToast("请先获得授权信息");
+      wx.navigateTo({
+        url: '../login_wx/login_wx',
+      });
+    }   
   },
 
   /**
@@ -180,6 +187,15 @@ Page({
       url: '../index/index',
     });
     this.showToast("登陆成功");
+  },
+
+  // 将为null或undefined的字段转换
+  nullToEmpty: function (value) {
+    if (value == undefined) {
+      return "";
+    } else if (value == null) {
+      return "";
+    }
   },
 
   /**

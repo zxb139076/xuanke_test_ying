@@ -9,10 +9,10 @@
 				<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;"><text>课程名称:{{courseInfo.courseName}}</text></view>
 				<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;">
 					<text wx:if="{{courseInfo.courseIsFinished==1}}">
-						课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n 预约人数：{{resultList.length}} \n 课程完成状态：已完成
+						课程日期:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n  课程时间：{{courseInfo.startTime}} 至 {{courseInfo.endTime}} \n 预约人数：{{resultList.length}} \n 课程完成状态：已完成
 					</text>
 					<text wx:if="{{courseInfo.courseIsFinished==0}}">
-						课程时间:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n 预约人数：{{resultList.length}} \n 课程完成状态：未完成
+						课程日期:{{courseInfo.currentData}}（{{courseInfo.currentWeek}}）\n  课程时间：{{courseInfo.startTime}} 至 {{courseInfo.endTime}} \n 预约人数：{{resultList.length}} \n 课程完成状态：未完成
 					</text>
 				</view>
 				<view style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
