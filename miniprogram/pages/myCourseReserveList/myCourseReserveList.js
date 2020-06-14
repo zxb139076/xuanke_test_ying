@@ -105,13 +105,17 @@ Page({
    * @param {当前课程预约的id} id 
    */
   checkCourseReserveConfirm: function (currentData, currentTime, applyId, id) {
+    console.log(currentData);
+    console.log(currentTime);
+    console.log(applyId);
+    console.log(id);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: 'checkCourseReserveConfirm',
         id: applyId,
-        currentTime: currentTime,
-        currentData: currentData
+        currentData: currentData,
+        currentTime: currentTime,   
       }
     }).then(res => {
       if (res.result.list.length > 0) {

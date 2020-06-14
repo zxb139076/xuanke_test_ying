@@ -1,7 +1,7 @@
 const app = getApp()
 Page({
 
-  
+
   /**
    * 用户页面数据
    * @param {account} 用户填写的账号
@@ -17,7 +17,7 @@ Page({
    * onLoad
    * @param {*} options 
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
@@ -72,7 +72,20 @@ Page({
     if (this.data.password == "") {
       this.showToast("密码不能为空")
     }
-    this.checkSignIn(app.globalData.openid, this.data.account, this.data.password);
+    const avatarUrl = wx.getStorageSync('avatarUrl');
+    console.log("当前登录头像信息:" + avatarUrl);
+    if (this.nullToEmpty(avatarUrl) != "") {
+      this.setData({
+        avatarUrl: avatarUrl
+      })
+      this.checkSignIn(app.globalData.openid, this.data.account, this.data.password);
+    } else {
+      this.showToast("请先获得微信授权");
+      wx.navigateTo({
+        url: '../login_wx/login_wx',
+      });
+    }
+    
   },
 
   /**
@@ -154,28 +167,20 @@ Page({
    * @param {账号的用户名} username 
    */
   updateOpenid: function (wx_openid, username) {
-    const avatarUrl = wx.getStorageSync('avatarUrl');
-    if (this.nullToEmpty(avatarUrl) != "") {
-      wx.cloud.callFunction({
-        name: "users",
-        data: {
-          requestType: "updateOpenid",
-          account: username,
-          openid: wx_openid,
-          headImg: avatarUrl
-        }
-      }).then(res => {
-        this.saveUsernameAndJump(username);
-      }).catch(err => {
-        console.log(err);
-        this.showToast("操作失败，请重试");
-      });
-    } else {
-      this.showToast("请先获得授权信息");
-      wx.navigateTo({
-        url: '../login_wx/login_wx',
-      });
-    }   
+    wx.cloud.callFunction({
+      name: "users",
+      data: {
+        requestType: "updateOpenid",
+        account: username,
+        openid: wx_openid,
+        headImg: this.data.avatarUrl
+      }
+    }).then(res => {
+      this.saveUsernameAndJump(username);
+    }).catch(err => {
+      console.log(err);
+      this.showToast("操作失败，请重试");
+    });
   },
 
   /**
@@ -195,6 +200,8 @@ Page({
       return "";
     } else if (value == null) {
       return "";
+    } else if (value == "") {
+      return ""
     }
   },
 

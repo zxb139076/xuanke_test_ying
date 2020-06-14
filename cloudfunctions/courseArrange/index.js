@@ -173,7 +173,7 @@ exports.main = async (event, context) => {
           ])
         ])
       )).end();
-    } else if (event.requestType == 'checkCourseReserveConfirm') { // 检查当前是否可以预约该课程，用户在预约功能时使用，重复
+    } else if (event.requestType == 'checkCourseReserveConfirm') { // 检查当前是否可以预约该课程，用户在预约功能时使用
       return await db.collection("courseArrange").aggregate().match({
         _id: event.applyId
       }).match(_.expr(
