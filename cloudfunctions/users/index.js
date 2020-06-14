@@ -122,6 +122,10 @@ exports.main = async (event, context) => {
       return await db.collection("users").where({
         openid: event.openid
       }).get();
+    } else if (event.requestType == 'getUserInfoByUsername') {
+      return await db.collection("users").where({
+        username: event.username
+      }).get();
     }
   } catch (e) {
     console.error(e)

@@ -2,11 +2,13 @@ const app = getApp()
 
 Page({
 
+  /**
+   * data
+   */
   data: {
-    avatarUrl: '../../images/user-unlogin.png', 
-    nickName: '', 
-    userInfo: {}, 
-    logged: false, 
+    headImg: '../../images/user-unlogin.png',
+    username: '',
+    logged: false,
     isAdmin: false,
     myReserve: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/myReserve.png?sign=34828c33d8235586b62ac8e666eeead3&t=1591061409",
     info: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/info.png?sign=7bc8e16f73afc10ad9edd4836e2a68fa&t=1591062818",
@@ -17,6 +19,9 @@ Page({
     userManager: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/images/users.png?sign=b7ecb66dd2e48b7a7e51cd8cf5f1298d&t=1591932464"
   },
 
+  /**
+   * onReady
+   */
   onReady: function () {
     wx.showLoading({
       title: '加载中',
@@ -28,25 +33,33 @@ Page({
     });
   },
 
+  /**
+   * onShow
+   */
   onShow: function () {
     if (this.checkUserIsLogin2()) {
-      // 获取用户信息
       wx.getSetting({
         success: res => {
           if (res.authSetting['scope.userInfo']) {
-            wx.getUserInfo({
-              success: res => {
-                this.setData({
-                  avatarUrl: res.userInfo.avatarUrl,
-                  nickName: res.userInfo.nickName,
-                  userInfo: res.userInfo,
-                  logged: true
-                })
+            var username = wx.getStorageSync('username');
+            wx.cloud.callFunction({
+              name: "users",
+              data: {
+                requestType: "getUserInfoByUsername",
+                username: username
               }
-            })
+            }).then(res => {
+              this.setData({
+                username: res.result.data[0].username,
+                headImg: res.result.data[0].headImg
+              });
+            }).catch(err => {
+              console.log(err);
+              this.showToast("操作失败，请重试");
+            });
           } else {
             this.setData({
-              avatarUrl: './user-unlogin.png',
+              headImg: './user-unlogin.png',
               logged: false
             });
           }
@@ -55,7 +68,7 @@ Page({
       this.checkIsAdmin();
     } else {
       this.setData({
-        avatarUrl: './user-unlogin.png',
+        headImg: './user-unlogin.png',
         logged: false
       });
     }
@@ -109,7 +122,7 @@ Page({
         title: '提示',
         content: '是否退出登陆',
         success: function (res) {
-          if (!res.confirm) {
+          if (!res.confirm) { // 取消当前操作
             return;
           }
           wx.setStorageSync('username', '');
@@ -127,7 +140,7 @@ Page({
             }
           });
         }
-      })
+      });
     }
   },
 
@@ -161,7 +174,7 @@ Page({
   /**
    * 显示课程排课列表
    */
-  showAllCourseArrangeList: function() {
+  showAllCourseArrangeList: function () {
     wx.navigateTo({
       url: '../allCourseArrangeList/allCourseArrangeList',
     })

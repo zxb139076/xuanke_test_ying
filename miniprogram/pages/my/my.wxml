@@ -1,9 +1,9 @@
 <view class="container">
 
 	<view class="userinfo">
-		<button bindtap="userlogin" class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></button>
+		<button bindtap="userlogin" class="userinfo-avatar" style="background-image: url({{headImg}})" size="default"></button>
 		<view class="userinfo-nickname-wrapper">
-			<text wx:if="logged">{{nickName}}</text>
+			<text wx:if="{{username != ''}}">{{username}}</text>
 			<text wx:else>点我登陆</text>
 		</view>
 	</view>

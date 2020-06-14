@@ -10,6 +10,7 @@ Page({
     realname: '',
     password: '',
     phone: '',
+    userOpenid: ''
   },
 
   /**
@@ -69,6 +70,7 @@ Page({
         realname: res.result.data[0].realname,
         password: res.result.data[0].password,
         phone: res.result.data[0].phone,
+        userOpenid: res.result.data[0].openid,
         isLoad: true
       });
     }).catch(err => {

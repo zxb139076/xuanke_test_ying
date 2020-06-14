@@ -4,7 +4,8 @@
 			<text>用户名：</text>
 		</view>
 		<view style="flex:grow:1;">
-			<input placeholder="请填写用户名，如zhang_san" type="text" bindblur="usernameBlur" value="{{username}}"></input>
+			<input wx:if="{{userOpenid != ''}}" placeholder="请填写用户名，如zhang_san" type="text" bindblur="usernameBlur" value="{{username}}" disabled></input>
+			<input wx:else placeholder="请填写用户名，如zhang_san" type="text" bindblur="usernameBlur" value="{{username}}" ></input>
 		</view>
 	</view>
 	<view class="hr"></view>
@@ -22,7 +23,7 @@
 			<text>密码：</text>
 		</view>
 		<view style="flex:grow:1;">
-			<input placeholder="密码" type="password" bindblur="passwordBlur" value="{{password}}" ></input>
+			<input placeholder="密码" type="password" bindblur="passwordBlur" value="{{password}}" disabled></input>
 		</view>
 	</view>
 	<view class="hr"></view>

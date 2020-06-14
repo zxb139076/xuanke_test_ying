@@ -155,6 +155,28 @@ Page({
   },
 
   /**
+   * 根据课程排课ID取消排课
+   */
+  deleteCourseArrangeById: function() {
+    if (this.data.courseInfo.courseIsFinished != 0) {
+      this.showToast("当前课程已完成，不能取消");
+    } else {
+      wx.cloud.callFunction({
+        name: "courseArrange",
+        data: {
+          requestType: "cancelCourseArrangeById",
+          id: this.data.id
+        }
+      }).then(res => {
+        this.showToast("取消课程成功！");
+      }).catch(err => {
+        console.log(err);
+        this.showToast("操作失败，请重试！");
+      })
+    }
+  },
+
+  /**
    * 封装弹窗代码
    */
   showToast: function (title) {

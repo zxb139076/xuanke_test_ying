@@ -47,7 +47,7 @@ exports.main = async (event, context) => {
         applyId: event.applyId,
         username: event.username
       }).get();
-    }
+    } 
   } catch (e) {
     console.error(e)
   }

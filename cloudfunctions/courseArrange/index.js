@@ -210,7 +210,7 @@ exports.main = async (event, context) => {
             ])
           )).end();
         }
-      } else {  // 开始时间为空
+      } else { // 开始时间为空
         if (event.courseEndData != "") {
           return await db.collection("courseArrange").aggregate().sort({
             isFinished: 1,
@@ -229,7 +229,14 @@ exports.main = async (event, context) => {
           }).end();
         }
       }
-      
+    } else if (event.requestType == 'cancelCourseArrangeById') { // 根据课程ID取消课程
+      return await db.collection("courseArrange").where({
+        _id: event.id
+      }).update({
+        data: {
+          courseIsCancel: 1
+        },
+      });
     }
   } catch (e) {
     console.error(e)

@@ -39,4 +39,7 @@
 		</view>
 		<view class="hr"></view>
 	</view>
+	<!-- <view class="add" bindtap="deleteCourseArrangeById">
+		<button>取消课程</button>
+	</view> -->
 </block>
