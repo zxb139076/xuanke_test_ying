@@ -52,7 +52,7 @@ Page({
    */
   onShow: function () {
     if (this.data.id != "0") {
-      this.getCourseArrangeById(options.id);
+      this.getCourseArrangeById(this.data.id);
     } else {
       this.setData({
         currentData: this.data.currentData,

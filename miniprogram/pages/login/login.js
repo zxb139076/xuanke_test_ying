@@ -1,6 +1,7 @@
 const app = getApp()
 Page({
 
+  
   /**
    * 用户页面数据
    * @param {account} 用户填写的账号
@@ -10,6 +11,35 @@ Page({
     account: "",
     password: "",
     avatarUrl: "",
+  },
+
+  /**
+   * onLoad
+   * @param {*} options 
+   */
+  onLoad: function(options) {
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          wx.cloud.callFunction({
+            name: 'login',
+            data: {},
+            success: res => {
+              app.globalData.openid = res.result.openid;
+            },
+            fail: err => {
+              console.error(err)
+              this.showToast("获取用户登录信息失败");
+            }
+          });
+        } else {
+          wx.navigateTo({
+            url: '../login_wx/login_wx',
+          });
+          this.showToast("返回微信授权登录界面成功");
+        }
+      }
+    });
   },
 
   /**

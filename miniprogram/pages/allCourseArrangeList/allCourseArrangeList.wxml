@@ -23,7 +23,7 @@
 	<view class="course-list">
 		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 			<van-col span="22">
-				<van-card wx:if="{{item.courseIsfinished == 1}}" desc="{{item.currentData}}（{{item.currentWeek}}）已完成" title="{{item.courseName}}" thumb="{{headImage}}" />
+				<van-card wx:if="{{item.courseIsfinished == 1}}" desc="{{item.currentData}}（{{item.currentWeek}}）{{item.startTime}} 至 {{item.endTime}} 已完成" title="{{item.courseName}}" thumb="{{headImage}}" />
 				<van-card wx:else desc="{{item.currentData}}（{{item.currentWeek}}）未完成" title="{{item.courseName}} " thumb="{{headImage}}" />
 			</van-col>
 			<van-col span="2">
