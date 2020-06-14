@@ -47,22 +47,41 @@ Page({
   onGetUserInfo: function (e) {
     wx.getUserInfo({
       success: function (res) {
-        wx.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
-        wx.cloud.callFunction({
-          name: 'login',
-          data: {},
+        wx.setStorage({
+          data: 'avatarUrl',
+          key: res.userInfo.avatarUrl,
           success: res => {
-            app.globalData.openid = res.result.openid;
-            wx.navigateTo({
-              url: '../login/login',
-            })
+            wx.cloud.callFunction({
+              name: 'login',
+              data: {},
+              success: res => {
+                app.globalData.openid = res.result.openid;
+                wx.navigateTo({
+                  url: '../login/login',
+                })
+              },
+              fail: err => {
+                console.error(err)
+              }
+            });
           },
           fail: err => {
-            console.error(err)
+            this.showt
           }
-        });
+        });       
       }
-    })
+    });
   },
+  
+  /**
+   * 封装弹窗代码
+   * @param {弹窗的标题} title 
+   */
+  showToast: function(title) {
+    wx.showToast({
+      title: title,
+      icon: 'none'
+    })
+  }
 
 })

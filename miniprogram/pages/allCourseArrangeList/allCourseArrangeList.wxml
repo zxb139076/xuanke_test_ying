@@ -12,19 +12,12 @@
 			</picker>
 			<text>{{courseEndData}}</text>
 		</view>
-		<!-- <view style="display:flex;flex-direction:row">
-			<picker value="{{selectDate}}" mode="date" start="{{startData}}" end="{{endData}}" filed="day" bindchange="bindIsFinishedChange">
-					<text>是否完成：</text>
-			</picker>
-			<text wx:if="{{isFinished==0}}">未完成</text>
-			<text wx:else>未完成</text>
-		</view> -->
 	</view>
 	<view class="course-list">
 		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
 			<van-col span="22">
 				<van-card wx:if="{{item.courseIsfinished == 1}}" desc="{{item.currentData}}（{{item.currentWeek}}）{{item.startTime}} 至 {{item.endTime}} 已完成" title="{{item.courseName}}" thumb="{{headImage}}" />
-				<van-card wx:else desc="{{item.currentData}}（{{item.currentWeek}}）未完成" title="{{item.courseName}} " thumb="{{headImage}}" />
+				<van-card wx:else desc="{{item.currentData}}（{{item.currentWeek}}）{{item.startTime}} 至 {{item.endTime}} 未完成" title="{{item.courseName}} " thumb="{{headImage}}" />
 			</van-col>
 			<van-col span="2">
 				<view class="edit view_flex">
