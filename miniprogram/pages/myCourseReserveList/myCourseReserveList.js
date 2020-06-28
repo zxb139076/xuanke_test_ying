@@ -113,7 +113,7 @@ Page({
       name: "courseArrange",
       data: {
         requestType: 'checkCourseReserveConfirm',
-        id: applyId,
+        applyId: applyId,
         currentData: currentData,
         currentTime: currentTime,   
       }

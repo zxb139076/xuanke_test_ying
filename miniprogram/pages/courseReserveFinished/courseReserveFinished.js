@@ -54,6 +54,8 @@ Page({
    * @param {当前时间} currentTime 
    */
   checkCourseReserveConfirm: function (currentData, currentTime) {
+    console.log("取消预约：当前日期：");
+    console.log("取消预约：当前时间：");
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
@@ -142,11 +144,14 @@ Page({
    * @param {当前的时间} currentTime 
    */
   checkCourseReserveConfirm2: function (currentData, currentTime) {
+    console.log("取消预约：当前日期：" + currentData);
+    console.log("取消预约：当前时间：" + currentTime);
+    console.log("课程id:" + this.data.id);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
         requestType: "checkCourseReserveConfirm",
-        id: this.data.id,
+        applyId: this.data.id,
         currentData: currentData,
         currentTime: currentTime,
       }
