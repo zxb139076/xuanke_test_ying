@@ -2,7 +2,8 @@ const cloud = require('wx-server-sdk');
 // cloud.init();
 cloud.init({
    // API 调用都保持和云函数当前所在环境一致
-   env: 'xuankeying-ykwz0'
+   // env: 'xuankeying-ykwz0'
+   env: 'xuankeoutline-kve8u'
 });
 const db = cloud.database();
 const _ = db.command;

@@ -6,7 +6,10 @@ App({
     } else {
       wx.cloud.init({
          traceUser: true,
-         env: 'xuankeying-ykwz0',
+         // 生产环境
+         // env: 'xuankeying-ykwz0',
+         // 测试环境
+         env: 'xuankeoutline-kve8u'
       })
     }
     this.globalData = {}
