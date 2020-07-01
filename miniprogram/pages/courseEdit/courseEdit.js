@@ -9,6 +9,7 @@ Page({
     catalogueId: '',
     courseName: '',
     courseDetail: '',
+    courseOrder: '',
   },
 
   /**
@@ -83,6 +84,16 @@ Page({
   },
 
   /**
+   * 获得用户输入的课程次序
+   * @param {*} e 
+   */
+  courseOrderBlur: function(e) {
+    this.setData({
+      courseOrder: e.detail.value
+    })
+  },
+
+  /**
    * 点击保存课程信息
    */
   saveEditCourse: function () {
@@ -94,7 +105,11 @@ Page({
       this.showToast("请填写课程描述");
       return false;
     }
-    this.checkCourseIsExited(this.data.courseName, this.data.courseDetail);
+    if (this.data.courseOrder == '') {
+      this.showToast("请填写课程排序");
+      return false;
+    }
+    this.checkCourseIsExited(this.data.courseName, this.data.courseDetail, this.data.courseOrder);
   },
 
   /**
@@ -102,13 +117,14 @@ Page({
    * @param {课程名称} courseName 
    * @param {课程描述} courseDetail 
    */
-  checkCourseIsExited: function (courseName, courseDetail) {
+  checkCourseIsExited: function (courseName, courseDetail, courseOrder) {
     wx.cloud.callFunction({
       name: "course",
       data: {
         requestType: "checkCourseIsExited",
         id: this.data.id,
-        courseName: courseName
+        courseName: courseName,
+        courseOrder: courseOrder
       }
     }).then(res => {
       if (res.result.list < 1) {
@@ -127,7 +143,7 @@ Page({
    * @param {课程名称} courseName 
    * @param {课程描述} courseDetail 
    */
-  updateCourseInfo: function(courseName, courseDetail) {
+  updateCourseInfo: function(courseName, courseDetail, courseOrder) {
     //保存课程信息
     wx.cloud.callFunction({
       name: "course",
@@ -137,6 +153,7 @@ Page({
         catalogueId: this.data.catalogueId,
         courseName: courseName,
         courseDetail: courseDetail,
+        courseOrder: courseOrder
       }
     }).then(res => {
       wx.navigateBack({
