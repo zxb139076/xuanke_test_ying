@@ -27,7 +27,8 @@ exports.main = async (event, context) => {
         }).update({
           data: {
             courseName: event.courseName,
-            courseDetail: event.courseDetail
+            courseDetail: event.courseDetail,
+            courseOrder: event.courseOrder
           },
         })
       } else {
@@ -35,7 +36,8 @@ exports.main = async (event, context) => {
           data: {
             catalogueId: event.catalogueId,
             courseName: event.courseName,
-            courseDetail: event.courseDetail
+            courseDetail: event.courseDetail,
+            courseOrder: event.courseOrder
           }
         });
       }
@@ -43,13 +45,19 @@ exports.main = async (event, context) => {
       if (event.id != "0") {
         return await db.collection("course").aggregate().match(_.expr(
           $.neq(['$_id', event.id]),
-        )).match({
-          course: event.courseName
-        }).end();
+        )).match(_.expr(
+          $.or([
+            $.eq(['$courseName', event.courseName]),
+            $.eq(['$courseOrder', event.courseOrder])
+          ])
+        )).end();
       } else {
-        return await db.collection("course").aggregate().match({
-          courseName: event.courseName
-        }).end();
+        return await db.collection("course").aggregate().match(_.expr(
+          $.or([
+            $.eq(['$courseName', event.courseName]),
+            $.eq(['$courseOrder', event.courseOrder])
+          ])
+        )).end();
       }
     } else if (event.requestType == "deleteCourseById") { // 删除课程信息
       return await db.collection("course").doc(event.id).remove({

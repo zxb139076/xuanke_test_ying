@@ -48,6 +48,7 @@ Page({
         this.setData({
           courseName: res.result.data[0].courseName,
           courseDetail: res.result.data[0].courseDetail,
+          courseOrder: res.result.data[0].courseOrder,
           catalogueId: res.result.data[0].catalogueId
         });
       }).catch(err => {
@@ -116,6 +117,7 @@ Page({
    * 检查课程信息是否存在
    * @param {课程名称} courseName 
    * @param {课程描述} courseDetail 
+   * @param {课程排序} courseOrder
    */
   checkCourseIsExited: function (courseName, courseDetail, courseOrder) {
     wx.cloud.callFunction({
@@ -128,7 +130,7 @@ Page({
       }
     }).then(res => {
       if (res.result.list < 1) {
-        this.updateCourseInfo(courseName, courseDetail);
+        this.updateCourseInfo(courseName, courseDetail, courseOrder);
       } else { 
         this.showToast("课程名称已存在，请重试！");
       }
@@ -142,6 +144,7 @@ Page({
    * 更新课程信息
    * @param {课程名称} courseName 
    * @param {课程描述} courseDetail 
+   * @param {课程次序} courseOrder
    */
   updateCourseInfo: function(courseName, courseDetail, courseOrder) {
     //保存课程信息
