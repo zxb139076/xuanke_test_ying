@@ -1,5 +1,3 @@
-//app.js
-const config = require('./config')
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -10,12 +8,10 @@ App({
          // 生产环境
          // env: 'xuankeying-ykwz0',
          // 开发环境
-         // env: 'xuankeying-ykwz0'
-         env: config.baseEnv
+         // env: 'xuankeoutline-kve8u'
+         env: 'xuankeoutline-kve8u'
       })
     }
-    this.globalData = {
-      config: config
-    }
+    this.globalData = {}
   }
 })

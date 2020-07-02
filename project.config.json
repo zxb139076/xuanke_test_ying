@@ -31,7 +31,7 @@
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"scripts": {
-		"beforeCompile": "node switch --dev",
+		"beforeCompile": "",
 		"beforePreview": "",
 		"beforeUpload": "node switch --prod"
 	},

@@ -2,10 +2,6 @@
   "name": "miniprogram",
   "version": "1.0.0",
   "main": "app.js",
-  "scripts": {
-    "switch:dev": "node switch.js --dev",
-    "switch:prod": "node switch.js --prod"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
