@@ -26,10 +26,15 @@
 	},
 	"appid": "wxd5a17a7b7742e870",
 	"projectname": "xuanke_test_ying",
-	"libVersion": "2.8.1",
+	"libVersion": "2.11.3",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+	"scripts": {
+		"beforeCompile": "node switch --dev",
+		"beforePreview": "",
+		"beforeUpload": "node switch --prod"
+	},
 	"condition": {
 		"search": {
 			"current": -1,

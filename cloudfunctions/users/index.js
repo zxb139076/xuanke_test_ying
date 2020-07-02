@@ -1,9 +1,11 @@
 const cloud = require('wx-server-sdk');
+const config = require('../../miniprogram/config')
 // cloud.init();
 cloud.init({
    // API 调用都保持和云函数当前所在环境一致
    // env: 'xuankeying-ykwz0'
-   env: 'xuankeoutline-kve8u'
+   // env: 'xuankeoutline-kve8u'
+   env: config.baseEnv
 });
 const db = cloud.database();
 const _ = db.command;
