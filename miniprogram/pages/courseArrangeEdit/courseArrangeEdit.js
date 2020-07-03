@@ -109,9 +109,11 @@ Page({
       var array = [];
       for (var i = 0; i < res.result.data.length; i++) {
         array[i] = res.result.data[i].courseName;
+        couseIdArray[i] = res.result.data[i]._id
       }
       this.setData({
         array: array,
+        courseIdArray: courseIdArray,
         isLoad: true
       });
     }).catch(err => {

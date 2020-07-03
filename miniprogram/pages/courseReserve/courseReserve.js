@@ -250,8 +250,8 @@ Page({
       if (res.result.data.length > 0) {
         this.showToast("您已预约过该课程，请重试！");
       } else {
-        if (length >= 6) {
-          this.showToast("当前预约人数已满6人，请重试！");
+        if (length >= 4) {
+          this.showToast("当前预约人数已满4人，请重试！");
         } else {
           // 获取用户的账号信息
           this.getUserInfo(applyId, username);
@@ -280,6 +280,7 @@ Page({
         const realname = res.result.list[0].realname;
         const phone = res.result.list[0].phone;
         const headImg = res.result.list[0].headImg;
+        const openid = res.result.list[0].openid;
         const time = formatDate(new Date());
         // 增加课程预约记录
         this.addCourseReserve(applyId, username, realname, phone, headImg, time);
