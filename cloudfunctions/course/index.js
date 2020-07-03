@@ -12,10 +12,10 @@ exports.main = async (event, context) => {
   try {
     if (event.requestType == 'courseGetAllList') { // 获取全部课程列表
       return await db.collection("course").get();
-    } else if (event.requestType == 'courseGetList') { // 获取课程列表
+    } else if (event.requestType == 'courseGetList') { // 根据课程类目ID获取课程列表
       return await db.collection("course").where({
         catalogueId: event.catalogueId
-      }).get();
+      }).orderBy('courseOrder', 'asc').get();
     } else if (event.requestType == 'getCourseById') { // 查询课程项目信息
       return await db.collection("course").where({
         _id: event.id
