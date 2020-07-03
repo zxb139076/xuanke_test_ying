@@ -17,7 +17,7 @@
 				</view>
 				<view style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
 					<button wx:if="{{courseInfo.courseIsFinished==0}}" size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);" bindtap="confirmCourseArrange">确认完成</button>
-					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);" bindtap="showConfirmDetail">查看详情</button>
+					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);" bindtap="showConfirmDetail">查看确认详情</button>
 				</view>
 			</view>
 		</view>

@@ -6,12 +6,14 @@ Page({
   data: {
     isLoad: false,
     array: null,
+    couseIdArray: null,
     id: '0',
     startTime: "19:00",
     endTime: "21:00",
     currentData: "",
     currentWeek: "",
-    courseName: ""
+    courseName: "",
+    courseId: ""
   },
 
   /**
@@ -84,12 +86,14 @@ Page({
       }
     }).then(res => {
       this.setData({
-        startTime: res.result.data[0].startTime,
-        endTime: res.result.data[0].endTime,
-        courseName: res.result.data[0].courseName,
-        currentData: res.result.data[0].currentData,
-        currentWeek: res.result.data[0].currentWeek,
-        id: res.result.data[0]._id
+        startTime: res.result.list[0].startTime,
+        endTime: res.result.list[0].endTime,
+        oldCourseName: res.result.list[0].oldCourseName,
+        courseName: res.result.list[0].courseName,
+        courseId: res.result.list[0].courseId,
+        currentData: res.result.list[0].currentData,
+        currentWeek: res.result.list[0].currentWeek,
+        id: res.result.list[0]._id
       });
     }).catch(err => {
       console.error(err)
@@ -106,10 +110,13 @@ Page({
         requestType: 'courseGetAllList',
       }
     }).then(res => {
+      // 课程名称列表
       var array = [];
+      // 课程id值列表
+      var courseIdArray = [];
       for (var i = 0; i < res.result.data.length; i++) {
         array[i] = res.result.data[i].courseName;
-        couseIdArray[i] = res.result.data[i]._id
+        courseIdArray[i] = res.result.data[i]._id
       }
       this.setData({
         array: array,
@@ -127,7 +134,8 @@ Page({
    */
   CourseNameChange: function (e) {
     this.setData({
-      courseName: this.data.array[e.detail.value]
+      courseName: this.data.array[e.detail.value],
+      courseId: this.data.courseIdArray[e.detail.value]
     })
   },
 
@@ -152,7 +160,7 @@ Page({
   },
 
   /**
-   * 保存课程排课信息
+   * 用户点击更新课程排课信息
    */
   saveCourseArrange: function () {
     if (this.data.courseName == '') {
@@ -215,6 +223,7 @@ Page({
         requestType: 'saveCourseArrange',
         id: this.data.id,
         courseName: this.data.courseName,
+        courseId: this.data.courseId,
         currentData: currentData,
         currentWeek: this.data.currentWeek,
         startTime: startTime,

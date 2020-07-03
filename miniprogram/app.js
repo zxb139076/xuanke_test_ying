@@ -5,7 +5,7 @@ App({
     } else {
       wx.cloud.init({
          traceUser: true,
-         env: 'xuankeoutline-kve8u'
+         env: 'xuankeying-ykwz0'
       })
     }
     this.globalData = {}

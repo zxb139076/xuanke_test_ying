@@ -16,7 +16,7 @@ Page({
     isLoad: false,
     courseInfo: '',
     myReserveInfo: null,
-    courseIsFinished: "10", //从时间点判断当前课程是否结束
+    courseIsFinishedByTime: null, //从时间点判断当前课程是否结束
     headImgUrl: "https://7875-xuankeying-ykwz0-1256767223.tcb.qcloud.la/catalogue/ipad.jpeg?sign=97e5614693d26e39f7f91d50980fcb80&t=1590716495"
   },
 
@@ -54,8 +54,6 @@ Page({
    * @param {当前时间} currentTime 
    */
   checkCourseReserveConfirm: function (currentData, currentTime) {
-    console.log("取消预约：当前日期：");
-    console.log("取消预约：当前时间：");
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {
@@ -68,11 +66,11 @@ Page({
       // 如果该课程满足取消条件
       if (res.result.list.length > 0) {
         this.setData({
-          courseIsFinished: "0"
+          courseIsFinishedByTime: "0"
         });
       } else {
         this.setData({
-          courseIsFinished: "1"
+          courseIsFinishedByTime: "1"
         });
       }
       // 获取当前课程的预定信息
@@ -95,7 +93,7 @@ Page({
       }
     }).then(res => {
       this.setData({
-        courseInfo: res.result.data[0]
+        courseInfo: res.result.list[0] 
       });
       this.getCourseReserveById();
     }).catch(err => {
@@ -109,6 +107,13 @@ Page({
    */
   getCourseReserveById: function () {
     var username = wx.getStorageSync('username');
+    if (this.data.username == "") {
+      wx.navigateTo({
+        url: '../login_wx/login_wx',
+      });
+      this.showToast("当前还没有登录，请先登录！");
+      return false;
+    };
     wx.cloud.callFunction({
       name: "courseReserve",
       data: {
@@ -144,9 +149,6 @@ Page({
    * @param {当前的时间} currentTime 
    */
   checkCourseReserveConfirm2: function (currentData, currentTime) {
-    console.log("取消预约：当前日期：" + currentData);
-    console.log("取消预约：当前时间：" + currentTime);
-    console.log("课程id:" + this.data.id);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {

@@ -162,7 +162,7 @@ Page({
       if (res.result.list < 1) {
         this.updateCourseInfo(courseName, courseDetail, courseOrder);
       } else { 
-        this.showToast("课程名称已存在，请重试！");
+        this.showToast("课程名称或排序值已存在，请重试！");
       }
     }).catch(err => {
       console.error(err);
@@ -177,6 +177,7 @@ Page({
    * @param {课程次序} courseOrder
    */
   updateCourseInfo: function(courseName, courseDetail, courseOrder) {
+    console.log("order" + courseOrder);
     //保存课程信息
     wx.cloud.callFunction({
       name: "course",

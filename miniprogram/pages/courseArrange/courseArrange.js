@@ -146,7 +146,7 @@ Page({
       }
     }).then(res => {
       this.setData({
-        resultList: res.result.data
+        resultList: res.result.list
       });
       this.getCountOfCourseArrange(currentData);
     }).catch(err => {

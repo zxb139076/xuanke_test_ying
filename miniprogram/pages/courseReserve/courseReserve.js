@@ -210,7 +210,6 @@ Page({
    * @param {当前已选课人数} length
    */
   checkCourseReserveConfirmer: function (currentData, currentTime, username, applyId, length) {
-    console.log("检查当前时段能否预约课程：" + currentData + " " + currentTime);
     wx.cloud.callFunction({
       name: "courseArrange",
       data: {

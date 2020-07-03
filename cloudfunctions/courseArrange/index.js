@@ -12,19 +12,81 @@ const $ = db.command.aggregate;
 exports.main = async (event, context) => {
   try {
     if (event.requestType == 'courseArrangeGetList') { // 获取当前日期的课程排课列表，教师在课程排课列表界面使用
-      return await db.collection("courseArrange").where({
-        currentData: event.currentData
-      }).get();
-    } else if (event.requestType == 'getCourseArrangeById') { // 查询课程排课信息，教师在课程排课编辑界面使用
-      return await db.collection("courseArrange").where({
-        _id: event.id
-      }).get();
+      return await db.collection("courseArrange").aggregate().lookup({
+        from: 'course',
+        let: {
+          courseId: '$courseId', // courseId为排课的课程ID，将课程表_id映射为其上
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$_id', '$$courseId']), // 排课的ID对应选课表中相应的applyId
+          ])))
+          .project({
+            _id: 1,
+            catalogueId: 1,
+            courseDetail: 1,
+            courseName: 1,
+            courseOrder: 1,
+          })
+          .done(),
+        as: 'courseInfo'
+      }).replaceRoot({
+        newRoot: $.mergeObjects([$.arrayElemAt(['$courseInfo', 0]), '$$ROOT'])
+      }).match({
+        currentData: event.currentData // 匹配当前的排课时间
+      }).sort({
+        startTime: 1
+      }).end();
+    } else if (event.requestType == 'getCourseArrangeById') { // 查询课程排课详细信息，教师在课程排课编辑界面使用或是学员查看预约详情时使用     
+      return await db.collection("courseArrange").aggregate().lookup({
+        from: 'course',
+        let: {
+          courseId: '$courseId', // courseId为排课的课程ID，将课程表_id映射为其上
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$_id', '$$courseId']), // 排课的ID对应选课表中相应的applyId
+          ])))
+          .project({
+            _id: 1,
+            catalogueId: 1,
+            courseDetail: 1,
+            courseName: 1,
+            courseOrder: 1,
+          })
+          .done(),
+        as: 'courseInfo'
+      }).replaceRoot({
+        newRoot: $.mergeObjects([$.arrayElemAt(['$courseInfo', 0]), '$$ROOT'])
+      }).match({
+        _id: event.id // 匹配当前的排课ID
+      }).end();
     } else if (event.requestType == 'showCourseArrangeDetail') { // 显示课程排课详细信息，教师在课程排课详情界面使用
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         localField: '_id',
         foreignField: 'applyId',
         as: 'courseReserveList'
+      }).lookup({
+        from: 'course',
+        let: {
+          courseId: '$courseId', // courseId为排课的课程ID，将课程表_id映射为其上
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$_id', '$$courseId']), // 排课的ID对应选课表中相应的applyId
+          ])))
+          .project({
+            _id: 1,
+            catalogueId: 1,
+            courseDetail: 1,
+            courseName: 1,
+            courseOrder: 1,
+          })
+          .done(),
+        as: 'courseInfo'
+      }).replaceRoot({
+        newRoot: $.mergeObjects([$.arrayElemAt(['$courseInfo', 0]), '$$ROOT'])
       }).match({
         _id: event.id
       }).end();
@@ -34,7 +96,8 @@ exports.main = async (event, context) => {
           _id: event.id
         }).update({
           data: {
-            courseName: event.courseName,
+            courseId: event.courseId,
+            oldCourseName: event.courseName,
             startTime: event.startTime,
             endTime: event.endTime
           },
@@ -42,7 +105,8 @@ exports.main = async (event, context) => {
       } else {
         return await db.collection('courseArrange').add({
           data: {
-            courseName: event.courseName,
+            courseId: event.courseId,
+            oldCourseName: event.courseName,
             currentData: event.currentData,
             currentWeek: event.currentWeek,
             startTime: event.startTime,
@@ -55,13 +119,13 @@ exports.main = async (event, context) => {
       return await db.collection("courseArrange").aggregate().lookup({
         from: 'courseReserve',
         let: {
-          arrange_id: '$_id',
+          arrange_id: '$_id',  // 将排课的ID和预约课程中对应的排课ID对应上
         },
         pipeline: $.pipeline()
           .match(_.expr($.and([
             $.eq(['$applyId', '$$arrange_id']),
           ]))).match({
-            username: event.username
+            username: event.username // 匹配用户名，确保能检查到当前用户是否有预约到课程
           })
           .project({
             _id: 0,
@@ -75,8 +139,30 @@ exports.main = async (event, context) => {
           })
           .done(),
         as: 'arrangeList'
+      }).lookup({
+        from: 'course',
+        let: {
+          courseId: '$courseId', // courseId为排课的课程ID，将课程表_id映射为其上
+        },
+        pipeline: $.pipeline()
+          .match(_.expr($.and([
+            $.eq(['$_id', '$$courseId']), // 排课的ID对应选课表中相应的applyId
+          ])))
+          .project({
+            _id: 1,
+            catalogueId: 1,
+            courseDetail: 1,
+            courseName: 1,
+            courseOrder: 1,
+          })
+          .done(),
+        as: 'courseInfo'
+      }).replaceRoot({
+        newRoot: $.mergeObjects([$.arrayElemAt(['$courseInfo', 0]), '$$ROOT'])
       }).match({
         currentData: event.currentData
+      }).sort({
+        startTime: 1
       }).end();
     } else if (event.requestType == 'getCountOfCourseArrange') { // 获取当前选课的人数，用户在课程预约列表界面使用
       return await db.collection("courseArrange").aggregate().lookup({
@@ -101,6 +187,8 @@ exports.main = async (event, context) => {
         as: 'arrangeList'
       }).match({
         currentData: event.currentData
+      }).sort({
+        startTime: 1
       }).end();
     } else if (event.requestType == 'checkCourseArrangeByTime') { // 检查该日期该时间段是否有课程，教师在保存排课信息编辑时使用
       if (event.id == "0") {

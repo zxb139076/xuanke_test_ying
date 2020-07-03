@@ -12,13 +12,16 @@
 				<view style="flex-grow:1;font-size:12px;justify-content:left;align-items:center;display:flex;">
 					<text>课程时间:{{courseInfo.startTime}}至{{courseInfo.endTime}}</text>
 				</view>
-				<view wx:if="{{courseIsFinished == '1' && courseInfo.isFinished < 1}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
+				<!--课程在时间上已经结束，但教师还没确认完成-->
+				<view wx:if="{{courseIsFinishedByTime == '1' && courseInfo.courseIsFinished < 1}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
 					<text style="font-weight:900;">课程待完成</text>
 				</view>
-				<view wx:if="{{courseIsFinished == '1' && courseInfo.isFinished > 0}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
+				<!--课程在时间上已经结束，但教师已经确认完成-->
+				<view wx:if="{{courseInfo.courseIsFinished > 0}}" style="flex-grow:1;display:flex;justify-content:right;align-items:center;">
 					<text style="font-weight:900;">课程已完成</text>
 				</view>
-				<view wx:if="{{courseIsFinished == '0' && myReserveInfo}}" style="flex-grow:1;display:flex;justify-content:left;align-items:center;">
+				<!--课程在时间上没有结束，但教师没有确认完成且用户有预定信息-->
+				<view wx:if="{{courseIsFinishedByTime == '0' && courseInfo.courseIsFinished < 1 && myReserveInfo}}" style="flex-grow:1;display:flex;justify-content:left;align-items:center;">
 					<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);float:left;" bindtap="cancelCourseReserve">
 						取消预约
 					</button>
@@ -26,11 +29,13 @@
 			</view>
 		</view>
 	</view>
+	<!-- 返回首页 -->
 	<view style="width:750rpx;justify-content:center;align-items:center;display:flex;margin:5px">
 		<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);width:90%;" bindtap="returnToHome">
 			返回首页
 		</button>
 	</view>
+	<!-- 返回预约课程列表 -->
 	<view style="width:750rpx;justify-content:center;align-items:center;display:flex;margin:5px">
 		<button size="mini" style="font-size: 14px;background-color: rgb(177, 211, 236);width:90%;" bindtap="returnToList">
 			返回列表

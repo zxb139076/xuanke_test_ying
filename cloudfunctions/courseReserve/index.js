@@ -14,7 +14,7 @@ exports.main = async (event, context) => {
       return await db.collection("courseReserve").aggregate().lookup({
         from: 'courseArrange',
         let: {
-          applyId: '$applyId', // arrange_id为排课的ID，将_id映射为其上
+          applyId: '$applyId', // applyId为排课的ID，将_id映射为其上
         },
         pipeline: $.pipeline()
           .match(_.expr($.and([
@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
           ])))
           .project({
             _id: 1,
-            courseName: 1,
+            oldCourseName: 1,
             currentData: 1,
             currentWeek: 1,
             endTime: 1,

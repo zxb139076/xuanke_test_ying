@@ -14,17 +14,18 @@
 		</view>
 	</view>
 	<view class="course-list">
-		<van-row class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-			<van-col span="22">
-				<van-card wx:if="{{item.courseIsfinished == 1}}" desc="{{item.currentData}}（{{item.currentWeek}}）{{item.startTime}} 至 {{item.endTime}} 已完成" title="{{item.courseName}}" thumb="{{headImage}}" />
-				<van-card wx:else desc="{{item.currentData}}（{{item.currentWeek}}）{{item.startTime}} 至 {{item.endTime}} 未完成" title="{{item.courseName}} " thumb="{{headImage}}" />
+		<view class="row" wx:for="{{resultList}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+			<van-col span="22">			
+				<view>
+					<van-card desc="{{item.currentData}}（{{item.currentWeek}}）{{item.startTime}} 至 {{item.endTime}}" title="{{item.oldCourseName}}" thumb="{{headImage}}" />
+				</view>
 			</van-col>
 			<van-col span="2">
 				<view class="edit view_flex">
 					<van-image width="20" height="20" src="{{editImage}}" bind:click="showCourseArrangeDetail" data-id="{{item._id}}" />
 				</view>
 			</van-col>
-		</van-row>
+		</view>
 	</view>
 </block>
 <block wx:elif="{{(resultList.length < 1) && (isLoad)}}">
