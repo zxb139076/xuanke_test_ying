@@ -58,10 +58,7 @@ Page({
       newPassword: e.detail.value
     })
     if (!(/^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?![,\.#%'\+\*\-:;^_`]+$)[,\.#%'\+\*\-:;^_`0-9A-Za-z]{8,20}$/.test(e.detail.value))) {
-      wx.showToast({
-        title: '密码必须由8-20位数字/字母/字符任意两种组合！',
-        icon: 'none'
-      });
+      this.showToast('密码必须由8-20位数字/字母/字符任意两种组合！');
     }
   },
 

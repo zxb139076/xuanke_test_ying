@@ -10,6 +10,8 @@ Page({
     courseName: '',
     courseDetail: '',
     courseOrder: '',
+    courseOrderError: false,
+    errorMessage: ""
   },
 
   /**
@@ -91,23 +93,51 @@ Page({
   courseOrderBlur: function(e) {
     this.setData({
       courseOrder: e.detail.value
-    })
+    });
+    if (!(/^\d{1,8}$/.test(e.detail.value))) {
+      this.showToast('课程排序值只能输入数字且不超过8位！');
+    }
+  },
+
+  /**
+   * 检测课程排序值格式
+   * @param {*} e 
+   */
+  checkCourseOrder: function (e) {
+    if (!(/^\d{1,8}$/.test(e.detail.value))) {
+      this.setData({
+        courseOrderError: true,
+        errorMessage: "课程排序值只能输入数字且不超过8位！"
+      });
+    } else {
+      this.setData({
+        courseOrderError: false
+      });
+    }
   },
 
   /**
    * 点击保存课程信息
    */
   saveEditCourse: function () {
+    // 判断是否填写了课程名称
     if (this.data.courseName == '') {
       this.showToast("请填写课程名称");
       return false;
     }
+    // 判断是否填写了课程描述
     if (this.data.courseDetail == '') {
       this.showToast("请填写课程描述");
       return false;
     }
+    // 判断是否填写了课程排序
     if (this.data.courseOrder == '') {
       this.showToast("请填写课程排序");
+      return false;
+    }
+    // 判断课程排序
+    if (!(/^\d{1,8}$/.test(this.data.courseOrder))) {
+      this.showToast("课程排序值只能输入数字且不超过8位！");
       return false;
     }
     this.checkCourseIsExited(this.data.courseName, this.data.courseDetail, this.data.courseOrder);
